@@ -217,12 +217,12 @@ const CONFIG = {
         {
           "id": "foamie",
           "name": "Foamie / A-frame",
-          "sub": "beginner build · foam + glue + weekend tools",
+          "sub": "beginner build · 2\" XPS + PMF · tnttt method",
           "effects": {
-            "addLb": -900,
-            "addCostUsd": -15000
+            "addLb": -1050,
+            "addCostUsd": -18000
           },
-          "note": "Ultra-basic entry: fixed shell, small systems, community plans. Most Slipstream forks still apply; the exotic ones lock out."
+          "note": "Verified: 350-550 lb all-up, <$1,500 DIY, ~50 build-hours. Kit = HF 4x8 trailer + CNC foam panels + bought failure-points (doors/windows/hurricane hinge from Vintage Technologies) + PMF pack. Deselect big systems to get there."
         },
         {
           "id": "slipstream_box",
@@ -723,7 +723,7 @@ const CONFIG = {
     {
       "key": "battery",
       "label": "Battery capacity",
-      "hint": "Autonomy vs. weight and tongue-weight envelope.",
+      "hint": "House battery (48V spine). Propulsion has its own pack - separate fork.",
       "category": "power",
       "options": [
         {
@@ -771,26 +771,6 @@ const CONFIG = {
             "addCostUsd": 3600
           },
           "note": "May exceed Model Y tow envelope depending on other choices."
-        },
-        {
-          "id": "salvage80",
-          "name": "Salvaged Tesla pack ~80 kWh",
-          "sub": "Model 3/Y donor · range-neutral builds",
-          "effects": {
-            "kwh": 68,
-            "addLb": 860,
-            "addCostUsd": 6500
-          },
-          "note": "Millions of Model 3/Y packs entering the salvage stream. The pack becomes the literal skateboard — frame designs around its form factor. Requires the propulsion drivetrain.",
-          "todo": "salvage sourcing + BMS integration guide",
-          "parts": [
-            {
-              "id": "tesla-salvage-pack",
-              "name": "Salvaged Model 3/Y pack ~75-82 kWh (recycler)",
-              "qty": 1,
-              "estUsd": 6000
-            }
-          ]
         }
       ]
     },
@@ -1032,16 +1012,105 @@ const CONFIG = {
         {
           "id": "range_neutral",
           "name": "Range-neutral propulsion",
-          "sub": "Lightship-style · pushes your car",
+          "sub": "Lightship-style · hitch-force sensing · SS07",
           "effects": {
-            "addLb": 320,
-            "addCostUsd": 9000
+            "addLb": 200,
+            "addCostUsd": 5500
           },
           "sets": {
             "rangeNeutral": true
           },
-          "note": "Tongue-force sensing — no tow-vehicle comms needed, works behind any car. Open-source inverter/drive stack lives as a community repo; swap whatever portions you want.",
-          "todo": "open-source motor controller + tongue-force controller repo"
+          "note": "Hitch always in tension - trailer never pushes the tug. Assist ~15-55 mph, regen via 7-pin brake signal, free-wheels dead. Open-source stack: salvage Tesla SDU + openinverter. Patent-clearance review before publishing the controller repo.",
+          "todo": "open-source motor controller + tongue-force controller repo",
+          "parts": [
+            {
+              "id": "tesla-sdu-openinverter",
+              "name": "Salvage Tesla small drive unit + openinverter logic board (torque software-limited)",
+              "qty": 1,
+              "estUsd": 2800
+            },
+            {
+              "id": "zombieverter-vcu",
+              "name": "ZombieVerter VCU (contactors/precharge/CAN supervisor)",
+              "qty": 1,
+              "estUsd": 800
+            },
+            {
+              "id": "hitch-load-cell",
+              "name": "Hitch coupler load cell + IMU + drive controller board",
+              "qty": 1,
+              "estUsd": 550
+            },
+            {
+              "id": "hv-plumbing",
+              "name": "HV cabling, service disconnect, isolation monitor, fusing",
+              "qty": 1,
+              "estUsd": 750
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "propulsion_pack",
+      "label": "Propulsion battery (Range-Neutral tier)",
+      "hint": "Separate 400V pack for the drive system - the 48V house spine is untouched. No affordable 400V-to-48V converter exists; the two systems stay independent.",
+      "category": "power",
+      "options": [
+        {
+          "id": "none",
+          "name": "None",
+          "sub": "reference · unpowered trailer",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "tesla_2170",
+          "name": "Salvage Tesla LR pack ~75 kWh",
+          "sub": "2170 · 1,054 lb · $20-27/kWh street",
+          "effects": {
+            "addLb": 1054,
+            "addCostUsd": 3000
+          },
+          "parts": [
+            {
+              "id": "tesla-2170-pack",
+              "name": "Salvage Model 3/Y LR pack, whole, penthouse intact",
+              "qty": 1,
+              "estUsd": 2800
+            },
+            {
+              "id": "battery-emulator-lilygo",
+              "name": "Battery-Emulator on LilyGo T-CAN485 (BMS CAN interface)",
+              "qty": 1,
+              "estUsd": 70
+            }
+          ],
+          "note": "Keep the pack sealed + stock BMS (proprietary cell monitoring - do not re-BMS). Avoid Austin 4680 structural packs. Home-built powered trailer = registration/insurance gray zone; assist-only-while-hitched preserves trailer classification."
+        },
+        {
+          "id": "tesla_lfp",
+          "name": "Salvage Tesla LFP pack 55-60 kWh",
+          "sub": "CATL prismatic · ~966 lb · cheaper + safer chemistry",
+          "effects": {
+            "addLb": 966,
+            "addCostUsd": 2200
+          },
+          "parts": [
+            {
+              "id": "tesla-lfp-pack",
+              "name": "Salvage Model 3 SR/RWD CATL LFP pack (2021+)",
+              "qty": 1,
+              "estUsd": 2000
+            },
+            {
+              "id": "battery-emulator-lilygo",
+              "name": "Battery-Emulator on LilyGo T-CAN485 (BMS CAN interface)",
+              "qty": 1,
+              "estUsd": 70
+            }
+          ],
+          "note": "Same gray-zone warning as the 2170 pack. LFP tolerates 100% charge parking - better trailer duty fit."
         }
       ]
     },
@@ -2993,40 +3062,6 @@ const CONFIG = {
       "message": "Panoramic glass fights the 4-season thermal envelope."
     },
     {
-      "id": "salvage-needs-drive",
-      "type": "forbid",
-      "when": {
-        "battery": "salvage80",
-        "drivetrain": "none"
-      },
-      "message": "An 80 kWh pack without propulsion is ~1,000 lb of ballast against your tow rating. Add the range-neutral drivetrain."
-    },
-    {
-      "id": "salvage-drive-mismatch",
-      "type": "warn",
-      "when": {
-        "battery": "salvage80",
-        "drivetrain": [
-          "regen",
-          "awd"
-        ]
-      },
-      "message": "The salvage pack is sized for range-neutral propulsion — regen-assist alone barely touches 80 kWh."
-    },
-    {
-      "id": "rangeneutral-small-pack",
-      "type": "warn",
-      "when": {
-        "drivetrain": "range_neutral",
-        "battery": [
-          "kwh8",
-          "kwh12",
-          "kwh16"
-        ]
-      },
-      "message": "Range-neutral propulsion drinks from the trailer battery — under 20 kWh it runs dry fast. The salvage pack is the intended pairing."
-    },
-    {
       "id": "rangeneutral-regs",
       "type": "warn",
       "when": {
@@ -3066,8 +3101,7 @@ const CONFIG = {
         "build_class": "foamie",
         "battery": [
           "kwh16",
-          "kwh20",
-          "salvage80"
+          "kwh20"
         ]
       },
       "message": "Foamie structure can't carry a frame-integrated big pack — 8-12 kWh max."
@@ -3110,6 +3144,55 @@ const CONFIG = {
         "actuators": "linak48"
       },
       "message": "Fixed roof has no actuators - the LINAK upgrade does nothing here."
+    },
+    {
+      "id": "pack-needs-rn-drive",
+      "type": "forbid",
+      "when": {
+        "propulsion_pack": [
+          "tesla_2170",
+          "tesla_lfp"
+        ],
+        "drivetrain": [
+          "none",
+          "regen",
+          "awd"
+        ]
+      },
+      "message": "A propulsion pack without the range-neutral drivetrain is half a ton of ballast. Add the drivetrain or drop the pack."
+    },
+    {
+      "id": "rn-drive-needs-pack",
+      "type": "forbid",
+      "when": {
+        "drivetrain": "range_neutral",
+        "propulsion_pack": "none"
+      },
+      "message": "Range-neutral propulsion needs its own 400V pack - the 48V house spine can't feed the drive inverter."
+    },
+    {
+      "id": "foamie-no-hv-pack",
+      "type": "forbid",
+      "when": {
+        "build_class": "foamie",
+        "propulsion_pack": [
+          "tesla_2170",
+          "tesla_lfp"
+        ]
+      },
+      "message": "No HV propulsion pack on a foam build."
+    },
+    {
+      "id": "pack-wants-big-box",
+      "type": "warn",
+      "when": {
+        "propulsion_pack": [
+          "tesla_2170",
+          "tesla_lfp"
+        ],
+        "box_length": "b12"
+      },
+      "message": "A ~1,000 lb pack wants the 15' or 18' box and the tandem-axle frame rework (SS07)."
     }
   ],
   "profiles": [
@@ -3191,7 +3274,7 @@ const CONFIG = {
     {
       "id": "foamie",
       "name": "Foamie",
-      "priceRange": "~$5-12K",
+      "priceRange": "~$3-12K",
       "match": {
         "build_class": "foamie"
       }
@@ -3251,13 +3334,16 @@ const CONFIG = {
       "Real weight/cost numbers replace first-order estimates as V0.1 purchases land",
       "Jurisdiction rules layer (state length/width/brake requirements)",
       "Open-source inverter/drive stack: community GitHub repo for motor controller + tongue-force controller (swap any portion)",
-      "Salvaged Model 3/Y pack: sourcing channels, BMS integration, frame-around-pack reference geometry",
       "Powered-trailer regulatory map (DMV registration/inspection by state)",
       "Frame fabricator + composite panel supplier quotes (Sourcing doc §7)",
       "LINAK 48V actuator quote",
-      "Salvage pack BMS integration path (keep Tesla BMS + CAN decode vs replace)"
+      "Salvage pack BMS integration path (keep Tesla BMS + CAN decode vs replace)",
+      "Patent design-around review before publishing open drive-controller repo (US 11,642,970 / 12,162,363 family)",
+      "Propulsion pack charging path: salvage Tesla PCS vs CCS via openinverter vs solar-only",
+      "Tandem-axle frame rework scope for Range-Neutral tier (SS05/SS07)"
     ],
-    "sourcing": "Slipstream_Component_Sourcing_v0_1.md - street prices 2026-07; parts[] estUsd values trace there"
+    "sourcing": "Slipstream_Component_Sourcing_v0_1.md - street prices 2026-07; parts[] estUsd values trace there",
+    "research": "docs/Slipstream_Tier_Spectrum_Research_v0_1.md - tier numbers trace there"
   }
 };
 
