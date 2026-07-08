@@ -101,9 +101,9 @@ const CONFIG = {
       },
       {
         "id": "timbren-axle",
-        "name": "Timbren Axle-Less 2,200 lb suspension (pair)",
+        "name": "Timbren Axle-Less 2,000 lb HD pair (ASR2KHDS series)",
         "qty": 1,
-        "estUsd": 1200
+        "estUsd": 1100
       },
       {
         "id": "wheels-tires",
@@ -125,15 +125,15 @@ const CONFIG = {
       },
       {
         "id": "andersen-hitch",
-        "name": "2\" ball hitch + Andersen No-Sway",
+        "name": "Andersen Rapid Hitch (no WDH - WDH also breaks hitch-force sensing)",
         "qty": 1,
-        "estUsd": 250
+        "estUsd": 230
       },
       {
         "id": "tongue-jack",
         "name": "Powered tongue jack w/ caster foot",
         "qty": 1,
-        "estUsd": 300
+        "estUsd": 180
       },
       {
         "id": "nema-14-50-inlet",
@@ -222,7 +222,69 @@ const CONFIG = {
             "addLb": -1050,
             "addCostUsd": -18000
           },
-          "note": "Verified: 350-550 lb all-up, <$1,500 DIY, ~50 build-hours. Kit = HF 4x8 trailer + CNC foam panels + bought failure-points (doors/windows/hurricane hinge from Vintage Technologies) + PMF pack. Deselect big systems to get there."
+          "note": "Verified: 350-550 lb all-up, <$1,500 DIY, ~50 build-hours. Kit = HF 4x8 trailer + CNC foam panels + bought failure-points (doors/windows/hurricane hinge from Vintage Technologies) + PMF pack. Deselect big systems to get there.",
+          "parts": [
+            {
+              "id": "hf-4x8-trailer",
+              "name": "Harbor Freight 4x8 folding trailer #62666 (or #58703 successor)",
+              "qty": 1,
+              "estUsd": 350
+            },
+            {
+              "id": "vt-door-set",
+              "name": "Vintage Technologies insulated door set 26x36 L+R",
+              "qty": 1,
+              "estUsd": 826
+            },
+            {
+              "id": "teardrop-windows",
+              "name": "Windows: 12x24 vertical + 30x20 horizontal",
+              "qty": 1,
+              "estUsd": 240
+            },
+            {
+              "id": "hurricane-hinge",
+              "name": "RecPro 62\" hurricane hinge (galley hatch)",
+              "qty": 1,
+              "estUsd": 52
+            },
+            {
+              "id": "xps-shell",
+              "name": "2\" XPS Foamular shell (7 sheets)",
+              "qty": 1,
+              "estUsd": 290
+            },
+            {
+              "id": "pmf-pack",
+              "name": "PMF pack: 10oz duck + Titebond II + Gripper + exterior paint",
+              "qty": 1,
+              "estUsd": 230
+            },
+            {
+              "id": "adhesives",
+              "name": "Gorilla Glue + PL300 + foam-safe spray",
+              "qty": 1,
+              "estUsd": 60
+            },
+            {
+              "id": "maxxfan-dome",
+              "name": "MaxxFan Dome 12V vent",
+              "qty": 1,
+              "estUsd": 85
+            },
+            {
+              "id": "trailer-electrics",
+              "name": "LED light kit + 4-pin harness + chains",
+              "qty": 1,
+              "estUsd": 70
+            },
+            {
+              "id": "axle-upgrade",
+              "name": "OPTIONAL: Dexter EZ-Lube axle + Taskmaster radials (highway speeds)",
+              "qty": 1,
+              "estUsd": 650
+            }
+          ]
         },
         {
           "id": "slipstream_box",
@@ -759,7 +821,8 @@ const CONFIG = {
             "kwh": 4,
             "addLb": 70,
             "addCostUsd": 1800
-          }
+          },
+          "note": "DIY EVE route ~$90-112/kWh vs EG4/Ruixu server-rack $225-254/kWh (2.2-2.5x) - racks buy UL listing + warranty."
         },
         {
           "id": "kwh20",
@@ -832,10 +895,10 @@ const CONFIG = {
               "estUsd": 300
             },
             {
-              "id": "solar-panels-600",
-              "name": "Rigid panels ~600W",
+              "id": "renogy-200w-x3",
+              "name": "Renogy 200W rigid x3 (~$0.73/W, Z-brackets incl.)",
               "qty": 1,
-              "estUsd": 550
+              "estUsd": 440
             }
           ]
         },
@@ -853,10 +916,10 @@ const CONFIG = {
               "estUsd": 435
             },
             {
-              "id": "solar-panels-1000",
-              "name": "Rigid panels ~1,000-1,100W",
+              "id": "renogy-200w-x5",
+              "name": "Renogy 200W rigid x5 (~$0.73/W, Z-brackets incl.)",
               "qty": 1,
-              "estUsd": 900
+              "estUsd": 730
             }
           ]
         },
@@ -877,10 +940,10 @@ const CONFIG = {
               "estUsd": 520
             },
             {
-              "id": "solar-semiflex-1300",
-              "name": "Semi-flex panels ~1,300W",
+              "id": "semiflex-1300",
+              "name": "Semi-flex panels ~1,300W (60-80% premium over rigid)",
               "qty": 1,
-              "estUsd": 1400
+              "estUsd": 1250
             }
           ]
         }
@@ -1225,10 +1288,10 @@ const CONFIG = {
           "effects": {},
           "parts": [
             {
-              "id": "window-ac-5k",
-              "name": "5,000 BTU low-draw window AC + sealed mount kit",
+              "id": "midea-5k",
+              "name": "Midea 5,000 BTU mechanical window AC + sealed mount kit",
               "qty": 1,
-              "estUsd": 180
+              "estUsd": 156
             }
           ]
         },
@@ -1243,9 +1306,9 @@ const CONFIG = {
           "parts": [
             {
               "id": "midea-u-8k",
-              "name": "Midea U-shape 8,000 BTU inverter AC (~300-500W draw)",
+              "name": "Midea U-shape 8K BTU inverter (MAW08V1QWT, ~$356 after rebate)",
               "qty": 1,
-              "estUsd": 350
+              "estUsd": 380
             }
           ],
           "note": "Inverter compressor modulates ~300-500W - arguably the smarter pick than the fixed-speed 5K."
@@ -1257,7 +1320,15 @@ const CONFIG = {
           "effects": {
             "addLb": 35,
             "addCostUsd": 1100
-          }
+          },
+          "parts": [
+            {
+              "id": "minisplit-9k-115v",
+              "name": "Pioneer/Senville 9K BTU 115V mini-split",
+              "qty": 1,
+              "estUsd": 770
+            }
+          ]
         }
       ]
     },
@@ -1280,7 +1351,15 @@ const CONFIG = {
           "name": "Electric blanket + small fan",
           "sub": "reference · spring/fall",
           "default": true,
-          "effects": {}
+          "effects": {},
+          "parts": [
+            {
+              "id": "camco-12v-blanket",
+              "name": "Camco 12V heated blanket + small fan",
+              "qty": 1,
+              "estUsd": 60
+            }
+          ]
         },
         {
           "id": "ptc",
@@ -1289,17 +1368,33 @@ const CONFIG = {
           "effects": {
             "addLb": 12,
             "addCostUsd": 250
-          }
+          },
+          "parts": [
+            {
+              "id": "ptc-heater",
+              "name": "PTC ceramic heater 120V",
+              "qty": 1,
+              "estUsd": 35
+            }
+          ]
         },
         {
           "id": "heatpump",
-          "name": "Mini-split heat pump",
-          "sub": "cool + heat combined",
+          "name": "48V DC heat pump (RecPro)",
+          "sub": "9,500 BTU cool+heat · native 48V · no inverter load",
           "effects": {
             "addLb": 80,
-            "addCostUsd": 1700
+            "addCostUsd": 1600
           },
-          "note": "Covers cooling too — deselect separate AC."
+          "note": "Runs straight off the 48V bus - zero inverter conversion loss, no inverter capacity claim. Covers cooling too - drop the separate AC. Rooftop unit trades ~200W of solar real estate.",
+          "parts": [
+            {
+              "id": "recpro-48v-heatpump",
+              "name": "RecPro 48V 9,500 BTU rooftop heat pump (cool + heat)",
+              "qty": 1,
+              "estUsd": 1850
+            }
+          ]
         },
         {
           "id": "webasto",
@@ -1309,7 +1404,15 @@ const CONFIG = {
             "addLb": 45,
             "addCostUsd": 1300
           },
-          "note": "Contradicts all-electric; included for cold-weather users."
+          "note": "Contradicts all-electric; included for cold-weather users.",
+          "parts": [
+            {
+              "id": "webasto-at2000",
+              "name": "Webasto Air Top 2000 STC kit (genuine)",
+              "qty": 1,
+              "estUsd": 950
+            }
+          ]
         }
       ]
     },
@@ -1335,7 +1438,15 @@ const CONFIG = {
             "addLb": 8,
             "addCostUsd": 250
           },
-          "note": "Sacrifices ~200W of roof solar."
+          "note": "Sacrifices ~200W of roof solar.",
+          "parts": [
+            {
+              "id": "maxxfan-deluxe",
+              "name": "MaxxAir MaxxFan Deluxe 7500K",
+              "qty": 1,
+              "estUsd": 330
+            }
+          ]
         },
         {
           "id": "both",
@@ -1369,7 +1480,15 @@ const CONFIG = {
           "name": "20 gal",
           "sub": "reference · 2-3 day weekend",
           "default": true,
-          "effects": {}
+          "effects": {},
+          "parts": [
+            {
+              "id": "fresh-tank-20",
+              "name": "20 gal RV fresh tank + Shurflo 4008 pump",
+              "qty": 1,
+              "estUsd": 255
+            }
+          ]
         },
         {
           "id": "f30",
@@ -1411,7 +1530,15 @@ const CONFIG = {
           "name": "10 gal",
           "sub": "reference",
           "default": true,
-          "effects": {}
+          "effects": {},
+          "parts": [
+            {
+              "id": "gray-tank-10",
+              "name": "10 gal gray tank + plumbing",
+              "qty": 1,
+              "estUsd": 130
+            }
+          ]
         },
         {
           "id": "g15",
@@ -1481,9 +1608,9 @@ const CONFIG = {
           "parts": [
             {
               "id": "natures-head-toilet",
-              "name": "Nature's Head composting toilet",
+              "name": "Nature's Head composting toilet (spider handle)",
               "qty": 1,
-              "estUsd": 965
+              "estUsd": 1025
             }
           ]
         },
@@ -1498,9 +1625,9 @@ const CONFIG = {
           "parts": [
             {
               "id": "trelino-evo-m",
-              "name": "Trelino Evo M composting toilet",
+              "name": "Trelino Evo M composting toilet ($475 list, recurring 15% sales)",
               "qty": 1,
-              "estUsd": 395
+              "estUsd": 450
             }
           ],
           "note": "Ultralight, carry-out containers, no agitator - matches the weekend ethos. Smaller capacity than Nature's Head."
@@ -1511,7 +1638,15 @@ const CONFIG = {
           "sub": "cheaper, dump-dependent",
           "effects": {
             "addCostUsd": -700
-          }
+          },
+          "parts": [
+            {
+              "id": "porta-potti-565e",
+              "name": "Thetford Porta Potti 565E",
+              "qty": 1,
+              "estUsd": 170
+            }
+          ]
         },
         {
           "id": "dry",
@@ -1544,7 +1679,15 @@ const CONFIG = {
           "name": "Outdoor spigot hot+cold",
           "sub": "reference",
           "default": true,
-          "effects": {}
+          "effects": {},
+          "parts": [
+            {
+              "id": "shower-box",
+              "name": "Exterior hot/cold shower box + wand",
+              "qty": 1,
+              "estUsd": 50
+            }
+          ]
         },
         {
           "id": "outdoor_enc",
@@ -1553,7 +1696,21 @@ const CONFIG = {
           "effects": {
             "addLb": 12,
             "addCostUsd": 300
-          }
+          },
+          "parts": [
+            {
+              "id": "shower-box",
+              "name": "Exterior hot/cold shower box + wand",
+              "qty": 1,
+              "estUsd": 50
+            },
+            {
+              "id": "privacy-tent",
+              "name": "Pop-up shower privacy tent",
+              "qty": 1,
+              "estUsd": 60
+            }
+          ]
         },
         {
           "id": "wet_stall",
@@ -1590,10 +1747,10 @@ const CONFIG = {
           "effects": {},
           "parts": [
             {
-              "id": "electric-tank-heater-4gal",
-              "name": "2-4 gal 120V tank water heater (Cerbo relay pre-heat)",
+              "id": "bosch-es4",
+              "name": "Bosch Tronic 3000T ES4 4-gal 120V (Cerbo relay pre-heat)",
               "qty": 1,
-              "estUsd": 300
+              "estUsd": 270
             }
           ]
         },
@@ -1604,7 +1761,15 @@ const CONFIG = {
           "effects": {
             "addLb": 25,
             "addCostUsd": 250
-          }
+          },
+          "parts": [
+            {
+              "id": "suburban-sw6de",
+              "name": "Suburban SW6DE 6-gal",
+              "qty": 1,
+              "estUsd": 670
+            }
+          ]
         },
         {
           "id": "tankless",
@@ -1614,7 +1779,15 @@ const CONFIG = {
             "addLb": 5,
             "addCostUsd": 600
           },
-          "note": "240V/30A+ draw — requires 5000VA inverter."
+          "note": "240V tankless draws 50-60A @240V (12-14 kW) - beyond ANY onboard inverter. Shore-pedestal-only feature; the forbid rule stands even at 5000VA for off-grid use.",
+          "parts": [
+            {
+              "id": "ecosmart-eco11",
+              "name": "EcoSmart ECO 11 tankless 240V (shore power only)",
+              "qty": 1,
+              "estUsd": 285
+            }
+          ]
         }
       ]
     },
@@ -1953,10 +2126,10 @@ const CONFIG = {
           "effects": {},
           "parts": [
             {
-              "id": "induction-single",
-              "name": "Single induction burner",
+              "id": "duxtop-1800",
+              "name": "Duxtop 1800W induction burner",
               "qty": 1,
-              "estUsd": 80
+              "estUsd": 71
             }
           ]
         },
@@ -2005,9 +2178,9 @@ const CONFIG = {
           "parts": [
             {
               "id": "12v-fridge-3cuft",
-              "name": "12V compressor fridge ~3 cu ft",
+              "name": "12V compressor upright ~3 cu ft (BougeRV/Alpicool class)",
               "qty": 1,
-              "estUsd": 550
+              "estUsd": 475
             }
           ]
         },
@@ -2018,7 +2191,15 @@ const CONFIG = {
           "effects": {
             "addLb": 25,
             "addCostUsd": 400
-          }
+          },
+          "parts": [
+            {
+              "id": "12v-fridge-5cuft",
+              "name": "12V compressor upright ~5 cu ft",
+              "qty": 1,
+              "estUsd": 900
+            }
+          ]
         },
         {
           "id": "dualzone",
@@ -2027,7 +2208,16 @@ const CONFIG = {
           "effects": {
             "addLb": 40,
             "addCostUsd": 800
-          }
+          },
+          "parts": [
+            {
+              "id": "12v-dualzone-chest",
+              "name": "12V dual-zone chest fridge/freezer (Alpicool CF45 class)",
+              "qty": 1,
+              "estUsd": 320
+            }
+          ],
+          "note": "Dual-zone chest prices collapsed - now cheaper than the 3 cu ft upright."
         }
       ]
     },
@@ -2115,7 +2305,15 @@ const CONFIG = {
           "name": "Dimmable LED",
           "sub": "reference",
           "default": true,
-          "effects": {}
+          "effects": {},
+          "parts": [
+            {
+              "id": "led-pucks",
+              "name": "12V dimmable LED puck set (6) via 48-to-12V rail",
+              "qty": 1,
+              "estUsd": 56
+            }
+          ]
         },
         {
           "id": "circadian",
@@ -2147,7 +2345,15 @@ const CONFIG = {
           "name": "Perimeter LED strip",
           "sub": "reference",
           "default": true,
-          "effects": {}
+          "effects": {},
+          "parts": [
+            {
+              "id": "led-strip-ip65",
+              "name": "IP65 12V LED perimeter strip",
+              "qty": 1,
+              "estUsd": 40
+            }
+          ]
         },
         {
           "id": "underglow",
@@ -2244,9 +2450,9 @@ const CONFIG = {
           "parts": [
             {
               "id": "projector-bt-kit",
-              "name": "Compact projector + Bluetooth speakers",
+              "name": "Compact projector (~$450-600 class) + rugged BT speakers",
               "qty": 1,
-              "estUsd": 600
+              "estUsd": 550
             }
           ]
         },
@@ -2312,7 +2518,16 @@ const CONFIG = {
           "name": "Side roll-out (curb side)",
           "sub": "reference · outdoor kitchen",
           "default": true,
-          "effects": {}
+          "effects": {},
+          "parts": [
+            {
+              "id": "aleko-8x8",
+              "name": "ALEKO 8x8 manual roll-out awning",
+              "qty": 1,
+              "estUsd": 300
+            }
+          ],
+          "note": "Quality upgrade: Carefree Fiesta class ~$725-900 (starts at 10 ft)."
         },
         {
           "id": "side_rear",
@@ -3335,15 +3550,17 @@ const CONFIG = {
       "Jurisdiction rules layer (state length/width/brake requirements)",
       "Open-source inverter/drive stack: community GitHub repo for motor controller + tongue-force controller (swap any portion)",
       "Powered-trailer regulatory map (DMV registration/inspection by state)",
-      "Frame fabricator + composite panel supplier quotes (Sourcing doc §7)",
       "LINAK 48V actuator quote",
       "Salvage pack BMS integration path (keep Tesla BMS + CAN decode vs replace)",
       "Patent design-around review before publishing open drive-controller repo (US 11,642,970 / 12,162,363 family)",
       "Propulsion pack charging path: salvage Tesla PCS vs CCS via openinverter vs solar-only",
-      "Tandem-axle frame rework scope for Range-Neutral tier (SS05/SS07)"
+      "Tandem-axle frame rework scope for Range-Neutral tier (SS05/SS07)",
+      "Composite panel quotes: Total Composites + Carbon-Core vs self-layup ($8-23/sqft band makes buying competitive - SS04)",
+      "Frame fabricator quotes (Gate 7, <=$6k)"
     ],
     "sourcing": "Slipstream_Component_Sourcing_v0_1.md - street prices 2026-07; parts[] estUsd values trace there",
-    "research": "docs/Slipstream_Tier_Spectrum_Research_v0_1.md - tier numbers trace there"
+    "research": "docs/Slipstream_Tier_Spectrum_Research_v0_1.md - tier numbers trace there",
+    "lowMidSourcing": "docs/Slipstream_LowMid_Sourcing_v0_1.md - low/mid tier prices trace there"
   }
 };
 
@@ -3453,8 +3670,8 @@ function compute(){
   rules.warn.forEach(r => li("⚠ " + r.message, "wrn"));
   flags.forEach(n => li("⚑ " + n, "flg"));
 
-  // BOM: base parts + parts on selected options
-  const bom = [...(CONFIG.product.baseParts || [])];
+  // BOM: base parts + parts on selected options (foamie replaces the composite platform, so no baseParts)
+  const bom = state.build_class === "foamie" ? [] : [...(CONFIG.product.baseParts || [])];
   CONFIG.forks.forEach(f => {
     const o = f.options.find(o => o.id === state[f.key]);
     (o.parts || []).forEach(p => bom.push(p));
@@ -3471,11 +3688,4 @@ function compute(){
 }
 
 function resetDefaults(){
-  CONFIG.forks.forEach(f => { state[f.key] = (f.options.find(o => o.default) || f.options[0]).id; });
-  render(); compute();
-}
-
-render(); compute();
-</script>
-</body>
-</html>
+  CONFIG.forks.forEach(f => { state[f.key] = (f.options.find(o => o.default) ||
