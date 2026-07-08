@@ -1,0 +1,3396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Slipstream — Trailer Configurator (open-source prototype)</title>
+<style>
+  :root{--navy:#1f3a56;--green:#2f6b2f;--accent:#6aa84f;--rust:#8a3d17;--paper:#f7f9fb;--line:#dce3ea;}
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--navy);background:#eef2f6;}
+  header{background:var(--navy);color:#fff;padding:18px 22px;}
+  header h1{margin:0;font-size:20px;}
+  header p{margin:4px 0 0;font-size:12.5px;opacity:.85;}
+  .wrap{display:flex;flex-wrap:wrap;gap:18px;padding:18px;max-width:1180px;margin:0 auto;}
+  .options{flex:1 1 560px;min-width:320px;}
+  .summary{flex:1 1 320px;min-width:280px;position:sticky;top:12px;align-self:flex-start;max-height:calc(100vh - 24px);overflow-y:auto;}
+  .cat{margin:22px 0 10px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#6b7785;border-bottom:1px solid var(--line);padding-bottom:5px;}
+  .cat:first-child{margin-top:0;}
+  .card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:14px;}
+  .card h3{margin:0 0 4px;font-size:14px;color:var(--navy);}
+  .card .hint{font-size:11.5px;color:#6b7785;margin:0 0 10px;}
+  .opts{display:flex;flex-wrap:wrap;gap:8px;}
+  .opt{border:1.5px solid var(--line);border-radius:8px;padding:8px 11px;cursor:pointer;font-size:12.5px;flex:1 1 auto;min-width:120px;transition:.12s;background:#fff;}
+  .opt small{display:block;color:#7a8794;font-size:10.8px;margin-top:2px;}
+  .opt:hover{border-color:var(--accent);}
+  .opt.sel{border-color:var(--green);background:#eef6e9;box-shadow:0 0 0 2px #eef6e9;}
+  .opt.bad{border-color:#c0392b;background:#fdf0ee;}
+  .summary .card{background:#fff;}
+  .sum-h{background:var(--green);color:#fff;border-radius:10px 10px 0 0;margin:-14px -16px 12px;padding:12px 16px;}
+  .sum-h h3{color:#fff;margin:0;font-size:15px;}
+  .big{display:flex;justify-content:space-between;align-items:baseline;margin:7px 0;}
+  .big b{font-size:20px;color:var(--navy);}
+  .big span{font-size:12px;color:#6b7785;}
+  .big b.over{color:#c0392b;}
+  .profile{background:#fbf6ec;border:1px solid #d9c9a0;border-radius:8px;padding:9px 11px;margin:10px 0;font-size:12.5px;color:var(--rust);font-weight:600;}
+  .tierbox{font-size:12px;color:#3a4652;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:8px 11px;margin:8px 0;}
+  .lst{font-size:11.8px;color:#3a4652;margin:8px 0 0;padding-left:16px;}
+  .lst li{margin:3px 0;}
+  .err{color:#c0392b;font-weight:600;}
+  .wrn{color:var(--rust);}
+  .flg{color:var(--rust);}
+  footer{font-size:11px;color:#6b7785;text-align:center;padding:14px;}
+  .note{font-size:11px;color:#8a3d17;background:#fff;border:1px dashed #d9c9a0;border-radius:8px;padding:8px 10px;margin-top:8px;}
+  .invalid-banner{background:#c0392b;color:#fff;border-radius:8px;padding:8px 11px;margin:0 0 10px;font-size:12.5px;font-weight:600;display:none;}
+  .reset{font-size:11px;color:#6b7785;cursor:pointer;text-decoration:underline;margin-top:8px;display:inline-block;}
+</style>
+</head>
+<body>
+<header>
+  <h1>Slipstream — Trailer Configurator <span style="opacity:.6;font-size:13px;">· open-source prototype</span></h1>
+  <p>Same platform philosophy as the House BUS: pick your forks, every branch is a real design fork. Defaults = Reference Build #1. Numbers are first-order estimates for iteration.</p>
+</header>
+
+<div class="wrap">
+  <div class="options" id="options"></div>
+  <div class="summary">
+    <div class="card">
+      <div class="sum-h"><h3>Your trailer</h3></div>
+      <div class="invalid-banner" id="banner">Invalid configuration — fix the red flags below.</div>
+      <div class="profile" id="profile">—</div>
+      <div class="tierbox" id="tier">—</div>
+      <div class="tierbox" id="skill">—</div>
+      <div class="big"><span>Dry weight</span><b id="dry">—</b></div>
+      <div class="big"><span>Est. tongue weight</span><b id="tongue">—</b></div>
+      <div class="big"><span>Battery</span><b id="kwh">—</b></div>
+      <div class="big"><span>Roof solar</span><b id="solar">—</b></div>
+      <div class="big"><span>Est. tow range loss</span><b id="loss">—</b></div>
+      <div class="big"><span>Component cost basis</span><b id="cost">—</b></div>
+      <ul class="lst" id="issues"></ul>
+      <details style="margin-top:10px;">
+        <summary style="font-size:12.5px;font-weight:600;cursor:pointer;color:var(--green);">Parts list (vendor-researched)</summary>
+        <ul class="lst" id="bom"></ul>
+        <div class="tierbox" id="bomtotal">—</div>
+      </details>
+      <span class="reset" onclick="resetDefaults()">↺ reset to Reference Build #1</span>
+      <div class="note">First-order only. Cost basis = components/materials; self-build labor uncounted. Kit retail ≈ ~1.6× cost basis. Tow limits assume ~800 lb of water/gear/cargo on top of dry weight.</div>
+    </div>
+  </div>
+</div>
+<footer>Slipstream · Divergent Futures / Terrestrial Technology · open-source (CERN-OHL-S / MIT / CC-BY). Schema: df-configurator/v1 — data lives in slipstream.config.json.</footer>
+
+<script>
+const CONFIG = {
+  "schema": "df-configurator/v1",
+  "product": {
+    "id": "slipstream",
+    "name": "Slipstream Trailer",
+    "tagline": "A weekend base camp that pulls 75% of its own weight in aerodynamics and the rest in elegance.",
+    "base": {
+      "dryWeightLb": 1900,
+      "costBasisUsd": 30000,
+      "baseRangeLossPct": 25,
+      "notes": "All-defaults = Reference Build #1 (TJ's locked config). Cost basis = components/materials, self-build labor uncounted; kit retail ~1.6x. All effects are first-order deltas for iteration."
+    },
+    "baseParts": [
+      {
+        "id": "alu-frame-kit",
+        "name": "Welded 6061-T6 aluminum frame (fabricated, quote target <=$6k)",
+        "qty": 1,
+        "estUsd": 5000
+      },
+      {
+        "id": "timbren-axle",
+        "name": "Timbren Axle-Less 2,200 lb suspension (pair)",
+        "qty": 1,
+        "estUsd": 1200
+      },
+      {
+        "id": "wheels-tires",
+        "name": "15\" wheels + LT tires + spare",
+        "qty": 1,
+        "estUsd": 700
+      },
+      {
+        "id": "composite-shell",
+        "name": "Foam-core + fiberglass wall panel materials",
+        "qty": 1,
+        "estUsd": 3500
+      },
+      {
+        "id": "belly-pan",
+        "name": "Sealed belly pan + battery skid plate",
+        "qty": 1,
+        "estUsd": 600
+      },
+      {
+        "id": "andersen-hitch",
+        "name": "2\" ball hitch + Andersen No-Sway",
+        "qty": 1,
+        "estUsd": 250
+      },
+      {
+        "id": "tongue-jack",
+        "name": "Powered tongue jack w/ caster foot",
+        "qty": 1,
+        "estUsd": 300
+      },
+      {
+        "id": "nema-14-50-inlet",
+        "name": "NEMA 14-50 inlet + pass-through outlet + adapter kit",
+        "qty": 1,
+        "estUsd": 350
+      },
+      {
+        "id": "victron-cerbo-gx",
+        "name": "Victron Cerbo GX MK2 + cellular + VRM",
+        "qty": 1,
+        "estUsd": 300
+      },
+      {
+        "id": "wiring-backbone",
+        "name": "48V wiring harness backbone + protection",
+        "qty": 1,
+        "estUsd": 800
+      }
+    ]
+  },
+  "categories": [
+    {
+      "id": "tow",
+      "label": "Tow vehicle & dimensions",
+      "order": 1
+    },
+    {
+      "id": "shell",
+      "label": "Structure & shell",
+      "order": 2
+    },
+    {
+      "id": "power",
+      "label": "Power system",
+      "order": 3
+    },
+    {
+      "id": "climate",
+      "label": "Climate control",
+      "order": 4
+    },
+    {
+      "id": "water",
+      "label": "Water & sanitation",
+      "order": 5
+    },
+    {
+      "id": "interior",
+      "label": "Sleep & interior",
+      "order": 6
+    },
+    {
+      "id": "cooking",
+      "label": "Cooking & appliances",
+      "order": 7
+    },
+    {
+      "id": "media",
+      "label": "Media & lighting",
+      "order": 8
+    },
+    {
+      "id": "exterior",
+      "label": "Exterior & protection",
+      "order": 9
+    },
+    {
+      "id": "usecase",
+      "label": "Use case & aesthetics",
+      "order": 10
+    }
+  ],
+  "forks": [
+    {
+      "key": "build_class",
+      "label": "Build class",
+      "hint": "The trailer's tier ladder is build complexity, not range. Start where your skills are.",
+      "category": "tow",
+      "options": [
+        {
+          "id": "foamie",
+          "name": "Foamie / A-frame",
+          "sub": "beginner build · foam + glue + weekend tools",
+          "effects": {
+            "addLb": -900,
+            "addCostUsd": -15000
+          },
+          "note": "Ultra-basic entry: fixed shell, small systems, community plans. Most Slipstream forks still apply; the exotic ones lock out."
+        },
+        {
+          "id": "slipstream_box",
+          "name": "Slipstream box",
+          "sub": "reference · composite pop-up platform",
+          "default": true,
+          "effects": {}
+        }
+      ]
+    },
+    {
+      "key": "tow_vehicle",
+      "label": "Target tow vehicle",
+      "hint": "The most upstream fork — constrains width, weight, tongue weight, and electrical interfaces.",
+      "category": "tow",
+      "options": [
+        {
+          "id": "model_y",
+          "name": "Tesla Model Y",
+          "sub": "78\" body · 3,500 lb tow · 350 lb tongue",
+          "default": true,
+          "effects": {},
+          "sets": {
+            "maxTowLb": 3500,
+            "maxTongueLb": 350,
+            "matchWidthIn": 78
+          }
+        },
+        {
+          "id": "model_x",
+          "name": "Tesla Model X",
+          "sub": "79\" body · 5,000 lb tow",
+          "effects": {},
+          "sets": {
+            "maxTowLb": 5000,
+            "maxTongueLb": 500,
+            "matchWidthIn": 79
+          }
+        },
+        {
+          "id": "lightning",
+          "name": "Ford F-150 Lightning",
+          "sub": "80\" body · 10,000 lb tow (ER)",
+          "effects": {},
+          "sets": {
+            "maxTowLb": 10000,
+            "maxTongueLb": 1000,
+            "matchWidthIn": 80
+          }
+        },
+        {
+          "id": "r1s",
+          "name": "Rivian R1S",
+          "sub": "81\" body · 7,700 lb tow",
+          "effects": {},
+          "sets": {
+            "maxTowLb": 7700,
+            "maxTongueLb": 770,
+            "matchWidthIn": 81
+          }
+        },
+        {
+          "id": "r1t",
+          "name": "Rivian R1T",
+          "sub": "81\" body · 11,000 lb tow",
+          "effects": {},
+          "sets": {
+            "maxTowLb": 11000,
+            "maxTongueLb": 1100,
+            "matchWidthIn": 81
+          }
+        },
+        {
+          "id": "other_ev",
+          "name": "Other EV",
+          "sub": "enter your ratings",
+          "effects": {},
+          "sets": {
+            "maxTowLb": 3500,
+            "maxTongueLb": 350,
+            "matchWidthIn": 78
+          },
+          "todo": "app: user-entered tow/tongue/width"
+        },
+        {
+          "id": "ice_truck",
+          "name": "ICE truck",
+          "sub": "no pass-through synergy",
+          "effects": {},
+          "sets": {
+            "maxTowLb": 7000,
+            "maxTongueLb": 700,
+            "matchWidthIn": 80
+          },
+          "note": "Loses the EV pass-through / range-extender loop; trailer still works."
+        }
+      ]
+    },
+    {
+      "key": "box_length",
+      "label": "Box length",
+      "hint": "Bed ceiling, storage, weight class, campsite/garage fit.",
+      "category": "tow",
+      "options": [
+        {
+          "id": "b12",
+          "name": "12 ft",
+          "sub": "reference · tight + light",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "b15",
+          "name": "15 ft",
+          "sub": "more galley + storage",
+          "effects": {
+            "addLb": 280,
+            "addCostUsd": 3500
+          }
+        },
+        {
+          "id": "b18",
+          "name": "18 ft",
+          "sub": "max layout freedom",
+          "effects": {
+            "addLb": 560,
+            "addCostUsd": 7000,
+            "dragPct": 2
+          }
+        }
+      ]
+    },
+    {
+      "key": "tongue_length",
+      "label": "Tongue length",
+      "hint": "Jackknife geometry, tongue-box size, gap turbulence.",
+      "category": "tow",
+      "options": [
+        {
+          "id": "t25",
+          "name": "2.5 ft",
+          "sub": "tightest gap · best aero",
+          "effects": {
+            "addLb": -10,
+            "dragPct": -1
+          }
+        },
+        {
+          "id": "t3",
+          "name": "3 ft",
+          "sub": "reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "t4",
+          "name": "4 ft",
+          "sub": "big tongue box",
+          "effects": {
+            "addLb": 15,
+            "addCostUsd": 100,
+            "dragPct": 1
+          }
+        }
+      ]
+    },
+    {
+      "key": "height",
+      "label": "Overall height (roof down)",
+      "hint": "Lower = in the tow vehicle's slipstream.",
+      "category": "tow",
+      "options": [
+        {
+          "id": "low",
+          "name": "Low ~5 ft",
+          "sub": "in Model Y slipstream",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "mid",
+          "name": "Mid ~6 ft",
+          "sub": "above Model Y roofline",
+          "effects": {
+            "addLb": 40,
+            "addCostUsd": 300,
+            "dragPct": 4
+          }
+        },
+        {
+          "id": "tall",
+          "name": "Tall 7 ft+",
+          "sub": "standing without pop-up",
+          "effects": {
+            "addLb": 80,
+            "addCostUsd": 600,
+            "dragPct": 8
+          }
+        }
+      ]
+    },
+    {
+      "key": "width",
+      "label": "Overall width",
+      "hint": "Match the tow vehicle's body — wider means mirror-eddy drag.",
+      "category": "tow",
+      "options": [
+        {
+          "id": "w78",
+          "name": "78\"",
+          "sub": "Model Y body match",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "w84",
+          "name": "84\"",
+          "sub": "Lightning / R1S match",
+          "effects": {
+            "addLb": 60,
+            "addCostUsd": 800,
+            "dragPct": 3
+          }
+        },
+        {
+          "id": "w96",
+          "name": "96\"",
+          "sub": "max legal · truck-class only",
+          "effects": {
+            "addLb": 140,
+            "addCostUsd": 2000,
+            "dragPct": 6
+          }
+        }
+      ]
+    },
+    {
+      "key": "popup_stroke",
+      "label": "Pop-up stroke",
+      "hint": "How much headroom appears when parked.",
+      "category": "tow",
+      "options": [
+        {
+          "id": "s24",
+          "name": "24\" stroke",
+          "sub": "~6 ft popped headroom",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "s36",
+          "name": "36\" stroke",
+          "sub": "~7 ft popped headroom",
+          "effects": {
+            "addLb": 25,
+            "addCostUsd": 400
+          }
+        }
+      ]
+    },
+    {
+      "key": "frame_material",
+      "label": "Frame material",
+      "hint": "Weight target says aluminum; steel is the cost fork.",
+      "category": "shell",
+      "options": [
+        {
+          "id": "alu_welded",
+          "name": "Welded aluminum",
+          "sub": "6061-T6 · reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "alu_bolted",
+          "name": "Bolted extrusion",
+          "sub": "8020-style · DIY-friendly",
+          "effects": {
+            "addLb": 50,
+            "addCostUsd": 800
+          }
+        },
+        {
+          "id": "steel",
+          "name": "Steel",
+          "sub": "heavier, cheaper",
+          "effects": {
+            "addLb": 320,
+            "addCostUsd": -1500
+          }
+        }
+      ]
+    },
+    {
+      "key": "insulation",
+      "label": "Wall insulation",
+      "hint": "Thermal envelope vs. interior volume and weight.",
+      "category": "shell",
+      "options": [
+        {
+          "id": "in1",
+          "name": "1\"",
+          "sub": "summer only · reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "in15",
+          "name": "1.5\"",
+          "sub": "3-season",
+          "effects": {
+            "addLb": 70,
+            "addCostUsd": 400
+          }
+        },
+        {
+          "id": "in2",
+          "name": "2\"",
+          "sub": "4-season",
+          "effects": {
+            "addLb": 140,
+            "addCostUsd": 800
+          }
+        }
+      ]
+    },
+    {
+      "key": "skin",
+      "label": "Skin material",
+      "hint": "Same foam core underneath; the face changes.",
+      "category": "shell",
+      "options": [
+        {
+          "id": "fiberglass",
+          "name": "Fiberglass",
+          "sub": "reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "polished_alu",
+          "name": "Polished aluminum",
+          "sub": "Bowlus-style",
+          "effects": {
+            "addLb": 30,
+            "addCostUsd": 4000
+          }
+        },
+        {
+          "id": "painted_comp",
+          "name": "Painted composite",
+          "sub": "color-matched",
+          "effects": {
+            "addCostUsd": 1200
+          }
+        }
+      ]
+    },
+    {
+      "key": "roof_type",
+      "label": "Roof type",
+      "hint": "Pop-up resolves the aero/headroom tradeoff.",
+      "category": "shell",
+      "options": [
+        {
+          "id": "popup_soft",
+          "name": "Pop-up soft-side",
+          "sub": "4x 48V actuators · reference",
+          "default": true,
+          "effects": {},
+          "parts": [
+            {
+              "id": "soft-walls-sunbrella",
+              "name": "Soft walls (Sunbrella/Stamoid) + EPDM seal + latches",
+              "qty": 1,
+              "estUsd": 1150
+            }
+          ]
+        },
+        {
+          "id": "popup_hard",
+          "name": "Pop-up hard-side",
+          "sub": "better thermal + sealing",
+          "effects": {
+            "addLb": 130,
+            "addCostUsd": 2800
+          }
+        },
+        {
+          "id": "fixed",
+          "name": "Fixed hard roof",
+          "sub": "no actuators · worst aero",
+          "effects": {
+            "addLb": -90,
+            "addCostUsd": -1800,
+            "dragPct": 6
+          }
+        }
+      ]
+    },
+    {
+      "key": "actuators",
+      "label": "Pop-up actuators",
+      "hint": "4x synchronized, encoder feedback. True 48V COTS actuators are scarce - a 24V rail off the 48V bus is the pragmatic path.",
+      "category": "shell",
+      "options": [
+        {
+          "id": "pa17",
+          "name": "Progressive PA-17 quad (24V)",
+          "sub": "2,000 lb each · reference",
+          "default": true,
+          "effects": {},
+          "parts": [
+            {
+              "id": "48v-linear-actuator",
+              "name": "PA-17 24\" stroke 2,000 lb actuator (24V)",
+              "qty": 4,
+              "estUsd": 380
+            },
+            {
+              "id": "actuator-sync-controller",
+              "name": "4-channel sync controller + encoders + 48-to-24V DC-DC",
+              "qty": 1,
+              "estUsd": 450
+            }
+          ],
+          "note": "12/24V product line - runs on a 24V rail fed from the 48V bus."
+        },
+        {
+          "id": "linak48",
+          "name": "LINAK 48V custom",
+          "sub": "true 48V · IP66 · quote-only",
+          "effects": {
+            "addCostUsd": 1200
+          },
+          "note": "Native 48V, no DC-DC stage; catalog is 12/24V so 48V is a custom quote.",
+          "todo": "LINAK 48V quote"
+        }
+      ]
+    },
+    {
+      "key": "rear_geometry",
+      "label": "Rear geometry",
+      "hint": "Aero gains hide in the rear, not the front.",
+      "category": "shell",
+      "options": [
+        {
+          "id": "flat",
+          "name": "Flat rear",
+          "sub": "max interior · worst aero",
+          "effects": {
+            "dragPct": 5
+          }
+        },
+        {
+          "id": "partial_taper",
+          "name": "Partial teardrop (above bed)",
+          "sub": "reference compromise",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "full_taper",
+          "name": "Full teardrop",
+          "sub": "best aero · least interior",
+          "effects": {
+            "addCostUsd": 800,
+            "dragPct": -3
+          }
+        }
+      ]
+    },
+    {
+      "key": "belly_pan",
+      "label": "Belly pan",
+      "hint": "Aero-critical underside.",
+      "category": "shell",
+      "options": [
+        {
+          "id": "sealed",
+          "name": "Sealed smooth",
+          "sub": "reference · aero-critical",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "open",
+          "name": "Open frame",
+          "sub": "lighter · terrible aero",
+          "effects": {
+            "addLb": -60,
+            "addCostUsd": -400,
+            "dragPct": 8
+          }
+        }
+      ]
+    },
+    {
+      "key": "battery",
+      "label": "Battery capacity",
+      "hint": "Autonomy vs. weight and tongue-weight envelope.",
+      "category": "power",
+      "options": [
+        {
+          "id": "kwh8",
+          "name": "8 kWh",
+          "sub": "shore-power weekender",
+          "effects": {
+            "kwh": -4,
+            "addLb": -70,
+            "addCostUsd": -1800
+          }
+        },
+        {
+          "id": "kwh12",
+          "name": "12 kWh",
+          "sub": "2 hot-AC + 4 mild days · reference",
+          "default": true,
+          "effects": {},
+          "parts": [
+            {
+              "id": "lfp-pack-12kwh",
+              "name": "12 kWh 48V LFP pack (cells + BMS + enclosure)",
+              "qty": 1,
+              "estUsd": 6000
+            }
+          ]
+        },
+        {
+          "id": "kwh16",
+          "name": "16 kWh",
+          "sub": "extended off-grid",
+          "effects": {
+            "kwh": 4,
+            "addLb": 70,
+            "addCostUsd": 1800
+          }
+        },
+        {
+          "id": "kwh20",
+          "name": "20 kWh",
+          "sub": "expedition-class",
+          "effects": {
+            "kwh": 8,
+            "addLb": 140,
+            "addCostUsd": 3600
+          },
+          "note": "May exceed Model Y tow envelope depending on other choices."
+        },
+        {
+          "id": "salvage80",
+          "name": "Salvaged Tesla pack ~80 kWh",
+          "sub": "Model 3/Y donor · range-neutral builds",
+          "effects": {
+            "kwh": 68,
+            "addLb": 860,
+            "addCostUsd": 6500
+          },
+          "note": "Millions of Model 3/Y packs entering the salvage stream. The pack becomes the literal skateboard — frame designs around its form factor. Requires the propulsion drivetrain.",
+          "todo": "salvage sourcing + BMS integration guide",
+          "parts": [
+            {
+              "id": "tesla-salvage-pack",
+              "name": "Salvaged Model 3/Y pack ~75-82 kWh (recycler)",
+              "qty": 1,
+              "estUsd": 6000
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "chem",
+      "label": "Battery chemistry",
+      "hint": "Same pack format; cells swap.",
+      "category": "power",
+      "options": [
+        {
+          "id": "lfp",
+          "name": "LFP",
+          "sub": "reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "lmfp",
+          "name": "LMFP",
+          "sub": "~5% denser, same safety",
+          "effects": {
+            "addLb": -15,
+            "addCostUsd": 400
+          },
+          "todo": "supply-chain availability"
+        },
+        {
+          "id": "sodium",
+          "name": "Sodium-ion (future)",
+          "sub": "heavier, cheaper, cold-proof",
+          "effects": {
+            "addLb": 45,
+            "addCostUsd": -900
+          },
+          "todo": "not yet available in this format"
+        }
+      ]
+    },
+    {
+      "key": "solar",
+      "label": "Roof solar",
+      "hint": "Roof real estate is most valuable as power.",
+      "category": "power",
+      "options": [
+        {
+          "id": "sol600",
+          "name": "~600W",
+          "sub": "partial roof",
+          "effects": {
+            "solarW": -450,
+            "addLb": -25,
+            "addCostUsd": -700
+          },
+          "parts": [
+            {
+              "id": "victron-mppt-150-45",
+              "name": "Victron SmartSolar MPPT 150/45",
+              "qty": 1,
+              "estUsd": 300
+            },
+            {
+              "id": "solar-panels-600",
+              "name": "Rigid panels ~600W",
+              "qty": 1,
+              "estUsd": 550
+            }
+          ]
+        },
+        {
+          "id": "sol1000",
+          "name": "~1,000-1,100W full roof",
+          "sub": "reference",
+          "default": true,
+          "effects": {},
+          "parts": [
+            {
+              "id": "victron-mppt",
+              "name": "Victron SmartSolar MPPT 250/60-Tr",
+              "qty": 1,
+              "estUsd": 435
+            },
+            {
+              "id": "solar-panels-1000",
+              "name": "Rigid panels ~1,000-1,100W",
+              "qty": 1,
+              "estUsd": 900
+            }
+          ]
+        },
+        {
+          "id": "sol1300",
+          "name": "~1,300W semi-flex",
+          "sub": "panels follow roof curve",
+          "effects": {
+            "solarW": 250,
+            "addLb": 10,
+            "addCostUsd": 900
+          },
+          "parts": [
+            {
+              "id": "victron-mppt-250-70",
+              "name": "Victron SmartSolar MPPT 250/70-Tr",
+              "qty": 1,
+              "estUsd": 520
+            },
+            {
+              "id": "solar-semiflex-1300",
+              "name": "Semi-flex panels ~1,300W",
+              "qty": 1,
+              "estUsd": 1400
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "portable_solar",
+      "label": "Portable solar prep",
+      "hint": "Chase the sun when parked in shade.",
+      "category": "power",
+      "options": [
+        {
+          "id": "none",
+          "name": "None",
+          "sub": "reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "mc4",
+          "name": "MC4 input + 2nd MPPT",
+          "sub": "bring your own panel",
+          "effects": {
+            "addCostUsd": 450
+          }
+        },
+        {
+          "id": "incl200",
+          "name": "Included 200W foldable",
+          "sub": "+ input",
+          "effects": {
+            "solarW": 200,
+            "addLb": 35,
+            "addCostUsd": 950
+          }
+        }
+      ]
+    },
+    {
+      "key": "inverter",
+      "label": "Inverter capacity",
+      "hint": "Victron MultiPlus II family — sized to simultaneous loads.",
+      "category": "power",
+      "options": [
+        {
+          "id": "va2000",
+          "name": "2000VA",
+          "sub": "light loads only",
+          "effects": {
+            "addLb": -15,
+            "addCostUsd": -800
+          },
+          "parts": [
+            {
+              "id": "victron-multiplus-48-2000",
+              "name": "Victron MultiPlus 48/2000",
+              "qty": 1,
+              "estUsd": 800
+            }
+          ]
+        },
+        {
+          "id": "va3000",
+          "name": "3000VA",
+          "sub": "reference",
+          "default": true,
+          "effects": {},
+          "parts": [
+            {
+              "id": "victron-multiplus2-48-3000",
+              "name": "Victron MultiPlus-II 48/3000",
+              "qty": 1,
+              "estUsd": 1200
+            }
+          ]
+        },
+        {
+          "id": "va5000",
+          "name": "5000VA",
+          "sub": "AC + induction simultaneous",
+          "effects": {
+            "addLb": 45,
+            "addCostUsd": 1900
+          },
+          "parts": [
+            {
+              "id": "victron-multiplus2-48-5000",
+              "name": "Victron MultiPlus-II 48/5000",
+              "qty": 1,
+              "estUsd": 1900
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "drivetrain",
+      "label": "Drivetrain / powered trailer",
+      "hint": "Changes axle spec; needs tow-vehicle comms.",
+      "category": "power",
+      "options": [
+        {
+          "id": "none",
+          "name": "None",
+          "sub": "reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "regen",
+          "name": "Single-motor regen assist",
+          "sub": "recovers on descents",
+          "effects": {
+            "addLb": 180,
+            "addCostUsd": 6500
+          },
+          "note": "Requires tow vehicle with published trailer comms (Ford Pro Trailer, Rivian Tow)."
+        },
+        {
+          "id": "awd",
+          "name": "Dual-motor AWD",
+          "sub": "pushes its own weight",
+          "effects": {
+            "addLb": 250,
+            "addCostUsd": 11000
+          },
+          "note": "Requires tow vehicle with published trailer comms."
+        },
+        {
+          "id": "range_neutral",
+          "name": "Range-neutral propulsion",
+          "sub": "Lightship-style · pushes your car",
+          "effects": {
+            "addLb": 320,
+            "addCostUsd": 9000
+          },
+          "sets": {
+            "rangeNeutral": true
+          },
+          "note": "Tongue-force sensing — no tow-vehicle comms needed, works behind any car. Open-source inverter/drive stack lives as a community repo; swap whatever portions you want.",
+          "todo": "open-source motor controller + tongue-force controller repo"
+        }
+      ]
+    },
+    {
+      "key": "shore_inlet",
+      "label": "Shore power inlet",
+      "hint": "NEMA 14-50 covers everything; adapters go down, never up.",
+      "category": "power",
+      "options": [
+        {
+          "id": "n1450",
+          "name": "NEMA 14-50",
+          "sub": "reference + adapter kit",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "dual",
+          "name": "14-50 + TT-30 dual",
+          "sub": "redundancy",
+          "effects": {
+            "addCostUsd": 250
+          }
+        }
+      ]
+    },
+    {
+      "key": "passthrough",
+      "label": "EV pass-through outlet",
+      "hint": "The trailer as emergency range extender.",
+      "category": "power",
+      "options": [
+        {
+          "id": "n1450",
+          "name": "NEMA 14-50",
+          "sub": "reference · Tesla mobile connector",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "j1772",
+          "name": "+ J1772",
+          "sub": "non-Tesla EVs direct",
+          "effects": {
+            "addCostUsd": 650
+          }
+        },
+        {
+          "id": "nacs",
+          "name": "+ NACS",
+          "sub": "native Tesla plug",
+          "effects": {
+            "addCostUsd": 450
+          }
+        }
+      ]
+    },
+    {
+      "key": "dcdc",
+      "label": "Charging from tow vehicle",
+      "hint": "Top up while driving.",
+      "category": "power",
+      "options": [
+        {
+          "id": "none",
+          "name": "None",
+          "sub": "reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "dc12",
+          "name": "12V DC-DC",
+          "sub": "low current, trickle",
+          "effects": {
+            "addLb": 8,
+            "addCostUsd": 350
+          }
+        },
+        {
+          "id": "hv",
+          "name": "High-voltage tap",
+          "sub": "fastest",
+          "effects": {
+            "addLb": 12,
+            "addCostUsd": 1600
+          },
+          "note": "Tesla-specific hack; warranty and safety caveats."
+        }
+      ]
+    },
+    {
+      "key": "cooling",
+      "label": "Cooling",
+      "hint": "Small pop-down volume + nightly use sizes this small.",
+      "category": "climate",
+      "options": [
+        {
+          "id": "none",
+          "name": "None",
+          "sub": "fans only",
+          "effects": {
+            "addLb": -60,
+            "addCostUsd": -450
+          }
+        },
+        {
+          "id": "win5k",
+          "name": "Window AC 5,000 BTU",
+          "sub": "reference · sealed rear-wall mount",
+          "default": true,
+          "effects": {},
+          "parts": [
+            {
+              "id": "window-ac-5k",
+              "name": "5,000 BTU low-draw window AC + sealed mount kit",
+              "qty": 1,
+              "estUsd": 180
+            }
+          ]
+        },
+        {
+          "id": "win8k",
+          "name": "Window AC 8,000 BTU",
+          "sub": "hotter climates",
+          "effects": {
+            "addLb": 15,
+            "addCostUsd": 120
+          },
+          "parts": [
+            {
+              "id": "midea-u-8k",
+              "name": "Midea U-shape 8,000 BTU inverter AC (~300-500W draw)",
+              "qty": 1,
+              "estUsd": 350
+            }
+          ],
+          "note": "Inverter compressor modulates ~300-500W - arguably the smarter pick than the fixed-speed 5K."
+        },
+        {
+          "id": "minisplit_c",
+          "name": "Mini-split (cool only)",
+          "sub": "quietest",
+          "effects": {
+            "addLb": 35,
+            "addCostUsd": 1100
+          }
+        }
+      ]
+    },
+    {
+      "key": "heating",
+      "label": "Heating",
+      "hint": "Heating the person is 15x more efficient than the air.",
+      "category": "climate",
+      "options": [
+        {
+          "id": "none",
+          "name": "None",
+          "sub": "summer only",
+          "effects": {
+            "addCostUsd": -150
+          }
+        },
+        {
+          "id": "blanket",
+          "name": "Electric blanket + small fan",
+          "sub": "reference · spring/fall",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "ptc",
+          "name": "PTC resistance heater",
+          "sub": "3-season",
+          "effects": {
+            "addLb": 12,
+            "addCostUsd": 250
+          }
+        },
+        {
+          "id": "heatpump",
+          "name": "Mini-split heat pump",
+          "sub": "cool + heat combined",
+          "effects": {
+            "addLb": 80,
+            "addCostUsd": 1700
+          },
+          "note": "Covers cooling too — deselect separate AC."
+        },
+        {
+          "id": "webasto",
+          "name": "Diesel Webasto",
+          "sub": "deep cold",
+          "effects": {
+            "addLb": 45,
+            "addCostUsd": 1300
+          },
+          "note": "Contradicts all-electric; included for cold-weather users."
+        }
+      ]
+    },
+    {
+      "key": "ventilation",
+      "label": "Ventilation",
+      "hint": "Side-wall path preserves the solar roof.",
+      "category": "climate",
+      "options": [
+        {
+          "id": "side",
+          "name": "Side wall low-front / high-rear",
+          "sub": "reference · solar-preserving",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "roofvent",
+          "name": "Roof vent fan",
+          "sub": "Maxxair-style",
+          "effects": {
+            "solarW": -200,
+            "addLb": 8,
+            "addCostUsd": 250
+          },
+          "note": "Sacrifices ~200W of roof solar."
+        },
+        {
+          "id": "both",
+          "name": "Both",
+          "sub": "max airflow",
+          "effects": {
+            "solarW": -200,
+            "addLb": 12,
+            "addCostUsd": 400
+          }
+        }
+      ]
+    },
+    {
+      "key": "fresh_water",
+      "label": "Fresh water",
+      "hint": "In-frame tanks; water weight is on top of dry weight.",
+      "category": "water",
+      "options": [
+        {
+          "id": "f10",
+          "name": "10 gal",
+          "sub": "overnight only",
+          "effects": {
+            "addLb": -18,
+            "addCostUsd": -150
+          }
+        },
+        {
+          "id": "f20",
+          "name": "20 gal",
+          "sub": "reference · 2-3 day weekend",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "f30",
+          "name": "30 gal",
+          "sub": "extended",
+          "effects": {
+            "addLb": 18,
+            "addCostUsd": 180
+          }
+        },
+        {
+          "id": "f40",
+          "name": "40 gal",
+          "sub": "expedition",
+          "effects": {
+            "addLb": 36,
+            "addCostUsd": 350
+          }
+        }
+      ]
+    },
+    {
+      "key": "gray_water",
+      "label": "Gray water",
+      "hint": "Sink + shower drainage + AC condensate.",
+      "category": "water",
+      "options": [
+        {
+          "id": "g5",
+          "name": "5 gal",
+          "sub": "minimal",
+          "effects": {
+            "addLb": -10,
+            "addCostUsd": -80
+          }
+        },
+        {
+          "id": "g10",
+          "name": "10 gal",
+          "sub": "reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "g15",
+          "name": "15 gal",
+          "sub": "wet-stall companion",
+          "effects": {
+            "addLb": 10,
+            "addCostUsd": 120
+          }
+        },
+        {
+          "id": "tote",
+          "name": "Portable tote only",
+          "sub": "no fixed tank",
+          "effects": {
+            "addLb": -18,
+            "addCostUsd": -100
+          }
+        }
+      ]
+    },
+    {
+      "key": "black_water",
+      "label": "Black water",
+      "hint": "Composting head means no black tank at all.",
+      "category": "water",
+      "options": [
+        {
+          "id": "none",
+          "name": "None",
+          "sub": "reference · composting head",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "cassette",
+          "name": "Cassette + tote",
+          "sub": "dump-station workflow",
+          "effects": {
+            "addLb": 25,
+            "addCostUsd": 400
+          }
+        },
+        {
+          "id": "full",
+          "name": "Full black tank + macerator",
+          "sub": "conventional RV",
+          "effects": {
+            "addLb": 90,
+            "addCostUsd": 1800
+          }
+        }
+      ]
+    },
+    {
+      "key": "toilet",
+      "label": "Toilet",
+      "hint": "No black tank; simpler; lighter. Vendor research: Sourcing doc §2.",
+      "category": "water",
+      "options": [
+        {
+          "id": "composting_nh",
+          "name": "Nature's Head + urine diverter",
+          "sub": "reference · proven, agitator drum",
+          "default": true,
+          "effects": {},
+          "parts": [
+            {
+              "id": "natures-head-toilet",
+              "name": "Nature's Head composting toilet",
+              "qty": 1,
+              "estUsd": 965
+            }
+          ]
+        },
+        {
+          "id": "composting_trelino",
+          "name": "Trelino Evo M",
+          "sub": "9.5 lb · half the price · weekend-scale",
+          "effects": {
+            "addLb": -14,
+            "addCostUsd": -570
+          },
+          "parts": [
+            {
+              "id": "trelino-evo-m",
+              "name": "Trelino Evo M composting toilet",
+              "qty": 1,
+              "estUsd": 395
+            }
+          ],
+          "note": "Ultralight, carry-out containers, no agitator - matches the weekend ethos. Smaller capacity than Nature's Head."
+        },
+        {
+          "id": "cassette",
+          "name": "Cassette",
+          "sub": "cheaper, dump-dependent",
+          "effects": {
+            "addCostUsd": -700
+          }
+        },
+        {
+          "id": "dry",
+          "name": "None (external only)",
+          "sub": "minimalist",
+          "effects": {
+            "addLb": -45,
+            "addCostUsd": -1000
+          }
+        }
+      ]
+    },
+    {
+      "key": "shower",
+      "label": "Shower",
+      "hint": "Summer trailer logic: shower outside.",
+      "category": "water",
+      "options": [
+        {
+          "id": "none",
+          "name": "None",
+          "sub": "no fixture",
+          "effects": {
+            "addLb": -8,
+            "addCostUsd": -250
+          }
+        },
+        {
+          "id": "outdoor",
+          "name": "Outdoor spigot hot+cold",
+          "sub": "reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "outdoor_enc",
+          "name": "Outdoor + privacy enclosure",
+          "sub": "campground modesty",
+          "effects": {
+            "addLb": 12,
+            "addCostUsd": 300
+          }
+        },
+        {
+          "id": "wet_stall",
+          "name": "Interior wet stall",
+          "sub": "4-season builds",
+          "effects": {
+            "addLb": 140,
+            "addCostUsd": 3500
+          },
+          "note": "Doubles gray-tank need; requires 4-season shell."
+        }
+      ]
+    },
+    {
+      "key": "water_heater",
+      "label": "Water heater",
+      "hint": "Remote pre-heat via Cerbo while driving back from hikes.",
+      "category": "water",
+      "options": [
+        {
+          "id": "none",
+          "name": "None",
+          "sub": "cold water only",
+          "effects": {
+            "addLb": -25,
+            "addCostUsd": -450
+          }
+        },
+        {
+          "id": "tank24",
+          "name": "2-4 gal tank electric",
+          "sub": "reference · pre-heatable",
+          "default": true,
+          "effects": {},
+          "parts": [
+            {
+              "id": "electric-tank-heater-4gal",
+              "name": "2-4 gal 120V tank water heater (Cerbo relay pre-heat)",
+              "qty": 1,
+              "estUsd": 300
+            }
+          ]
+        },
+        {
+          "id": "tank6",
+          "name": "6 gal tank",
+          "sub": "longer showers",
+          "effects": {
+            "addLb": 25,
+            "addCostUsd": 250
+          }
+        },
+        {
+          "id": "tankless",
+          "name": "Tankless electric",
+          "sub": "endless but hungry",
+          "effects": {
+            "addLb": 5,
+            "addCostUsd": 600
+          },
+          "note": "240V/30A+ draw — requires 5000VA inverter."
+        }
+      ]
+    },
+    {
+      "key": "condensate",
+      "label": "Condensate handling",
+      "hint": "The AC makes water; route it.",
+      "category": "water",
+      "options": [
+        {
+          "id": "gray",
+          "name": "To gray tank",
+          "sub": "reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "ground",
+          "name": "To ground",
+          "sub": "simplest",
+          "effects": {
+            "addCostUsd": -50
+          }
+        },
+        {
+          "id": "utility",
+          "name": "Captured utility tank",
+          "sub": "rinse water only",
+          "effects": {
+            "addLb": 10,
+            "addCostUsd": 200
+          }
+        }
+      ]
+    },
+    {
+      "key": "sink",
+      "label": "Sink",
+      "hint": "Galley water access.",
+      "category": "water",
+      "options": [
+        {
+          "id": "galley",
+          "name": "Galley sink + pump + drain",
+          "sub": "reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "footpump",
+          "name": "Galley sink + foot pump",
+          "sub": "weight + power savings",
+          "effects": {
+            "addLb": -6,
+            "addCostUsd": -150
+          }
+        },
+        {
+          "id": "none",
+          "name": "No interior sink",
+          "sub": "external only",
+          "effects": {
+            "addLb": -15,
+            "addCostUsd": -350
+          }
+        }
+      ]
+    },
+    {
+      "key": "bed_size",
+      "label": "Bed size",
+      "hint": "Longer beds need longer boxes.",
+      "category": "interior",
+      "options": [
+        {
+          "id": "twin",
+          "name": "Twin 38x75",
+          "sub": "solo",
+          "effects": {
+            "addLb": -25,
+            "addCostUsd": -200
+          }
+        },
+        {
+          "id": "full",
+          "name": "Full 54x75",
+          "sub": "cozy two",
+          "effects": {
+            "addLb": -10,
+            "addCostUsd": -100
+          }
+        },
+        {
+          "id": "shortqueen",
+          "name": "Short queen 60x74",
+          "sub": "reference · fits 74\" interior",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "queen",
+          "name": "Queen 60x80",
+          "sub": "full length",
+          "effects": {
+            "addLb": 8,
+            "addCostUsd": 100
+          }
+        }
+      ]
+    },
+    {
+      "key": "bed_orientation",
+      "label": "Bed orientation",
+      "hint": "East-west across the rear opens floor space.",
+      "category": "interior",
+      "options": [
+        {
+          "id": "ew",
+          "name": "East-west rear",
+          "sub": "reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "ns",
+          "name": "North-south center",
+          "sub": "walk-around access",
+          "effects": {}
+        },
+        {
+          "id": "convertible",
+          "name": "Convertible dinette",
+          "sub": "bed by night, table by day",
+          "effects": {
+            "addLb": 30,
+            "addCostUsd": 900
+          }
+        }
+      ]
+    },
+    {
+      "key": "sleeps",
+      "label": "Sleeps",
+      "hint": "Base is a couple's trailer.",
+      "category": "interior",
+      "options": [
+        {
+          "id": "s2",
+          "name": "2",
+          "sub": "reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "s2p1",
+          "name": "2 + 1",
+          "sub": "kid bunk over dinette",
+          "effects": {
+            "addLb": 35,
+            "addCostUsd": 700
+          }
+        },
+        {
+          "id": "s4",
+          "name": "4",
+          "sub": "bunk conversion",
+          "effects": {
+            "addLb": 70,
+            "addCostUsd": 1400
+          }
+        },
+        {
+          "id": "s5_rtt",
+          "name": "5",
+          "sub": "roof-top tent add-on",
+          "effects": {
+            "addLb": 120,
+            "addCostUsd": 2500
+          },
+          "note": "Roof-top tent competes with roof solar real estate."
+        }
+      ]
+    },
+    {
+      "key": "layout",
+      "label": "Interior layout",
+      "hint": "Where the bed goes drives galley and bath placement.",
+      "category": "interior",
+      "options": [
+        {
+          "id": "bed_rear",
+          "name": "Bed rear",
+          "sub": "reference · galley forward",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "bed_forward",
+          "name": "Bed forward",
+          "sub": "galley at the door",
+          "effects": {}
+        },
+        {
+          "id": "bed_center",
+          "name": "Bed center",
+          "sub": "storage both ends",
+          "effects": {}
+        }
+      ]
+    },
+    {
+      "key": "cabinetry",
+      "label": "Cabinetry",
+      "hint": "Interior finish tier.",
+      "category": "interior",
+      "options": [
+        {
+          "id": "minimal",
+          "name": "Minimal open shelving",
+          "sub": "lightest",
+          "effects": {
+            "addLb": -45,
+            "addCostUsd": -800
+          }
+        },
+        {
+          "id": "standard",
+          "name": "Standard closed, laminate",
+          "sub": "reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "premium",
+          "name": "Premium hardwood custom",
+          "sub": "boutique",
+          "effects": {
+            "addLb": 60,
+            "addCostUsd": 2500
+          }
+        }
+      ]
+    },
+    {
+      "key": "countertops",
+      "label": "Countertops",
+      "hint": "Galley surface.",
+      "category": "interior",
+      "options": [
+        {
+          "id": "laminate",
+          "name": "Laminate",
+          "sub": "reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "butcher",
+          "name": "Butcher block",
+          "sub": "warm + repairable",
+          "effects": {
+            "addLb": 18,
+            "addCostUsd": 300
+          }
+        },
+        {
+          "id": "stone",
+          "name": "Stone composite",
+          "sub": "premium",
+          "effects": {
+            "addLb": 35,
+            "addCostUsd": 700
+          }
+        }
+      ]
+    },
+    {
+      "key": "upholstery",
+      "label": "Upholstery",
+      "hint": "Cushions and soft surfaces.",
+      "category": "interior",
+      "options": [
+        {
+          "id": "none",
+          "name": "None (customer-supplied)",
+          "sub": "BYO cushions",
+          "effects": {
+            "addCostUsd": -400
+          }
+        },
+        {
+          "id": "standard",
+          "name": "Standard fabric",
+          "sub": "reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "premium",
+          "name": "Premium fabric",
+          "sub": "upgrade",
+          "effects": {
+            "addCostUsd": 600
+          }
+        },
+        {
+          "id": "vinyl",
+          "name": "Marine vinyl",
+          "sub": "waterproof",
+          "effects": {
+            "addCostUsd": 300
+          }
+        }
+      ]
+    },
+    {
+      "key": "cooktop",
+      "label": "Cooktop",
+      "hint": "Weekend cooking is minimal.",
+      "category": "cooking",
+      "options": [
+        {
+          "id": "none",
+          "name": "None",
+          "sub": "camp stove outside",
+          "effects": {
+            "addLb": -8,
+            "addCostUsd": -250
+          }
+        },
+        {
+          "id": "single",
+          "name": "Single induction",
+          "sub": "reference",
+          "default": true,
+          "effects": {},
+          "parts": [
+            {
+              "id": "induction-single",
+              "name": "Single induction burner",
+              "qty": 1,
+              "estUsd": 80
+            }
+          ]
+        },
+        {
+          "id": "dual",
+          "name": "Dual induction",
+          "sub": "two pots",
+          "effects": {
+            "addLb": 8,
+            "addCostUsd": 250
+          }
+        },
+        {
+          "id": "dual_oven",
+          "name": "Dual + convection oven",
+          "sub": "full galley",
+          "effects": {
+            "addLb": 40,
+            "addCostUsd": 1200
+          },
+          "note": "Simultaneous use wants the 5000VA inverter."
+        }
+      ]
+    },
+    {
+      "key": "fridge",
+      "label": "Fridge",
+      "hint": "Sized for weekend food + drinks.",
+      "category": "cooking",
+      "options": [
+        {
+          "id": "none",
+          "name": "None",
+          "sub": "cooler only",
+          "effects": {
+            "addLb": -45,
+            "addCostUsd": -800
+          }
+        },
+        {
+          "id": "cu3",
+          "name": "12V compressor 3 cu ft",
+          "sub": "reference",
+          "default": true,
+          "effects": {},
+          "parts": [
+            {
+              "id": "12v-fridge-3cuft",
+              "name": "12V compressor fridge ~3 cu ft",
+              "qty": 1,
+              "estUsd": 550
+            }
+          ]
+        },
+        {
+          "id": "cu5",
+          "name": "12V compressor 5 cu ft",
+          "sub": "longer trips",
+          "effects": {
+            "addLb": 25,
+            "addCostUsd": 400
+          }
+        },
+        {
+          "id": "dualzone",
+          "name": "Dual-zone fridge + freezer",
+          "sub": "ice cream at camp",
+          "effects": {
+            "addLb": 40,
+            "addCostUsd": 800
+          }
+        }
+      ]
+    },
+    {
+      "key": "coffee",
+      "label": "Coffee prep",
+      "hint": "Priorities are priorities.",
+      "category": "cooking",
+      "options": [
+        {
+          "id": "none",
+          "name": "None",
+          "sub": "reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "outlet20a",
+          "name": "Dedicated 20A outlet",
+          "sub": "bring your machine",
+          "effects": {
+            "addCostUsd": 150
+          }
+        },
+        {
+          "id": "espresso",
+          "name": "Built-in espresso mount",
+          "sub": "committed",
+          "effects": {
+            "addLb": 15,
+            "addCostUsd": 600
+          }
+        }
+      ]
+    },
+    {
+      "key": "microwave",
+      "label": "Microwave",
+      "hint": "Big draw for a small box.",
+      "category": "cooking",
+      "options": [
+        {
+          "id": "none",
+          "name": "None",
+          "sub": "reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "countertop",
+          "name": "Countertop",
+          "sub": "removable",
+          "effects": {
+            "addLb": 30,
+            "addCostUsd": 150
+          }
+        },
+        {
+          "id": "builtin",
+          "name": "Built-in",
+          "sub": "requires 5000VA inverter",
+          "effects": {
+            "addLb": 40,
+            "addCostUsd": 400
+          }
+        }
+      ]
+    },
+    {
+      "key": "interior_lighting",
+      "label": "Interior lighting",
+      "hint": "All LED, all 48V-derived.",
+      "category": "media",
+      "options": [
+        {
+          "id": "standard",
+          "name": "Standard LED",
+          "sub": "on/off",
+          "effects": {
+            "addCostUsd": -150
+          }
+        },
+        {
+          "id": "dimmable",
+          "name": "Dimmable LED",
+          "sub": "reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "circadian",
+          "name": "Dimmable + circadian",
+          "sub": "color-temp shifting",
+          "effects": {
+            "addCostUsd": 350
+          }
+        }
+      ]
+    },
+    {
+      "key": "exterior_ambient",
+      "label": "Ambient exterior lighting",
+      "hint": "Aesthetic + practical campsite glow.",
+      "category": "media",
+      "options": [
+        {
+          "id": "none",
+          "name": "None",
+          "sub": "dark camp",
+          "effects": {
+            "addLb": -4,
+            "addCostUsd": -250
+          }
+        },
+        {
+          "id": "perimeter",
+          "name": "Perimeter LED strip",
+          "sub": "reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "underglow",
+          "name": "Perimeter + underglow",
+          "sub": "floats at night",
+          "effects": {
+            "addLb": 4,
+            "addCostUsd": 250
+          }
+        },
+        {
+          "id": "smart",
+          "name": "Perimeter + underglow + smart",
+          "sub": "app-controlled scenes",
+          "effects": {
+            "addLb": 6,
+            "addCostUsd": 500
+          }
+        }
+      ]
+    },
+    {
+      "key": "floodlights",
+      "label": "Floodlights",
+      "hint": "Task and security lighting.",
+      "category": "media",
+      "options": [
+        {
+          "id": "none",
+          "name": "None",
+          "sub": "reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "rear",
+          "name": "Rear only",
+          "sub": "hitch + storage work",
+          "effects": {
+            "addLb": 3,
+            "addCostUsd": 120
+          }
+        },
+        {
+          "id": "all360",
+          "name": "All-around 360",
+          "sub": "full site",
+          "effects": {
+            "addLb": 8,
+            "addCostUsd": 350
+          }
+        },
+        {
+          "id": "motion",
+          "name": "360 + motion sensor",
+          "sub": "critter alert",
+          "effects": {
+            "addLb": 10,
+            "addCostUsd": 450
+          }
+        }
+      ]
+    },
+    {
+      "key": "media",
+      "label": "Interior media",
+      "hint": "Movie night under the awning.",
+      "category": "media",
+      "options": [
+        {
+          "id": "none",
+          "name": "None",
+          "sub": "phones exist",
+          "effects": {
+            "addLb": -12,
+            "addCostUsd": -800
+          }
+        },
+        {
+          "id": "bt",
+          "name": "Bluetooth speakers",
+          "sub": "audio only",
+          "effects": {
+            "addLb": -8,
+            "addCostUsd": -600
+          }
+        },
+        {
+          "id": "projector",
+          "name": "Projector + speakers",
+          "sub": "reference",
+          "default": true,
+          "effects": {},
+          "parts": [
+            {
+              "id": "projector-bt-kit",
+              "name": "Compact projector + Bluetooth speakers",
+              "qty": 1,
+              "estUsd": 600
+            }
+          ]
+        },
+        {
+          "id": "outdoor_screen",
+          "name": "+ External screen mount",
+          "sub": "outdoor cinema",
+          "effects": {
+            "addLb": 15,
+            "addCostUsd": 400
+          }
+        }
+      ]
+    },
+    {
+      "key": "awning_lighting",
+      "label": "Awning lighting",
+      "hint": "Under-awning glow.",
+      "category": "media",
+      "options": [
+        {
+          "id": "none",
+          "name": "None",
+          "sub": "reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "string",
+          "name": "String lights",
+          "sub": "classic camp",
+          "effects": {
+            "addCostUsd": 80
+          }
+        },
+        {
+          "id": "integrated",
+          "name": "Integrated LED in arms",
+          "sub": "clean look",
+          "effects": {
+            "addCostUsd": 250
+          }
+        }
+      ]
+    },
+    {
+      "key": "awning",
+      "label": "Awning",
+      "hint": "The outdoor room.",
+      "category": "exterior",
+      "options": [
+        {
+          "id": "none",
+          "name": "None",
+          "sub": "travel light",
+          "effects": {
+            "addLb": -35,
+            "addCostUsd": -900
+          }
+        },
+        {
+          "id": "side",
+          "name": "Side roll-out (curb side)",
+          "sub": "reference · outdoor kitchen",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "side_rear",
+          "name": "Side + rear",
+          "sub": "wrap the corner",
+          "effects": {
+            "addLb": 30,
+            "addCostUsd": 800
+          }
+        },
+        {
+          "id": "wrap",
+          "name": "360 wraparound",
+          "sub": "full shade",
+          "effects": {
+            "addLb": 80,
+            "addCostUsd": 2200
+          }
+        }
+      ]
+    },
+    {
+      "key": "awning_material",
+      "label": "Awning material",
+      "hint": "Fabric grade.",
+      "category": "exterior",
+      "options": [
+        {
+          "id": "vinyl",
+          "name": "Standard vinyl",
+          "sub": "reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "sunbrella",
+          "name": "Sunbrella",
+          "sub": "UV + fade resistant",
+          "effects": {
+            "addCostUsd": 300
+          }
+        },
+        {
+          "id": "canvas",
+          "name": "Heavy-duty canvas",
+          "sub": "expedition-grade",
+          "effects": {
+            "addLb": 12,
+            "addCostUsd": 400
+          }
+        }
+      ]
+    },
+    {
+      "key": "drop_screens",
+      "label": "Awning drop screens",
+      "hint": "Bug room conversion.",
+      "category": "exterior",
+      "options": [
+        {
+          "id": "none",
+          "name": "None",
+          "sub": "reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "one",
+          "name": "One side",
+          "sub": "wind block",
+          "effects": {
+            "addLb": 8,
+            "addCostUsd": 250
+          }
+        },
+        {
+          "id": "all",
+          "name": "All sides",
+          "sub": "full enclosure",
+          "effects": {
+            "addLb": 20,
+            "addCostUsd": 600
+          }
+        }
+      ]
+    },
+    {
+      "key": "roof_rack",
+      "label": "Roof rack",
+      "hint": "Racks and solar fight for the same roof.",
+      "category": "exterior",
+      "options": [
+        {
+          "id": "none",
+          "name": "None",
+          "sub": "reference · roof is for solar",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "rails",
+          "name": "Accessory rails",
+          "sub": "light gear",
+          "effects": {
+            "addLb": 15,
+            "addCostUsd": 300
+          },
+          "note": "Nibbles at solar real estate."
+        },
+        {
+          "id": "full",
+          "name": "Full rack",
+          "sub": "boats + boards",
+          "effects": {
+            "addLb": 45,
+            "addCostUsd": 800
+          },
+          "note": "Conflicts with full roof solar."
+        }
+      ]
+    },
+    {
+      "key": "gear_rack",
+      "label": "Bike / gear rack",
+      "hint": "Toys ride outside.",
+      "category": "exterior",
+      "options": [
+        {
+          "id": "none",
+          "name": "None",
+          "sub": "reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "rear_hitch",
+          "name": "Rear hitch receiver",
+          "sub": "bikes behind",
+          "effects": {
+            "addLb": 25,
+            "addCostUsd": 400
+          }
+        },
+        {
+          "id": "tongue",
+          "name": "Front tongue mount",
+          "sub": "gear box / bikes forward",
+          "effects": {
+            "addLb": 20,
+            "addCostUsd": 350
+          }
+        }
+      ]
+    },
+    {
+      "key": "brake_controller",
+      "label": "Brake controller",
+      "hint": "Match to the tow vehicle.",
+      "category": "exterior",
+      "options": [
+        {
+          "id": "curt_echo",
+          "name": "Curt Echo Bluetooth",
+          "sub": "reference · Tesla-compatible",
+          "default": true,
+          "effects": {},
+          "parts": [
+            {
+              "id": "curt-echo",
+              "name": "Curt Echo 51180 Bluetooth brake controller",
+              "qty": 1,
+              "estUsd": 250
+            }
+          ]
+        },
+        {
+          "id": "hardwired",
+          "name": "Hardwired aftermarket",
+          "sub": "pre-wired trucks",
+          "effects": {
+            "addCostUsd": -100
+          }
+        },
+        {
+          "id": "native",
+          "name": "Native (vehicle built-in)",
+          "sub": "newer EVs",
+          "effects": {
+            "addCostUsd": -250
+          }
+        }
+      ]
+    },
+    {
+      "key": "season",
+      "label": "Season rating",
+      "hint": "Cascades into walls, HVAC, plumbing freeze protection.",
+      "category": "usecase",
+      "options": [
+        {
+          "id": "summer",
+          "name": "Summer only",
+          "sub": "reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "s3",
+          "name": "3-season",
+          "sub": "spring through fall",
+          "effects": {
+            "addLb": 90,
+            "addCostUsd": 1500
+          },
+          "note": "Pair with 1.5\"+ insulation and real heating."
+        },
+        {
+          "id": "s4",
+          "name": "4-season",
+          "sub": "winter-capable",
+          "effects": {
+            "addLb": 200,
+            "addCostUsd": 3500
+          },
+          "note": "Requires 2\" insulation, heated tanks, sealed pop-up or hard side."
+        }
+      ]
+    },
+    {
+      "key": "use_case",
+      "label": "Use case",
+      "hint": "What the trailer is for shapes everything downstream.",
+      "category": "usecase",
+      "options": [
+        {
+          "id": "weekend",
+          "name": "Weekend base camp",
+          "sub": "reference · TJ's config",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "extended",
+          "name": "Extended off-grid",
+          "sub": "week-plus trips",
+          "effects": {},
+          "note": "Consider bigger battery, water, fridge."
+        },
+        {
+          "id": "fulltime",
+          "name": "Full-time living",
+          "sub": "stretch goal",
+          "effects": {},
+          "note": "This platform is a base camp, not a residence — see House BUS."
+        },
+        {
+          "id": "expedition",
+          "name": "Expedition / off-road",
+          "sub": "rough country",
+          "effects": {},
+          "note": "Wants the off-road package."
+        }
+      ]
+    },
+    {
+      "key": "offroad",
+      "label": "Off-road package",
+      "hint": "Clearance, armor, rubber.",
+      "category": "usecase",
+      "options": [
+        {
+          "id": "none",
+          "name": "None",
+          "sub": "reference · graded roads OK",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "pkg",
+          "name": "Suspension + tires + sliders + armor",
+          "sub": "expedition-ready",
+          "effects": {
+            "addLb": 120,
+            "addCostUsd": 2800,
+            "dragPct": 2
+          }
+        }
+      ]
+    },
+    {
+      "key": "finish",
+      "label": "Exterior finish",
+      "hint": "The face it shows the campground.",
+      "category": "usecase",
+      "options": [
+        {
+          "id": "painted",
+          "name": "Painted",
+          "sub": "reference · color options",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "raw_alu",
+          "name": "Raw aluminum",
+          "sub": "needs polished-alu skin",
+          "effects": {
+            "addCostUsd": -800
+          }
+        },
+        {
+          "id": "wrapped",
+          "name": "Wrapped",
+          "sub": "any graphic",
+          "effects": {
+            "addCostUsd": 1500
+          }
+        }
+      ]
+    },
+    {
+      "key": "design_language",
+      "label": "Interior design language",
+      "hint": "Aesthetic anchor — surfaced with reference imagery in the app.",
+      "category": "usecase",
+      "options": [
+        {
+          "id": "custom",
+          "name": "Custom / DF house style",
+          "sub": "reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "polydrops",
+          "name": "Polydrops-angular",
+          "sub": "faceted modern minimal",
+          "effects": {}
+        },
+        {
+          "id": "bowlus",
+          "name": "Bowlus-luxury",
+          "sub": "premium classic",
+          "effects": {}
+        },
+        {
+          "id": "airstream",
+          "name": "Airstream-classic",
+          "sub": "conventional expectations",
+          "effects": {}
+        },
+        {
+          "id": "hutte",
+          "name": "Hutte Hut-boutique",
+          "sub": "small, beautiful",
+          "effects": {}
+        }
+      ]
+    },
+    {
+      "key": "windows",
+      "label": "Windows",
+      "hint": "Light vs. thermal envelope vs. weight.",
+      "category": "usecase",
+      "options": [
+        {
+          "id": "minimal",
+          "name": "Minimal (rear + door)",
+          "sub": "best thermal",
+          "effects": {
+            "addLb": -25,
+            "addCostUsd": -600
+          }
+        },
+        {
+          "id": "standard",
+          "name": "Standard (2 sides + rear + door)",
+          "sub": "reference",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "panoramic",
+          "name": "Maximum panoramic",
+          "sub": "glass house",
+          "effects": {
+            "addLb": 45,
+            "addCostUsd": 1800
+          },
+          "note": "Hurts the thermal envelope; think twice for 4-season."
+        }
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "no-heater-summer",
+      "type": "forbid",
+      "when": {
+        "season": "summer",
+        "heating": [
+          "ptc",
+          "heatpump",
+          "webasto"
+        ]
+      },
+      "message": "A real heater implies at least 3-season. Bump the season rating or drop the heater."
+    },
+    {
+      "id": "4season-thin-walls",
+      "type": "forbid",
+      "when": {
+        "season": "s4",
+        "insulation": "in1"
+      },
+      "message": "4-season needs at least 1.5\" walls (2\" recommended)."
+    },
+    {
+      "id": "4season-wants-2in",
+      "type": "warn",
+      "when": {
+        "season": "s4",
+        "insulation": "in15"
+      },
+      "message": "4-season with 1.5\" walls is marginal — 2\" recommended."
+    },
+    {
+      "id": "wetstall-summer",
+      "type": "forbid",
+      "when": {
+        "shower": "wet_stall",
+        "season": "summer"
+      },
+      "message": "Interior wet stall implies 3-season minimum (4-season shell recommended)."
+    },
+    {
+      "id": "wetstall-3season",
+      "type": "warn",
+      "when": {
+        "shower": "wet_stall",
+        "season": "s3"
+      },
+      "message": "Wet stall on a 3-season shell works but 4-season is the design intent."
+    },
+    {
+      "id": "wetstall-12ft",
+      "type": "forbid",
+      "when": {
+        "shower": "wet_stall",
+        "box_length": "b12"
+      },
+      "message": "12' box lacks floor area for an interior wet stall — go 15' or 18'."
+    },
+    {
+      "id": "wetstall-gray",
+      "type": "warn",
+      "when": {
+        "shower": "wet_stall",
+        "gray_water": [
+          "g5",
+          "g10",
+          "tote"
+        ]
+      },
+      "message": "Wet stall doubles gray water need — take the 15 gal tank."
+    },
+    {
+      "id": "composting-blacktank",
+      "type": "forbid",
+      "when": {
+        "toilet": [
+          "composting_nh",
+          "composting_trelino"
+        ],
+        "black_water": "full"
+      },
+      "message": "Composting head and full black tank are mutually exclusive."
+    },
+    {
+      "id": "cassette-mismatch",
+      "type": "warn",
+      "when": {
+        "toilet": "cassette",
+        "black_water": "none"
+      },
+      "message": "Cassette toilet usually pairs with the cassette black-water option."
+    },
+    {
+      "id": "solar-roofvent",
+      "type": "warn",
+      "when": {
+        "solar": [
+          "sol1000",
+          "sol1300"
+        ],
+        "ventilation": [
+          "roofvent",
+          "both"
+        ]
+      },
+      "message": "Roof vent eats ~200W of the full-roof array. Side-wall ventilation preserves it."
+    },
+    {
+      "id": "solar-fullrack",
+      "type": "forbid",
+      "when": {
+        "solar": [
+          "sol1000",
+          "sol1300"
+        ],
+        "roof_rack": "full"
+      },
+      "message": "Full roof rack and full roof solar compete for the same real estate. Pick one or drop to 600W."
+    },
+    {
+      "id": "solar-rails",
+      "type": "warn",
+      "when": {
+        "solar": [
+          "sol1000",
+          "sol1300"
+        ],
+        "roof_rack": "rails"
+      },
+      "message": "Accessory rails nibble at the solar roof — verify panel layout."
+    },
+    {
+      "id": "solar-rtt",
+      "type": "warn",
+      "when": {
+        "solar": [
+          "sol1000",
+          "sol1300"
+        ],
+        "sleeps": "s5_rtt"
+      },
+      "message": "A roof-top tent sits on the solar roof. Expect reduced harvest when deployed."
+    },
+    {
+      "id": "tankless-inverter",
+      "type": "forbid",
+      "when": {
+        "water_heater": "tankless",
+        "inverter": [
+          "va2000",
+          "va3000"
+        ]
+      },
+      "message": "Tankless electric needs the 5000VA inverter."
+    },
+    {
+      "id": "builtin-micro-inverter",
+      "type": "forbid",
+      "when": {
+        "microwave": "builtin",
+        "inverter": [
+          "va2000",
+          "va3000"
+        ]
+      },
+      "message": "Built-in microwave requires the 5000VA inverter."
+    },
+    {
+      "id": "micro-small-inverter",
+      "type": "warn",
+      "when": {
+        "microwave": "countertop",
+        "inverter": "va2000"
+      },
+      "message": "Countertop microwave on 2000VA means nothing else runs while it does."
+    },
+    {
+      "id": "oven-inverter",
+      "type": "warn",
+      "when": {
+        "cooktop": "dual_oven",
+        "inverter": "va2000"
+      },
+      "message": "Dual induction + oven wants 3000VA minimum, 5000VA for simultaneous use."
+    },
+    {
+      "id": "fixed-low",
+      "type": "warn",
+      "when": {
+        "roof_type": "fixed",
+        "height": "low"
+      },
+      "message": "Fixed roof at ~5' means no standing headroom ever — sit-inside use only."
+    },
+    {
+      "id": "fixed-tall",
+      "type": "warn",
+      "when": {
+        "roof_type": "fixed",
+        "height": "tall"
+      },
+      "message": "Fixed 7'+ roof is the worst-aero configuration in the family."
+    },
+    {
+      "id": "popup-stroke-fixed",
+      "type": "warn",
+      "when": {
+        "roof_type": "fixed",
+        "popup_stroke": "s36"
+      },
+      "message": "Pop-up stroke is moot with a fixed roof."
+    },
+    {
+      "id": "drivetrain-tesla",
+      "type": "forbid",
+      "when": {
+        "drivetrain": [
+          "regen",
+          "awd"
+        ],
+        "tow_vehicle": [
+          "model_y",
+          "model_x"
+        ]
+      },
+      "message": "Tesla doesn't expose trailer comms for third-party drivetrains. Needs Ford Pro Trailer or Rivian Tow."
+    },
+    {
+      "id": "width96-modely",
+      "type": "forbid",
+      "when": {
+        "width": "w96",
+        "tow_vehicle": [
+          "model_y",
+          "model_x"
+        ]
+      },
+      "message": "96\" sticks past the mirror lines — illegal without a wide-load permit, and destroys aero."
+    },
+    {
+      "id": "width84-modely",
+      "type": "warn",
+      "when": {
+        "width": "w84",
+        "tow_vehicle": [
+          "model_y",
+          "model_x"
+        ]
+      },
+      "message": "84\" behind a 78-79\" body creates mirror-eddy drag. Body-match width is the aero play."
+    },
+    {
+      "id": "queen-12ft",
+      "type": "warn",
+      "when": {
+        "bed_size": "queen",
+        "box_length": "b12"
+      },
+      "message": "Queen 60x80 in a 12' box squeezes the galley — check the layout."
+    },
+    {
+      "id": "heatpump-plus-ac",
+      "type": "warn",
+      "when": {
+        "heating": "heatpump",
+        "cooling": [
+          "win5k",
+          "win8k",
+          "minisplit_c"
+        ]
+      },
+      "message": "The heat pump already cools — drop the separate AC and save weight."
+    },
+    {
+      "id": "webasto-electric",
+      "type": "warn",
+      "when": {
+        "heating": "webasto"
+      },
+      "message": "Diesel heat contradicts the all-electric identity. Included for deep-cold users only."
+    },
+    {
+      "id": "expedition-no-offroad",
+      "type": "warn",
+      "when": {
+        "use_case": "expedition",
+        "offroad": "none"
+      },
+      "message": "Expedition use case expects the off-road package."
+    },
+    {
+      "id": "fulltime-mismatch",
+      "type": "warn",
+      "when": {
+        "use_case": "fulltime"
+      },
+      "message": "Slipstream is a base camp, not a residence. For full-time living, see the House BUS."
+    },
+    {
+      "id": "open-belly",
+      "type": "warn",
+      "when": {
+        "belly_pan": "open"
+      },
+      "message": "Open frame kills the aero story — the sealed belly pan is why this trailer works behind an EV."
+    },
+    {
+      "id": "raw-needs-alu",
+      "type": "forbid",
+      "when": {
+        "finish": "raw_alu",
+        "skin": [
+          "fiberglass",
+          "painted_comp"
+        ]
+      },
+      "message": "Raw aluminum finish requires the polished aluminum skin."
+    },
+    {
+      "id": "hv-tap",
+      "type": "warn",
+      "when": {
+        "dcdc": "hv"
+      },
+      "message": "High-voltage tap is a Tesla-specific hack — warranty and safety implications."
+    },
+    {
+      "id": "no-cooling-summer",
+      "type": "warn",
+      "when": {
+        "cooling": "none",
+        "season": "summer"
+      },
+      "message": "Summer trailer with no AC — brave. The 5,000 BTU window unit costs 60 lb."
+    },
+    {
+      "id": "big-battery-y",
+      "type": "warn",
+      "when": {
+        "battery": "kwh20",
+        "tow_vehicle": "model_y"
+      },
+      "message": "20 kWh pushes the Model Y tongue/tow envelope — watch the derived weight checks."
+    },
+    {
+      "id": "panoramic-4season",
+      "type": "warn",
+      "when": {
+        "windows": "panoramic",
+        "season": "s4"
+      },
+      "message": "Panoramic glass fights the 4-season thermal envelope."
+    },
+    {
+      "id": "salvage-needs-drive",
+      "type": "forbid",
+      "when": {
+        "battery": "salvage80",
+        "drivetrain": "none"
+      },
+      "message": "An 80 kWh pack without propulsion is ~1,000 lb of ballast against your tow rating. Add the range-neutral drivetrain."
+    },
+    {
+      "id": "salvage-drive-mismatch",
+      "type": "warn",
+      "when": {
+        "battery": "salvage80",
+        "drivetrain": [
+          "regen",
+          "awd"
+        ]
+      },
+      "message": "The salvage pack is sized for range-neutral propulsion — regen-assist alone barely touches 80 kWh."
+    },
+    {
+      "id": "rangeneutral-small-pack",
+      "type": "warn",
+      "when": {
+        "drivetrain": "range_neutral",
+        "battery": [
+          "kwh8",
+          "kwh12",
+          "kwh16"
+        ]
+      },
+      "message": "Range-neutral propulsion drinks from the trailer battery — under 20 kWh it runs dry fast. The salvage pack is the intended pairing."
+    },
+    {
+      "id": "rangeneutral-regs",
+      "type": "warn",
+      "when": {
+        "drivetrain": "range_neutral"
+      },
+      "message": "A powered trailer adds DMV/registration/inspection surface that varies by state. Budget time for paperwork."
+    },
+    {
+      "id": "foamie-no-popup",
+      "type": "forbid",
+      "when": {
+        "build_class": "foamie",
+        "roof_type": [
+          "popup_soft",
+          "popup_hard"
+        ]
+      },
+      "message": "Foamie shells are fixed-form — no actuator pop-up. Choose the fixed roof."
+    },
+    {
+      "id": "foamie-no-drive",
+      "type": "forbid",
+      "when": {
+        "build_class": "foamie",
+        "drivetrain": [
+          "regen",
+          "awd",
+          "range_neutral"
+        ]
+      },
+      "message": "Propulsion belongs on the engineered frame, not a foam build. Move up to the Slipstream box."
+    },
+    {
+      "id": "foamie-big-battery",
+      "type": "forbid",
+      "when": {
+        "build_class": "foamie",
+        "battery": [
+          "kwh16",
+          "kwh20",
+          "salvage80"
+        ]
+      },
+      "message": "Foamie structure can't carry a frame-integrated big pack — 8-12 kWh max."
+    },
+    {
+      "id": "foamie-no-wetstall",
+      "type": "forbid",
+      "when": {
+        "build_class": "foamie",
+        "shower": "wet_stall"
+      },
+      "message": "No interior wet stall in a foamie."
+    },
+    {
+      "id": "foamie-long-box",
+      "type": "warn",
+      "when": {
+        "build_class": "foamie",
+        "box_length": [
+          "b15",
+          "b18"
+        ]
+      },
+      "message": "Foamies live at 12' and under — longer foam spans get floppy."
+    },
+    {
+      "id": "foamie-4season",
+      "type": "warn",
+      "when": {
+        "build_class": "foamie",
+        "season": "s4"
+      },
+      "message": "A 4-season foamie is a stretch — foam + glue joints and deep winter don't mix."
+    },
+    {
+      "id": "actuators-fixed",
+      "type": "warn",
+      "when": {
+        "roof_type": "fixed",
+        "actuators": "linak48"
+      },
+      "message": "Fixed roof has no actuators - the LINAK upgrade does nothing here."
+    }
+  ],
+  "profiles": [
+    {
+      "id": "reference",
+      "name": "Reference Build #1 — TJ's config",
+      "emoji": "✅",
+      "matchDefaults": true
+    },
+    {
+      "id": "rangeneutral",
+      "name": "Range-neutral — pushes your car",
+      "emoji": "🔋",
+      "match": {
+        "drivetrain": "range_neutral"
+      }
+    },
+    {
+      "id": "foamie",
+      "name": "Foamie self-build",
+      "emoji": "⛺",
+      "match": {
+        "build_class": "foamie"
+      }
+    },
+    {
+      "id": "overland",
+      "name": "Overland",
+      "emoji": "🛞",
+      "match": {
+        "drivetrain": [
+          "regen",
+          "awd"
+        ]
+      }
+    },
+    {
+      "id": "basecamp",
+      "name": "Base Camp (4-season)",
+      "emoji": "⛰️",
+      "match": {
+        "season": "s4"
+      }
+    },
+    {
+      "id": "explorer",
+      "name": "Explorer (3-season)",
+      "emoji": "🥾",
+      "match": {
+        "season": "s3"
+      }
+    },
+    {
+      "id": "expedition",
+      "name": "Expedition rig",
+      "emoji": "🏜️",
+      "match": {
+        "offroad": "pkg"
+      }
+    },
+    {
+      "id": "weekend",
+      "name": "Weekend base camp",
+      "emoji": "🏕️",
+      "match": {
+        "season": "summer"
+      }
+    }
+  ],
+  "tiers": [
+    {
+      "id": "rangeneutral",
+      "name": "Range-Neutral",
+      "priceRange": "~$90-120K target",
+      "match": {
+        "drivetrain": "range_neutral"
+      }
+    },
+    {
+      "id": "foamie",
+      "name": "Foamie",
+      "priceRange": "~$5-12K",
+      "match": {
+        "build_class": "foamie"
+      }
+    },
+    {
+      "id": "overland",
+      "name": "Overland",
+      "priceRange": "~$80-100K",
+      "match": {
+        "drivetrain": [
+          "regen",
+          "awd"
+        ]
+      }
+    },
+    {
+      "id": "basecamp",
+      "name": "Base Camp",
+      "priceRange": "~$70-90K",
+      "match": {
+        "season": "s4"
+      }
+    },
+    {
+      "id": "explorer",
+      "name": "Explorer",
+      "priceRange": "~$50-60K",
+      "match": {
+        "season": "s3"
+      }
+    },
+    {
+      "id": "weekend",
+      "name": "Weekend",
+      "priceRange": "~$30-40K",
+      "match": {
+        "season": "summer"
+      }
+    }
+  ],
+  "meta": {
+    "source": "PROJECT-SLIPSTREAM-Cowork-Handoff.md sections 2-7, 2026-06-25",
+    "sharedParts": [
+      "victron-multiplus2-48",
+      "victron-cerbo-gx",
+      "victron-mppt",
+      "nema-14-50-inlet",
+      "curt-echo",
+      "48v-linear-actuator"
+    ],
+    "derivedChecks": [
+      "dryWeight<=maxTowLb-800cargo",
+      "tongue(12%dry)<=maxTongueLb",
+      "width vs matchWidthIn"
+    ],
+    "todos": [
+      "Real weight/cost numbers replace first-order estimates as V0.1 purchases land",
+      "'House BUS' as tow-vehicle option once bus rear-hardpoint spec is final",
+      "Jurisdiction rules layer (state length/width/brake requirements)",
+      "Open-source inverter/drive stack: community GitHub repo for motor controller + tongue-force controller (swap any portion)",
+      "Salvaged Model 3/Y pack: sourcing channels, BMS integration, frame-around-pack reference geometry",
+      "Powered-trailer regulatory map (DMV registration/inspection by state)",
+      "Frame fabricator + composite panel supplier quotes (Sourcing doc §7)",
+      "LINAK 48V actuator quote",
+      "Salvage pack BMS integration path (keep Tesla BMS + CAN decode vs replace)"
+    ],
+    "sourcing": "Slipstream_Component_Sourcing_v0_1.md - street prices 2026-07; parts[] estUsd values trace there"
+  }
+};
+
+const state = {};
+CONFIG.forks.forEach(f => { state[f.key] = (f.options.find(o => o.default) || f.options[0]).id; });
+
+function opt(key){ const f = CONFIG.forks.find(f => f.key === key); return f.options.find(o => o.id === state[key]); }
+
+function matches(cond){
+  return Object.entries(cond).every(([k, v]) => Array.isArray(v) ? v.includes(state[k]) : state[k] === v);
+}
+
+function evalRules(){
+  const out = { forbid: [], warn: [] };
+  CONFIG.rules.forEach(r => { if (matches(r.when)) out[r.type].push(r); });
+  return out;
+}
+
+function render(){
+  const root = document.getElementById("options"); root.innerHTML = "";
+  const rules = evalRules();
+  const badForks = new Set();
+  rules.forbid.forEach(r => Object.keys(r.when).forEach(k => badForks.add(k + ":" + state[k])));
+  CONFIG.categories.slice().sort((a,b) => a.order - b.order).forEach(cat => {
+    const h = document.createElement("div"); h.className = "cat"; h.textContent = cat.label; root.appendChild(h);
+    CONFIG.forks.filter(f => f.category === cat.id).forEach(f => {
+      const card = document.createElement("div"); card.className = "card";
+      card.innerHTML = `<h3>${f.label}</h3><p class="hint">${f.hint || ""}</p>`;
+      const row = document.createElement("div"); row.className = "opts";
+      f.options.forEach(o => {
+        const el = document.createElement("div");
+        const sel = state[f.key] === o.id;
+        const bad = sel && badForks.has(f.key + ":" + o.id);
+        el.className = "opt" + (sel ? " sel" : "") + (bad ? " bad" : "");
+        el.innerHTML = `${o.name}<small>${o.sub || ""}</small>`;
+        el.onclick = () => { state[f.key] = o.id; render(); compute(); };
+        row.appendChild(el);
+      });
+      card.appendChild(row); root.appendChild(card);
+    });
+  });
+}
+
+function compute(){
+  const base = CONFIG.product.base;
+  let lb = 0, cost = 0, kwhD = 0, solarD = 0, drag = 0, sets = {};
+  const flags = [];
+  CONFIG.forks.forEach(f => {
+    const o = f.options.find(o => o.id === state[f.key]);
+    const e = o.effects || {};
+    lb += e.addLb || 0; cost += e.addCostUsd || 0; kwhD += e.kwh || 0;
+    solarD += e.solarW || 0; drag += e.dragPct || 0;
+    Object.assign(sets, o.sets || {});
+    if (o.note) flags.push(o.note);
+  });
+  const dry = base.dryWeightLb + lb;
+  const kwh = 12 + kwhD;
+  const solar = 1050 + solarD;
+  const tongue = Math.round(dry * 0.12);
+  const rn = !!sets.rangeNeutral;
+  const loss = rn ? 0 : Math.max(5, base.baseRangeLossPct + drag + Math.max(0, Math.round((dry - base.dryWeightLb) / 200)));
+  const costT = base.costBasisUsd + cost;
+
+  const rules = evalRules();
+  // derived checks
+  const loaded = dry + 800;
+  if (sets.maxTowLb && loaded > sets.maxTowLb) {
+    if (rn) rules.warn.push({ message: `Loaded weight ~${loaded.toLocaleString()} lb exceeds the nominal ${sets.maxTowLb.toLocaleString()} lb tow rating — propulsion carries the load while powered, but hitch class, braking, and state regs still apply. Verify.` });
+    else rules.forbid.push({ message: `Loaded weight ~${loaded.toLocaleString()} lb exceeds the ${sets.maxTowLb.toLocaleString()} lb tow rating.` });
+  }
+  else if (sets.maxTowLb && loaded > sets.maxTowLb * 0.9 && !rn) rules.warn.push({ message: `Loaded weight ~${loaded.toLocaleString()} lb is within 10% of the ${sets.maxTowLb.toLocaleString()} lb tow rating.` });
+  if (sets.maxTongueLb && tongue > sets.maxTongueLb) rules.forbid.push({ message: `Est. tongue weight ${tongue} lb exceeds the ${sets.maxTongueLb} lb limit.` });
+  else if (sets.maxTongueLb && tongue > sets.maxTongueLb * 0.9) rules.warn.push({ message: `Est. tongue weight ${tongue} lb is close to the ${sets.maxTongueLb} lb limit.` });
+
+  const set = (id, v) => document.getElementById(id).textContent = v;
+  set("dry", dry.toLocaleString() + " lb");
+  set("tongue", "~" + tongue + " lb");
+  set("kwh", kwh + " kWh");
+  set("solar", "~" + solar + " W");
+  set("loss", rn ? "≈0% (pushes itself)" : "~" + loss + "%");
+  set("cost", "~$" + (Math.round(costT / 100) * 100).toLocaleString());
+  document.getElementById("dry").className = (sets.maxTowLb && loaded > sets.maxTowLb) ? "over" : "";
+  document.getElementById("tongue").className = (sets.maxTongueLb && tongue > sets.maxTongueLb) ? "over" : "";
+
+  // profile
+  const allDefault = CONFIG.forks.every(f => { const d = f.options.find(o => o.default); return d && state[f.key] === d.id; });
+  let prof = "Custom build";
+  for (const p of CONFIG.profiles) {
+    if (p.matchDefaults) { if (allDefault) { prof = (p.emoji || "") + " " + p.name; break; } }
+    else if (matches(p.match)) { prof = (p.emoji || "") + " " + p.name; break; }
+  }
+  set("profile", prof);
+  const tier = CONFIG.tiers.find(t => matches(t.match));
+  set("tier", tier ? `Price tier: ${tier.name} · ${tier.priceRange}` : "Price tier: —");
+
+  // build skill — the trailer's ladder is build complexity, not range
+  let skill = 2;
+  if (state.build_class === "foamie") skill = 1;
+  if (state.season === "s4" || state.shower === "wet_stall" || state.roof_type === "popup_hard") skill = Math.max(skill, 3);
+  if (state.drivetrain !== "none" || state.battery === "salvage80") skill = 4;
+  set("skill", "Build skill: " + ["", "Beginner — foam, glue, weekend tools", "Intermediate — composite box + 48V systems", "Advanced — sealed shell, full climate envelope", "Expert — HV pack + propulsion + DMV paperwork"][skill]);
+
+  document.getElementById("banner").style.display = rules.forbid.length ? "block" : "none";
+  const ul = document.getElementById("issues"); ul.innerHTML = "";
+  const li = (t, cls) => { const el = document.createElement("li"); el.textContent = t; el.className = cls; ul.appendChild(el); };
+  rules.forbid.forEach(r => li("✕ " + r.message, "err"));
+  rules.warn.forEach(r => li("⚠ " + r.message, "wrn"));
+  flags.forEach(n => li("⚑ " + n, "flg"));
+
+  // BOM: base parts + parts on selected options
+  const bom = [...(CONFIG.product.baseParts || [])];
+  CONFIG.forks.forEach(f => {
+    const o = f.options.find(o => o.id === state[f.key]);
+    (o.parts || []).forEach(p => bom.push(p));
+  });
+  const bomUl = document.getElementById("bom"); bomUl.innerHTML = "";
+  let known = 0;
+  bom.forEach(p => {
+    const line = `${p.name}${p.qty > 1 ? " ×" + p.qty : ""}` + (p.estUsd ? ` — ~$${(p.estUsd * p.qty).toLocaleString()}` : " — TBD");
+    if (p.estUsd) known += p.estUsd * p.qty;
+    const el = document.createElement("li"); el.textContent = line; bomUl.appendChild(el);
+  });
+  document.getElementById("bomtotal").textContent =
+    `Vendor-researched subtotal ~$${known.toLocaleString()} · remainder of the ~$${(Math.round(costT/100)*100).toLocaleString()} basis = materials, small parts & items without vendor data yet (Sourcing doc v0.1)`;
+}
+
+function resetDefaults(){
+  CONFIG.forks.forEach(f => { state[f.key] = (f.options.find(o => o.default) || f.options[0]).id; });
+  render(); compute();
+}
+
+render(); compute();
+</script>
+</body>
+</html>
