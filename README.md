@@ -25,7 +25,8 @@ The tier ladder is **build complexity, not range**:
 
 - `docs/` — design source of truth: the fork-tree handoff (every decision point + rationale), the three-version prototype roadmap (V0.1 bench → V0.5 rolling → V1.0 refined), and vendor sourcing research
 - `engineering/` — subsystem design tracks for the V0.1 bench build: battery pack (SS01), electrical core (SS02), pop-up actuation (SS03), composite shell (SS04), frame & chassis (SS05), aero/CFD (SS06) — each traced to its V0.1 gate and the T1–T10 interface map
-- `configurator/` — `slipstream.config.json` (the full fork tree in `df-configurator/v1` schema: 62 forks, 45 compatibility rules, parts/BOM data) and a self-contained HTML configurator — open it in any browser
+- `configurator/` — `slipstream.config.json` (the full fork tree in `df-configurator/v1` schema, with compatibility rules and parts/BOM data) and a self-contained HTML configurator — open it in any browser
+- `guides/` — follow-along procedural guides for builders; first up: the salvage Tesla donor procurement & teardown guide (safety-gated, sourced against Tesla service manuals + PHMSA guidance)
 
 The configurator data format is shared with the House BUS (see `Configurator_Platform_Spec.md` in that repo); a standalone configurator app consuming both products is planned as its own repository.
 
