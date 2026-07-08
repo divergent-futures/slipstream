@@ -1087,10 +1087,16 @@ const CONFIG = {
           "todo": "open-source motor controller + tongue-force controller repo",
           "parts": [
             {
-              "id": "tesla-sdu-openinverter",
-              "name": "Salvage Tesla small drive unit + openinverter logic board (torque software-limited)",
+              "id": "tesla-rear-du",
+              "name": "Salvage Model 3/Y rear drive unit (front SDU $500-1,150 budget alt)",
               "qty": 1,
-              "estUsd": 2800
+              "estUsd": 1500
+            },
+            {
+              "id": "m3du-logic-board",
+              "name": "Maguire M3-DU open logic board V3.2 (or EV Controls T2-C commercial alt)",
+              "qty": 1,
+              "estUsd": 500
             },
             {
               "id": "zombieverter-vcu",
@@ -1109,6 +1115,12 @@ const CONFIG = {
               "name": "HV cabling, service disconnect, isolation monitor, fusing",
               "qty": 1,
               "estUsd": 750
+            },
+            {
+              "id": "can-monitoring",
+              "name": "Scan My Tesla harness + dongle + tablet dash (Model3CAN DBC)",
+              "qty": 1,
+              "estUsd": 150
             }
           ]
         }
@@ -1228,6 +1240,141 @@ const CONFIG = {
           "effects": {
             "addCostUsd": 450
           }
+        }
+      ]
+    },
+    {
+      "key": "home_power",
+      "label": "Home power (V2H)",
+      "hint": "The trailer works 12 months a year: camping in summer, home overflow storage in winter.",
+      "category": "power",
+      "options": [
+        {
+          "id": "none",
+          "name": "None",
+          "sub": "camping only",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "generator_mode",
+          "name": "Generator mode",
+          "sub": "inlet + interlock · NEC 702 · works on any config",
+          "effects": {
+            "addCostUsd": 500
+          },
+          "parts": [
+            {
+              "id": "gen-inlet-kit",
+              "name": "House-side kit: NEMA 14-50 inlet + panel interlock + cord + NEC 702.7(C) signage",
+              "qty": 1,
+              "estUsd": 500
+            }
+          ],
+          "note": "Trailer inverter feeds the house essentials (~2.4 kW at 3000VA, ~4 kW at 5000VA). MultiPlus ground relay configured for house-feed mode - solves the N-G bond GFCI failure that plagues Lightning-as-generator setups. Legally a cord-connected portable source; no UL 9540."
+        },
+        {
+          "id": "seasonal_dock",
+          "name": "Seasonal AC-coupled dock",
+          "sub": "400V pack docks to a home hybrid inverter all winter",
+          "effects": {
+            "addLb": 15,
+            "addCostUsd": 3400
+          },
+          "parts": [
+            {
+              "id": "solis-s6-11k",
+              "name": "House-side: Solis S6-EH1P11.4K-H-US hybrid inverter (11.4 kW)",
+              "qty": 1,
+              "estUsd": 2400
+            },
+            {
+              "id": "battery-emulator-wall",
+              "name": "House-side: Battery-Emulator wall node (LilyGo)",
+              "qty": 1,
+              "estUsd": 70
+            },
+            {
+              "id": "hv-dock-connector",
+              "name": "Trailer-side: HV dock connector + wiring (CCS-inlet class)",
+              "qty": 1,
+              "estUsd": 600
+            },
+            {
+              "id": "gen-inlet-kit",
+              "name": "House-side: inlet + interlock (backup path retained)",
+              "qty": 1,
+              "estUsd": 500
+            }
+          ],
+          "note": "Whole-critical-loads backup + solar charging + TOU arbitrage; 75 kWh = ~2.6 days full-house, weeks of essentials. Undercuts OEM V2H ($4-10K). Pioneer territory: no published mobile-dock precedent; AHJ classification is a documented gray zone. Possible 30% solar ITC for dual-use - verify with tax professional."
+        }
+      ]
+    },
+    {
+      "key": "hv_charging",
+      "label": "Propulsion pack charging (road)",
+      "hint": "How the 400V pack refills away from the home dock. Range-Neutral tier only.",
+      "category": "power",
+      "options": [
+        {
+          "id": "none",
+          "name": "None / dock only",
+          "sub": "reference · unpowered trailers skip this",
+          "default": true,
+          "effects": {}
+        },
+        {
+          "id": "elcon",
+          "name": "Elcon TC 6.6 kW",
+          "sub": "110-440 VDC out · any NEMA 14-50 pedestal",
+          "effects": {
+            "addLb": 25,
+            "addCostUsd": 1850
+          },
+          "parts": [
+            {
+              "id": "elcon-tc-66",
+              "name": "Elcon/TC 6.6 kW charger (110-440 VDC, CAN)",
+              "qty": 1,
+              "estUsd": 1850
+            }
+          ]
+        },
+        {
+          "id": "donor_pcs",
+          "name": "Donor Tesla PCS (~11 kW)",
+          "sub": "free with the pack · experimental",
+          "effects": {
+            "addLb": 5,
+            "addCostUsd": 150
+          },
+          "parts": [
+            {
+              "id": "maguire-pcs-controller",
+              "name": "Maguire open PCS controller board",
+              "qty": 1,
+              "estUsd": 120
+            }
+          ],
+          "note": "The pack penthouse already contains an 11 kW charger + 12V DC-DC. Open controller works but expect tuning (forum-supported, semi-mature)."
+        },
+        {
+          "id": "volt_stack",
+          "name": "Chevy Volt charger stack",
+          "sub": "3.3 kW/unit · salvage-cheap · CAN heartbeat documented",
+          "effects": {
+            "addLb": 30,
+            "addCostUsd": 500
+          },
+          "parts": [
+            {
+              "id": "volt-charger-x2",
+              "name": "2x salvage Volt HV chargers + CAN keep-alive node",
+              "qty": 1,
+              "estUsd": 450
+            }
+          ]
         }
       ]
     },
@@ -3408,6 +3555,62 @@ const CONFIG = {
         "box_length": "b12"
       },
       "message": "A ~1,000 lb pack wants the 15' or 18' box and the tandem-axle frame rework (SS07)."
+    },
+    {
+      "id": "dock-needs-pack",
+      "type": "forbid",
+      "when": {
+        "home_power": "seasonal_dock",
+        "propulsion_pack": "none"
+      },
+      "message": "The seasonal dock couples the 400V propulsion pack to the house - it needs the salvage pack. Generator mode works on any config."
+    },
+    {
+      "id": "hvcharge-needs-pack",
+      "type": "forbid",
+      "when": {
+        "hv_charging": [
+          "elcon",
+          "donor_pcs",
+          "volt_stack"
+        ],
+        "propulsion_pack": "none"
+      },
+      "message": "HV charging is for the 400V propulsion pack - add the pack or set charging to none."
+    },
+    {
+      "id": "rn-wants-hvcharge",
+      "type": "warn",
+      "when": {
+        "drivetrain": "range_neutral",
+        "hv_charging": "none",
+        "home_power": [
+          "none",
+          "generator_mode"
+        ]
+      },
+      "message": "A propulsion pack with no road charger and no dock only refills from regen - add a charging path."
+    },
+    {
+      "id": "genmode-small-inverter",
+      "type": "warn",
+      "when": {
+        "home_power": [
+          "generator_mode",
+          "seasonal_dock"
+        ],
+        "inverter": "va2000"
+      },
+      "message": "House feed at 2000VA is ~1.6 kW - fridge and lights only. Consider 3000VA+."
+    },
+    {
+      "id": "foamie-no-v2h-dock",
+      "type": "forbid",
+      "when": {
+        "build_class": "foamie",
+        "home_power": "seasonal_dock"
+      },
+      "message": "No HV dock on a foamie. Generator mode from a portable power station is the foamie answer."
     }
   ],
   "profiles": [
@@ -3556,11 +3759,16 @@ const CONFIG = {
       "Propulsion pack charging path: salvage Tesla PCS vs CCS via openinverter vs solar-only",
       "Tandem-axle frame rework scope for Range-Neutral tier (SS05/SS07)",
       "Composite panel quotes: Total Composites + Carbon-Core vs self-layup ($8-23/sqft band makes buying competitive - SS04)",
-      "Frame fabricator quotes (Gate 7, <=$6k)"
+      "Frame fabricator quotes (Gate 7, <=$6k)",
+      "HV dock connector standard (CCS inlet reuse vs Amphenol HVIL) - safety review (SS08 Q1)",
+      "AHJ written determination on seasonal-dock classification - get one, publish it (SS08 Q5)",
+      "ITC dual-use tax claim verification (SS08 Q6)",
+      "Maguire M3-DU V3.2 field reports vs EV Controls T2-C decision (SS07/SS08)"
     ],
     "sourcing": "Slipstream_Component_Sourcing_v0_1.md - street prices 2026-07; parts[] estUsd values trace there",
     "research": "docs/Slipstream_Tier_Spectrum_Research_v0_1.md - tier numbers trace there",
-    "lowMidSourcing": "docs/Slipstream_LowMid_Sourcing_v0_1.md - low/mid tier prices trace there"
+    "lowMidSourcing": "docs/Slipstream_LowMid_Sourcing_v0_1.md - low/mid tier prices trace there",
+    "salvageResearch": "docs/Slipstream_Salvage_V2H_Research_v0_1.md"
   }
 };
 
