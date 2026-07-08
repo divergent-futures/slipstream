@@ -55,6 +55,7 @@ The 400V→48V conversion wall (no affordable >3 kW converter exists) means the 
 
 ## 6. Open questions
 
+0. **RESOLVED direction (2026-07-08, Guide #3 research):** controller path = **Maguire M3-DU V3.2 / openinverter** — the trailer is headless (no pedal, no vehicle-plausibility signals) and needs continuous CAN regen commands; EV Controls T2-C stock firmware "detects there is no vehicle attached" and is unfit for trailer duty. V3.2 is tester-grade (shipped Mar 2026, no independent field reports yet) — bench-validate hard. **New design driver: PMSM back-EMF** — the rear DU's DC link is live whenever the trailer rolls; contactor/interlock/service design must assume energized-when-moving. Gearing confirmed: 9.036:1, ~6,450 motor RPM at 65 mph on 30.6" trailer tires — the complete DU is the e-axle, no extra reduction. **Trade study opened: induction FRONT unit** (no magnets = no back-EMF when towed = safer dead-trailer; newer board support, lower efficiency).
 1. SDU torque-limiting calibration — how low can openinverter cleanly cap a 220 kW unit for a 20 kW duty?
 2. Load cell spec: 3-axis (sway-capable) vs single-axis tension/compression + IMU fusion
 3. Charging the propulsion pack: shore NEMA 14-50 via salvage Tesla PCS (Maguire controller exists) vs CCS via openinverter — or solar-only trickle?
