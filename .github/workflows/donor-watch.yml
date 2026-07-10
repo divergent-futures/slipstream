@@ -1,0 +1,41 @@
+name: donor-watch
+on:
+  schedule:
+    - cron: "0 */6 * * *"   # every 6 hours — keep it polite
+  workflow_dispatch: {}      # manual run button
+
+permissions:
+  contents: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests
+      - name: Build config from secrets
+        run: |
+          cd tools/donor-watch
+          python3 - << 'EOF'
+          import json
+          cfg = json.load(open("config.example.json"))
+          import os
+          if os.environ.get("NTFY_TOPIC"):
+              cfg["ntfy_topic"] = os.environ["NTFY_TOPIC"]
+          json.dump(cfg, open("config.json", "w"), indent=2)
+          EOF
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+      - name: Run watch
+        run: cd tools/donor-watch && python3 donor_watch.py
+        continue-on-error: true   # blocked sources are expected, not failures
+      - name: Commit updated watchlist
+        run: |
+          git config user.name "donor-watch"
+          git config user.email "actions@users.noreply.github.com"
+          git add tools/donor-watch/watchlist.json || true
+          git diff --cached --quiet || git commit -m "donor-watch: update watchlist [skip ci]"
+          git push
