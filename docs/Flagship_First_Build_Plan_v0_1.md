@@ -72,5 +72,6 @@ Deletions: EVE pack system (−$2.9K), 48V MultiPlus + DC-DCs (−$1.7K). Additi
 4. **Dead-battery towing** — 3,400+ lb loaded with assist offline exceeds the Y's comfort; contingency = discharge-limited return legs + the 3,500 line existing for exactly this
 5. **Model Y hitch/brake legalities** — loaded-at-rating is legal; the assist makes it *nicer*, not *more legal* — stay at/under 3,500 loaded, period
 6. **Insurance/registration** (SS08 gray zones) — engage early, document, publish
+7. **Highland PCS unproven with the open controller** (split-donor consequence): the 12V house spine and 11 kW shore charging both ride on the donor PCS; on a 2024-2025 pack donor neither is demonstrated yet. Phase-A bench gate tests exactly this; fallback = Elcon TC 6.6 kW charger + industrial 400→12V DC-DC (~1-2 kW) + larger 12V buffer. DU comes from the proven 2021-2023 pool regardless
 
 *v0.1. Feeds: SS02 (12V spine variant), SS05 (frame-around-pack), SS07 (now Build #1, gate removed), configurator (no-48V-pack option). The reference summer build remains the configurator default and future kit — this doc changes what TJ builds, not what Slipstream offers.*

@@ -62,8 +62,11 @@ def score_lot(lot, cfg):
         reasons.append(f"good geometry: {dmg}")
     if "rear" in dmg:
         reasons.append("rear hit preserves front thermal gear (Octovalve Lane-2 harvest)")
-    if (lot.get("year") or 0) >= 2023:
-        reasons.append("2023+ donor: newer chemistry, 16V lithium LV, mature heat pump (flagship preference)")
+    yr0 = lot.get("year") or 0
+    if yr0 >= 2024:
+        reasons.append("2024+ FLAGSHIP PACK DONOR: Highland/Juniper-era, Battery-Emulator-confirmed (Digital HVIL), newest chemistry/SoH; note DU/PCS open-board support unproven on 2024+ - split-donor strategy")
+    elif 2021 <= yr0 <= 2023:
+        reasons.append("2021-2023: proven-DU-path donor (Maguire board demonstrated) - the drive-unit half of the split-donor strategy")
     if lot.get("run_drive"):
         reasons.append("Run and Drive")
     if len(vin) >= 11 and vin[10] == "F":
@@ -76,7 +79,7 @@ def score_lot(lot, cfg):
         reasons.append("parts-only title (cheaper; check your state's buyer rules)")
 
     risky = any(r.startswith("inspect-first") for r in reasons)
-    good = any(r.startswith(("good", "HAIL", "Run", "Fremont", "likely", "2023+")) for r in reasons)
+    good = any(r.startswith(("good", "HAIL", "Run", "Fremont", "likely", "2024+", "2021-2023")) for r in reasons)
     if risky and not good:
         return "review", reasons
     return ("match" if good else "review"), reasons
