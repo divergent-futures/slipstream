@@ -1,6 +1,6 @@
 # SS07 — Propulsion (Range-Neutral tier) · Design Track
 
-**Status:** Detailed v0.1 (research-grounded, pre-build) · **Sequence:** after V1.0 of the base trailer — this is a *tier*, not part of Reference Build #1
+**Status:** Detailed v0.1 (research-grounded, pre-build) · **Sequence:** ~~after V1.0 of the base trailer~~ **THIS IS BUILD #1** (Flagship-First pivot, TJ 2026-07-08 — see `docs/Flagship_First_Build_Plan_v0_1.md`: ≤3,500 lb loaded behind the Model Y, CATL LFP pack preferred, no 48V house pack — 12V spine off the donor PCS)
 **Traces to:** configurator Range-Neutral tier · **Research basis:** `docs/Slipstream_Tier_Spectrum_Research_v0_1.md`
 **Design thesis:** the Lightship/Pebble/ZF-Dethleffs control architecture, executed open-source with salvage Tesla hardware, published as its own community repo.
 

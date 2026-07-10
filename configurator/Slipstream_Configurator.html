@@ -834,6 +834,37 @@ const CONFIG = {
             "addCostUsd": 3600
           },
           "note": "May exceed Model Y tow envelope depending on other choices."
+        },
+        {
+          "id": "pcs12v",
+          "name": "None - 12V spine off donor PCS",
+          "sub": "flagship · ~2.5 kW from the HV pack · deletes 230 lb",
+          "effects": {
+            "kwh": -12,
+            "addLb": -180,
+            "addCostUsd": -1400
+          },
+          "parts": [
+            {
+              "id": "12v-buffer-lfp",
+              "name": "12V 100Ah LFP buffer battery",
+              "qty": 1,
+              "estUsd": 300
+            },
+            {
+              "id": "multiplus-12-3000",
+              "name": "Victron MultiPlus 12/3000 (120V loads)",
+              "qty": 1,
+              "estUsd": 1100
+            },
+            {
+              "id": "maguire-pcs-controller",
+              "name": "Maguire open PCS controller (12V rail + shore charging)",
+              "qty": 1,
+              "estUsd": 120
+            }
+          ],
+          "note": "The donor pack PCS ran the whole car at 12V (~193A/2.5 kW). House loads ride it directly; buffer battery catches solar + keeps the trailer alive when the pack winters at the house. Requires the salvage propulsion pack."
         }
       ]
     },
@@ -3611,6 +3642,39 @@ const CONFIG = {
         "home_power": "seasonal_dock"
       },
       "message": "No HV dock on a foamie. Generator mode from a portable power station is the foamie answer."
+    },
+    {
+      "id": "pcs12v-needs-pack",
+      "type": "forbid",
+      "when": {
+        "battery": "pcs12v",
+        "propulsion_pack": "none"
+      },
+      "message": "The 12V-spine option draws from the salvage HV pack PCS - it requires the propulsion pack."
+    },
+    {
+      "id": "pcs12v-inverter-moot",
+      "type": "warn",
+      "when": {
+        "battery": "pcs12v",
+        "inverter": [
+          "va2000",
+          "va5000"
+        ]
+      },
+      "message": "With the 12V spine, the 48V inverter fork is replaced by the MultiPlus 12/3000 in the option parts - inverter selection is moot."
+    },
+    {
+      "id": "pcs12v-load-mgmt",
+      "type": "warn",
+      "when": {
+        "battery": "pcs12v",
+        "cooling": [
+          "win8k",
+          "minisplit_c"
+        ]
+      },
+      "message": "2.5 kW PCS ceiling: bigger AC + water heater + induction need Cerbo load management (never simultaneous)."
     }
   ],
   "profiles": [
@@ -3763,12 +3827,14 @@ const CONFIG = {
       "HV dock connector standard (CCS inlet reuse vs Amphenol HVIL) - safety review (SS08 Q1)",
       "AHJ written determination on seasonal-dock classification - get one, publish it (SS08 Q5)",
       "ITC dual-use tax claim verification (SS08 Q6)",
-      "Maguire M3-DU V3.2 field reports vs EV Controls T2-C decision (SS07/SS08)"
+      "Maguire M3-DU V3.2 field reports vs EV Controls T2-C decision (SS07/SS08)",
+      "Flagship-first: PCS 2kW+ 1-hr bench validation is the D-F2 gate (Flagship_First_Build_Plan v0.1)"
     ],
     "sourcing": "Slipstream_Component_Sourcing_v0_1.md - street prices 2026-07; parts[] estUsd values trace there",
     "research": "docs/Slipstream_Tier_Spectrum_Research_v0_1.md - tier numbers trace there",
     "lowMidSourcing": "docs/Slipstream_LowMid_Sourcing_v0_1.md - low/mid tier prices trace there",
-    "salvageResearch": "docs/Slipstream_Salvage_V2H_Research_v0_1.md"
+    "salvageResearch": "docs/Slipstream_Salvage_V2H_Research_v0_1.md",
+    "flagshipPlan": "docs/Flagship_First_Build_Plan_v0_1.md - TJ Build #1 = Range-Neutral flagship, <=3,500 lb loaded behind Model Y, no 48V pack"
   }
 };
 
