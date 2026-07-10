@@ -26,10 +26,9 @@ Subsystem-by-subsystem detailing of the V0.1 bench scope (see `docs/PROJECT-SLIP
 | [SS03](SS03_Popup_Actuation.design.md) | Pop-up actuation (quad actuator rig) | Gate 3: 50 cycles, 200 lb, ≤1° rack | Detailed v0.1 |
 | [SS04](SS04_Composite_Shell.design.md) | Composite shell (foam-core panels) | Panel samples: structural + water-intrusion tests | Detailed v0.1 |
 | [SS05](SS05_Frame_and_Chassis.design.md) | Frame & chassis (alu frame, axle, tow) | Gate 7: fabricator quote signed ≤$6,000 | Detailed v0.1 |
+| [SS05a](SS05a_Flagship_Frame_Layout.design.md) | Flagship frame & layout study | Phase C CAD brief — axle @54%, tongue 303-327 lb, subframe-as-axle | Layout v0.1 |
 | [SS06](SS06_Aero_CFD.design.md) | Aero / CFD | Gates 4-5: ≤10% drag added @65 mph; tunnel within 15% | Detailed v0.1 |
 | [SS07](SS07_Propulsion.design.md) | Propulsion (Range-Neutral tier) | **BUILD #1** (flagship-first pivot) — hitch-force assist, salvage Tesla stack | Detailed v0.1 (pre-build) |
 | [SS08](SS08_Salvage_Donor_and_V2H.design.md) | Salvage donor integration & V2H | Tier-1 V2H validates in V0.5 shore testing; dock = RN tier | Detailed v0.1 |
 
-**Sequence:** SS01 + SS02 first (bench electrical is the long pole and everything monitors through it) → SS03 rig → SS04 samples in parallel → SS05 drawings/quote → SS06 runs continuously from locked geometry.
-
-Weight discipline: every track lists its mass contribution against the 1,900 lb dry target. Tongue weight never exceeds 350 lb (roadmap I.3).
+**Sequence:** SS01 
