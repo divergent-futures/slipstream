@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Slipstream — Trailer Configurator (open-source prototype)</title>
+<title>Slipstream — Trailer Configurator (df-configurator/v1)</title>
 <style>
   :root{--navy:#1f3a56;--green:#2f6b2f;--accent:#6aa84f;--rust:#8a3d17;--paper:#f7f9fb;--line:#dce3ea;}
   *{box-sizing:border-box;}
@@ -47,39 +47,35 @@
 </head>
 <body>
 <header>
-  <h1>Slipstream — Trailer Configurator <span style="opacity:.6;font-size:13px;">· open-source prototype</span></h1>
-  <p>Same platform philosophy as the House BUS: pick your forks, every branch is a real design fork. Defaults = Reference Build #1. Numbers are first-order estimates for iteration.</p>
+  <h1 id="hdr-title"></h1>
+  <p id="hdr-sub"></p>
 </header>
 
 <div class="wrap">
   <div class="options" id="options"></div>
   <div class="summary">
     <div class="card">
-      <div class="sum-h"><h3>Your trailer</h3></div>
+      <div class="sum-h"><h3 id="sum-title">Your build</h3></div>
       <div class="invalid-banner" id="banner">Invalid configuration — fix the red flags below.</div>
       <div class="profile" id="profile">—</div>
-      <div class="tierbox" id="tier">—</div>
-      <div class="tierbox" id="skill">—</div>
-      <div class="big"><span>Dry weight</span><b id="dry">—</b></div>
-      <div class="big"><span>Est. tongue weight</span><b id="tongue">—</b></div>
-      <div class="big"><span>Battery</span><b id="kwh">—</b></div>
-      <div class="big"><span>Roof solar</span><b id="solar">—</b></div>
-      <div class="big"><span>Est. tow range loss</span><b id="loss">—</b></div>
-      <div class="big"><span>Component cost basis</span><b id="cost">—</b></div>
+      <div class="tierbox" id="tier" style="display:none">—</div>
+      <div id="metrics"></div>
+      <div class="tierbox" id="skill" style="display:none">—</div>
       <ul class="lst" id="issues"></ul>
-      <details style="margin-top:10px;">
+      <details id="bomwrap" style="margin-top:10px;display:none;">
         <summary style="font-size:12.5px;font-weight:600;cursor:pointer;color:var(--green);">Parts list (vendor-researched)</summary>
         <ul class="lst" id="bom"></ul>
         <div class="tierbox" id="bomtotal">—</div>
       </details>
-      <span class="reset" onclick="resetDefaults()">↺ reset to Reference Build #1</span>
-      <div class="note">First-order only. Cost basis = components/materials; self-build labor uncounted. Kit retail ≈ ~1.6× cost basis. Tow limits assume ~800 lb of water/gear/cargo on top of dry weight.</div>
+      <span class="reset" onclick="resetDefaults()" id="resetbtn">↺ reset to defaults</span>
+      <div class="note" id="footnote" style="display:none"></div>
     </div>
   </div>
 </div>
-<footer>Slipstream · Divergent Futures / Terrestrial Technology · open-source (CERN-OHL-S / MIT / CC-BY). Schema: df-configurator/v1 — data lives in slipstream.config.json.</footer>
+<footer id="pagefoot"></footer>
 
 <script>
+// df-configurator/v1 generic engine — one engine, N products; product identity lives in CONFIG.ui
 const CONFIG = {
   "schema": "df-configurator/v1",
   "product": {
@@ -3835,42 +3831,108 @@ const CONFIG = {
     "lowMidSourcing": "docs/Slipstream_LowMid_Sourcing_v0_1.md - low/mid tier prices trace there",
     "salvageResearch": "docs/Slipstream_Salvage_V2H_Research_v0_1.md",
     "flagshipPlan": "docs/Flagship_First_Build_Plan_v0_1.md - TJ Build #1 = Range-Neutral flagship, <=3,500 lb loaded behind Model Y, no 48V pack"
+  },
+  "ui": {
+    "title": "Slipstream — Trailer Configurator",
+    "subtitle": "Same platform philosophy as the House BUS: pick your forks, every branch is a real design fork. Defaults = Reference Build #1. Numbers are first-order estimates for iteration.",
+    "footer": "Slipstream · Divergent Futures / Terrestrial Technology · open-source (CERN-OHL-S / MIT / CC-BY). df-configurator/v1 — data lives in slipstream.config.json.",
+    "summaryTitle": "Your trailer",
+    "resetLabel": "reset to Reference Build #1",
+    "note": "First-order only. Cost basis = components/materials; self-build labor uncounted. Kit retail ≈ ~1.6× cost basis. Tow limits assume ~800 lb of water/gear/cargo on top of dry weight.",
+    "bomNote": "remainder of the cost basis = materials, small parts & items without vendor data yet",
+    "trailerPhysics": {
+      "dryMetric": "dry",
+      "cargoLb": 800
+    },
+    "suppressBaseParts": {
+      "build_class": "foamie"
+    },
+    "metrics": [
+      {
+        "id": "dry",
+        "label": "Dry weight",
+        "base": 1900,
+        "addKey": "addLb",
+        "unit": " lb"
+      },
+      {
+        "id": "kwh",
+        "label": "House battery",
+        "base": 12,
+        "addKey": "kwh",
+        "unit": " kWh"
+      },
+      {
+        "id": "solar",
+        "label": "Roof solar",
+        "base": 1050,
+        "addKey": "solarW",
+        "unit": " W",
+        "approx": true
+      },
+      {
+        "id": "cost",
+        "label": "Component cost basis",
+        "base": 30000,
+        "addKey": "addCostUsd",
+        "money": true
+      }
+    ]
   }
 };
 
+const UI = CONFIG.ui || {};
+document.getElementById("hdr-title").textContent = UI.title || CONFIG.product.name + " — Configurator";
+document.getElementById("hdr-sub").textContent = UI.subtitle || CONFIG.product.tagline || "";
+document.getElementById("pagefoot").textContent = UI.footer || (CONFIG.product.name + " · df-configurator/v1 — data lives in " + CONFIG.product.id + ".config.json");
+if (UI.resetLabel) document.getElementById("resetbtn").textContent = "↺ " + UI.resetLabel;
+if (UI.note) { const n=document.getElementById("footnote"); n.textContent = UI.note; n.style.display="block"; }
+if (UI.summaryTitle) document.getElementById("sum-title").textContent = UI.summaryTitle;
+
+// metric rows
+const M = UI.metrics || [];
+const mwrap = document.getElementById("metrics");
+M.forEach(m => {
+  const d = document.createElement("div"); d.className = "big";
+  d.innerHTML = `<span>${m.label}</span><b id="m_${m.id}">—</b>`;
+  mwrap.appendChild(d);
+});
+// trailer-physics extra rows (tongue + range loss) injected after metrics if enabled
+if (UI.trailerPhysics) {
+  const rows = [["m_tongue","Est. tongue weight"],["m_loss","Est. tow range loss"]];
+  rows.forEach(([id,label],i)=>{
+    const d=document.createElement("div");d.className="big";
+    d.innerHTML=`<span>${label}</span><b id="${id}">—</b>`;
+    mwrap.insertBefore(d, mwrap.children[i+1] || null);
+  });
+  document.getElementById("skill").style.display="block";
+}
+if (CONFIG.tiers && CONFIG.tiers.length) document.getElementById("tier").style.display="block";
+
 const state = {};
 CONFIG.forks.forEach(f => { state[f.key] = (f.options.find(o => o.default) || f.options[0]).id; });
-
-function opt(key){ const f = CONFIG.forks.find(f => f.key === key); return f.options.find(o => o.id === state[key]); }
-
-function matches(cond){
-  return Object.entries(cond).every(([k, v]) => Array.isArray(v) ? v.includes(state[k]) : state[k] === v);
-}
-
-function evalRules(){
-  const out = { forbid: [], warn: [] };
-  CONFIG.rules.forEach(r => { if (matches(r.when)) out[r.type].push(r); });
-  return out;
-}
+function matches(cond){ return Object.entries(cond).every(([k,v]) => Array.isArray(v) ? v.includes(state[k]) : state[k] === v); }
+function evalRules(){ const out={forbid:[],warn:[]}; (CONFIG.rules||[]).forEach(r=>{ if(matches(r.when)) out[r.type].push(r); }); return out; }
 
 function render(){
-  const root = document.getElementById("options"); root.innerHTML = "";
-  const rules = evalRules();
-  const badForks = new Set();
-  rules.forbid.forEach(r => Object.keys(r.when).forEach(k => badForks.add(k + ":" + state[k])));
-  CONFIG.categories.slice().sort((a,b) => a.order - b.order).forEach(cat => {
-    const h = document.createElement("div"); h.className = "cat"; h.textContent = cat.label; root.appendChild(h);
-    CONFIG.forks.filter(f => f.category === cat.id).forEach(f => {
-      const card = document.createElement("div"); card.className = "card";
-      card.innerHTML = `<h3>${f.label}</h3><p class="hint">${f.hint || ""}</p>`;
-      const row = document.createElement("div"); row.className = "opts";
-      f.options.forEach(o => {
-        const el = document.createElement("div");
-        const sel = state[f.key] === o.id;
-        const bad = sel && badForks.has(f.key + ":" + o.id);
-        el.className = "opt" + (sel ? " sel" : "") + (bad ? " bad" : "");
-        el.innerHTML = `${o.name}<small>${o.sub || ""}</small>`;
-        el.onclick = () => { state[f.key] = o.id; render(); compute(); };
+  const root=document.getElementById("options"); root.innerHTML="";
+  const rules=evalRules();
+  const badForks=new Set();
+  rules.forbid.forEach(r=>Object.keys(r.when).forEach(k=>badForks.add(k+":"+state[k])));
+  (CONFIG.categories||[{id:"_",label:"Options",order:1}]).slice().sort((a,b)=>a.order-b.order).forEach(cat=>{
+    const forks=CONFIG.forks.filter(f=>(f.category||"_")===cat.id);
+    if(!forks.length) return;
+    const h=document.createElement("div"); h.className="cat"; h.textContent=cat.label; root.appendChild(h);
+    forks.forEach(f=>{
+      const card=document.createElement("div"); card.className="card";
+      card.innerHTML=`<h3>${f.label}</h3><p class="hint">${f.hint||""}</p>`;
+      const row=document.createElement("div"); row.className="opts";
+      f.options.forEach(o=>{
+        const el=document.createElement("div");
+        const sel=state[f.key]===o.id;
+        el.className="opt"+(sel?" sel":"")+((sel&&badForks.has(f.key+":"+o.id))?" bad":"");
+        el.innerHTML=`${o.name}<small>${o.sub||""}</small>`;
+        el.onclick=()=>{state[f.key]=o.id;render();compute();};
         row.appendChild(el);
       });
       card.appendChild(row); root.appendChild(card);
@@ -3879,87 +3941,96 @@ function render(){
 }
 
 function compute(){
-  const base = CONFIG.product.base;
-  let lb = 0, cost = 0, kwhD = 0, solarD = 0, drag = 0, sets = {};
-  const flags = [];
-  CONFIG.forks.forEach(f => {
-    const o = f.options.find(o => o.id === state[f.key]);
-    const e = o.effects || {};
-    lb += e.addLb || 0; cost += e.addCostUsd || 0; kwhD += e.kwh || 0;
-    solarD += e.solarW || 0; drag += e.dragPct || 0;
-    Object.assign(sets, o.sets || {});
-    if (o.note) flags.push(o.note);
+  // accumulate additive + multiplicative effects and sets
+  const sums={}, mults={}, sets={}; const flags=[];
+  CONFIG.forks.forEach(f=>{
+    const o=f.options.find(o=>o.id===state[f.key]);
+    Object.entries(o.effects||{}).forEach(([k,v])=>{
+      if(k.endsWith("Mult")||k==="rangeMult"||k==="kwhMult"){ mults[k]=(mults[k]??1)*v; }
+      else { sums[k]=(sums[k]||0)+v; }
+    });
+    Object.assign(sets,o.sets||{});
+    if(o.note) flags.push(o.note);
   });
-  const dry = base.dryWeightLb + lb;
-  const kwh = 12 + kwhD;
-  const solar = 1050 + solarD;
-  const tongue = Math.round(dry * 0.12);
-  const rn = !!sets.rangeNeutral;
-  const loss = rn ? 0 : Math.max(5, base.baseRangeLossPct + drag + Math.max(0, Math.round((dry - base.dryWeightLb) / 200)));
-  const costT = base.costBasisUsd + cost;
+  const metricVal={};
+  M.forEach(m=>{
+    let v=(m.base||0)+(m.addKey?(sums[m.addKey]||0):0);
+    if(m.multKey&&mults[m.multKey]) v*=mults[m.multKey];
+    (m.extraMultKeys||[]).forEach(k=>{ if(mults[k]) v*=mults[k]; });
+    v=Math.round(v);
+    metricVal[m.id]=v;
+    const txt=(m.money?"~$":"")+(m.money?(Math.round(v/100)*100).toLocaleString():((m.approx?"~":"")+v.toLocaleString()))+(m.unit||"");
+    document.getElementById("m_"+m.id).textContent=txt;
+  });
 
-  const rules = evalRules();
-  // derived checks
-  const loaded = dry + 800;
-  if (sets.maxTowLb && loaded > sets.maxTowLb) {
-    if (rn) rules.warn.push({ message: `Loaded weight ~${loaded.toLocaleString()} lb exceeds the nominal ${sets.maxTowLb.toLocaleString()} lb tow rating — propulsion carries the load while powered, but hitch class, braking, and state regs still apply. Verify.` });
-    else rules.forbid.push({ message: `Loaded weight ~${loaded.toLocaleString()} lb exceeds the ${sets.maxTowLb.toLocaleString()} lb tow rating.` });
+  const rules=evalRules();
+
+  // trailer physics (data-gated)
+  if(UI.trailerPhysics){
+    const base=CONFIG.product.base;
+    const dry=metricVal[UI.trailerPhysics.dryMetric||"dry"];
+    const tongue=Math.round(dry*0.12);
+    const rn=!!sets.rangeNeutral;
+    const loss=rn?0:Math.max(5,(base.baseRangeLossPct||25)+(sums.dragPct||0)+Math.max(0,Math.round((dry-(base.dryWeightLb||dry))/200)));
+    document.getElementById("m_tongue").textContent="~"+tongue+" lb";
+    document.getElementById("m_loss").textContent=rn?"≈0% (pushes itself)":"~"+loss+"%";
+    const loaded=dry+(UI.trailerPhysics.cargoLb||800);
+    if(sets.maxTowLb&&loaded>sets.maxTowLb){
+      if(rn) rules.warn.push({message:`Loaded weight ~${loaded.toLocaleString()} lb exceeds the nominal ${sets.maxTowLb.toLocaleString()} lb tow rating — propulsion carries the load while powered, but hitch class, braking, and state regs still apply. Verify.`});
+      else rules.forbid.push({message:`Loaded weight ~${loaded.toLocaleString()} lb exceeds the ${sets.maxTowLb.toLocaleString()} lb tow rating.`});
+    } else if(sets.maxTowLb&&loaded>sets.maxTowLb*0.9&&!rn) rules.warn.push({message:`Loaded weight ~${loaded.toLocaleString()} lb is within 10% of the ${sets.maxTowLb.toLocaleString()} lb tow rating.`});
+    if(sets.maxTongueLb&&tongue>sets.maxTongueLb&&!rn) rules.forbid.push({message:`Est. tongue weight ${tongue} lb exceeds the ${sets.maxTongueLb} lb limit.`});
+    else if(sets.maxTongueLb&&tongue>sets.maxTongueLb*0.9) rules.warn.push({message:`Est. tongue weight ${tongue} lb is close to the ${sets.maxTongueLb} lb limit.`});
+    document.getElementById("m_dry")&&(document.getElementById("m_dry").className=(sets.maxTowLb&&loaded>sets.maxTowLb&&!rn)?"over":"");
+    document.getElementById("m_tongue").className=(sets.maxTongueLb&&tongue>sets.maxTongueLb)?"over":"";
+    // build skill
+    let skill=2;
+    if(state.build_class==="foamie") skill=1;
+    if(state.season==="s4"||state.shower==="wet_stall"||state.roof_type==="popup_hard") skill=Math.max(skill,3);
+    if((state.drivetrain&&state.drivetrain!=="none")||(state.propulsion_pack&&state.propulsion_pack!=="none")) skill=4;
+    document.getElementById("skill").textContent="Build skill: "+["","Beginner — foam, glue, weekend tools","Intermediate — composite box + electrical systems","Advanced — sealed shell, full climate envelope","Expert — HV pack + propulsion + DMV paperwork"][skill];
   }
-  else if (sets.maxTowLb && loaded > sets.maxTowLb * 0.9 && !rn) rules.warn.push({ message: `Loaded weight ~${loaded.toLocaleString()} lb is within 10% of the ${sets.maxTowLb.toLocaleString()} lb tow rating.` });
-  if (sets.maxTongueLb && tongue > sets.maxTongueLb) rules.forbid.push({ message: `Est. tongue weight ${tongue} lb exceeds the ${sets.maxTongueLb} lb limit.` });
-  else if (sets.maxTongueLb && tongue > sets.maxTongueLb * 0.9) rules.warn.push({ message: `Est. tongue weight ${tongue} lb is close to the ${sets.maxTongueLb} lb limit.` });
 
-  const set = (id, v) => document.getElementById(id).textContent = v;
-  set("dry", dry.toLocaleString() + " lb");
-  set("tongue", "~" + tongue + " lb");
-  set("kwh", kwh + " kWh");
-  set("solar", "~" + solar + " W");
-  set("loss", rn ? "≈0% (pushes itself)" : "~" + loss + "%");
-  set("cost", "~$" + (Math.round(costT / 100) * 100).toLocaleString());
-  document.getElementById("dry").className = (sets.maxTowLb && loaded > sets.maxTowLb) ? "over" : "";
-  document.getElementById("tongue").className = (sets.maxTongueLb && tongue > sets.maxTongueLb) ? "over" : "";
-
-  // profile
-  const allDefault = CONFIG.forks.every(f => { const d = f.options.find(o => o.default); return d && state[f.key] === d.id; });
-  let prof = "Custom build";
-  for (const p of CONFIG.profiles) {
-    if (p.matchDefaults) { if (allDefault) { prof = (p.emoji || "") + " " + p.name; break; } }
-    else if (matches(p.match)) { prof = (p.emoji || "") + " " + p.name; break; }
+  // profile + tier
+  const allDefault=CONFIG.forks.every(f=>{const d=f.options.find(o=>o.default);return d&&state[f.key]===d.id;});
+  let prof="Custom build";
+  for(const p of (CONFIG.profiles||[])){
+    if(p.matchDefaults){ if(allDefault){prof=(p.emoji||"")+" "+p.name;break;} }
+    else if(matches(p.match)){ prof=(p.emoji||"")+" "+p.name; break; }
   }
-  set("profile", prof);
-  const tier = CONFIG.tiers.find(t => matches(t.match));
-  set("tier", tier ? `Price tier: ${tier.name} · ${tier.priceRange}` : "Price tier: —");
+  document.getElementById("profile").textContent=prof;
+  const tier=(CONFIG.tiers||[]).find(t=>matches(t.match));
+  if(tier) document.getElementById("tier").textContent=`Price tier: ${tier.name} · ${tier.priceRange}`;
 
-  // build skill — the trailer's ladder is build complexity, not range
-  let skill = 2;
-  if (state.build_class === "foamie") skill = 1;
-  if (state.season === "s4" || state.shower === "wet_stall" || state.roof_type === "popup_hard") skill = Math.max(skill, 3);
-  if (state.drivetrain !== "none" || state.battery === "salvage80") skill = 4;
-  set("skill", "Build skill: " + ["", "Beginner — foam, glue, weekend tools", "Intermediate — composite box + 48V systems", "Advanced — sealed shell, full climate envelope", "Expert — HV pack + propulsion + DMV paperwork"][skill]);
+  document.getElementById("banner").style.display=rules.forbid.length?"block":"none";
+  const ul=document.getElementById("issues"); ul.innerHTML="";
+  const li=(t,cls)=>{const el=document.createElement("li");el.textContent=t;el.className=cls;ul.appendChild(el);};
+  rules.forbid.forEach(r=>li("✕ "+r.message,"err"));
+  rules.warn.forEach(r=>li("⚠ "+r.message,"wrn"));
+  flags.forEach(n=>li("⚑ "+n,"flg"));
 
-  document.getElementById("banner").style.display = rules.forbid.length ? "block" : "none";
-  const ul = document.getElementById("issues"); ul.innerHTML = "";
-  const li = (t, cls) => { const el = document.createElement("li"); el.textContent = t; el.className = cls; ul.appendChild(el); };
-  rules.forbid.forEach(r => li("✕ " + r.message, "err"));
-  rules.warn.forEach(r => li("⚠ " + r.message, "wrn"));
-  flags.forEach(n => li("⚑ " + n, "flg"));
-
-  // BOM: base parts + parts on selected options (foamie replaces the composite platform, so no baseParts)
-  const bom = state.build_class === "foamie" ? [] : [...(CONFIG.product.baseParts || [])];
-  CONFIG.forks.forEach(f => {
-    const o = f.options.find(o => o.id === state[f.key]);
-    (o.parts || []).forEach(p => bom.push(p));
-  });
-  const bomUl = document.getElementById("bom"); bomUl.innerHTML = "";
-  let known = 0;
-  bom.forEach(p => {
-    const line = `${p.name}${p.qty > 1 ? " ×" + p.qty : ""}` + (p.estUsd ? ` — ~$${(p.estUsd * p.qty).toLocaleString()}` : " — TBD");
-    if (p.estUsd) known += p.estUsd * p.qty;
-    const el = document.createElement("li"); el.textContent = line; bomUl.appendChild(el);
-  });
-  document.getElementById("bomtotal").textContent =
-    `Vendor-researched subtotal ~$${known.toLocaleString()} · remainder of the ~$${(Math.round(costT/100)*100).toLocaleString()} basis = materials, small parts & items without vendor data yet (Sourcing doc v0.1)`;
+  // BOM (generic; base parts suppressible via UI.suppressBaseParts condition)
+  const suppress=UI.suppressBaseParts&&matches(UI.suppressBaseParts);
+  const bom=suppress?[]:[...(CONFIG.product.baseParts||[])];
+  CONFIG.forks.forEach(f=>{const o=f.options.find(o=>o.id===state[f.key]);(o.parts||[]).forEach(p=>bom.push(p));});
+  const wrap=document.getElementById("bomwrap");
+  if(bom.length){
+    wrap.style.display="block";
+    const bomUl=document.getElementById("bom"); bomUl.innerHTML=""; let known=0;
+    bom.forEach(p=>{
+      const line=`${p.name}${p.qty>1?" ×"+p.qty:""}`+(p.estUsd?` — ~$${(p.estUsd*p.qty).toLocaleString()}`:" — TBD");
+      if(p.estUsd) known+=p.estUsd*p.qty;
+      const el=document.createElement("li"); el.textContent=line; bomUl.appendChild(el);
+    });
+    document.getElementById("bomtotal").textContent=`Vendor-researched subtotal ~$${known.toLocaleString()}`+(UI.bomNote?` · ${UI.bomNote}`:"");
+  } else wrap.style.display="none";
 }
 
 function resetDefaults(){
-  CONFIG.forks.forEach(f => { state[f.key] = (f.options.find(o => o.default) ||
+  CONFIG.forks.forEach(f=>{state[f.key]=(f.options.find(o=>o.default)||f.options[0]).id;});
+  render(); compute();
+}
+render(); compute();
+</script>
+</body>
+</html>

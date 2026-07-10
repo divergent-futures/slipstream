@@ -3753,5 +3753,52 @@
     "lowMidSourcing": "docs/Slipstream_LowMid_Sourcing_v0_1.md - low/mid tier prices trace there",
     "salvageResearch": "docs/Slipstream_Salvage_V2H_Research_v0_1.md",
     "flagshipPlan": "docs/Flagship_First_Build_Plan_v0_1.md - TJ Build #1 = Range-Neutral flagship, <=3,500 lb loaded behind Model Y, no 48V pack"
+  },
+  "ui": {
+    "title": "Slipstream — Trailer Configurator",
+    "subtitle": "Same platform philosophy as the House BUS: pick your forks, every branch is a real design fork. Defaults = Reference Build #1. Numbers are first-order estimates for iteration.",
+    "footer": "Slipstream · Divergent Futures / Terrestrial Technology · open-source (CERN-OHL-S / MIT / CC-BY). df-configurator/v1 — data lives in slipstream.config.json.",
+    "summaryTitle": "Your trailer",
+    "resetLabel": "reset to Reference Build #1",
+    "note": "First-order only. Cost basis = components/materials; self-build labor uncounted. Kit retail ≈ ~1.6× cost basis. Tow limits assume ~800 lb of water/gear/cargo on top of dry weight.",
+    "bomNote": "remainder of the cost basis = materials, small parts & items without vendor data yet",
+    "trailerPhysics": {
+      "dryMetric": "dry",
+      "cargoLb": 800
+    },
+    "suppressBaseParts": {
+      "build_class": "foamie"
+    },
+    "metrics": [
+      {
+        "id": "dry",
+        "label": "Dry weight",
+        "base": 1900,
+        "addKey": "addLb",
+        "unit": " lb"
+      },
+      {
+        "id": "kwh",
+        "label": "House battery",
+        "base": 12,
+        "addKey": "kwh",
+        "unit": " kWh"
+      },
+      {
+        "id": "solar",
+        "label": "Roof solar",
+        "base": 1050,
+        "addKey": "solarW",
+        "unit": " W",
+        "approx": true
+      },
+      {
+        "id": "cost",
+        "label": "Component cost basis",
+        "base": 30000,
+        "addKey": "addCostUsd",
+        "money": true
+      }
+    ]
   }
 }
