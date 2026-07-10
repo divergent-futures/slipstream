@@ -14,12 +14,12 @@ The tier ladder is **build complexity, not range**:
 
 | Tier | ~Price | What it is |
 |---|---|---|
-| Foamie | $5–12K | Beginner A-frame/foam build, weekend tools |
+| Foamie | $3–12K | Beginner A-frame/foam build, weekend tools |
 | Weekend | $30–40K | The reference: 12' pop-up, summer, 12 kWh, sleeps 2 |
 | Explorer | $50–60K | 3-season, heat pump, bigger systems |
 | Base Camp | $70–90K | 4-season, interior wet stall, expedition tanks |
 | Overland | $80–100K | Off-road package + drive assist |
-| Range-Neutral | $90–120K | Salvaged Tesla Model 3/Y pack (~80 kWh) + tongue-force-sensing propulsion — the trailer pushes itself; your car loses ≈0% range |
+| Range-Neutral | $90–120K | Salvaged Tesla Model 3/Y pack (55–80 kWh) + tongue-force-sensing propulsion — the trailer pushes itself; your car loses ≈0% range. Doubles as a winter home battery (V2H) |
 
 ## Repository structure
 
@@ -32,7 +32,7 @@ The configurator data format is shared with the House BUS (see `Configurator_Pla
 
 ## Status
 
-Pre-build. Reference Build #1 (the maintainer's personal summer/Model Y config) is locked and V0.1 bench validation is scheduled Q3 2026 → Q1 2027. Numbers in the configurator are first-order estimates; they get replaced by real weights and invoices as the build progresses.
+Pre-build, flagship-first: **Build #1 is the Range-Neutral flagship** (salvage CATL LFP pack, ≤3,500 lb loaded behind a Tesla Model Y, 12V house spine off the donor PCS) — see `docs/Flagship_First_Build_Plan_v0_1.md`. The summer reference build remains the configurator default and the future kit. The `guides/` series (donor procurement → pack commissioning → drive-unit bring-up) is the flagship's build path, written for anyone to follow. Numbers in the configurator are researched street prices and first-order estimates; they get replaced by real weights and invoices as the build progresses.
 
 ## License
 

@@ -1,5 +1,7 @@
 # PROJECT SLIPSTREAM — Prototype Roadmap
 
+> **⚠️ BUILD ORDER SUPERSEDED (2026-07-08):** Build #1 is now the Range-Neutral flagship — see [`Flagship_First_Build_Plan_v0_1.md`](Flagship_First_Build_Plan_v0_1.md), which changes locked decisions I.2 #2 (weight target → ≤3,500 lb *loaded*), #3 (no 12 kWh 48V house pack → 12V spine off the donor PCS), and the version arc below. This document remains the reference-build (Weekend tier) roadmap — the future kit — and its bench methods, gates, and budget discipline still govern.
+
 **Version:** v0.1 | **Date:** 2026-06-25 | **Owner:** TJ
 **References:** Concept synthesis conversation, 2026-06-25. All numbers below trace to locked decisions in Part I.2.
 
