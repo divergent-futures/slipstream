@@ -31,14 +31,15 @@
 1. **Register:** Copart (Basic $99/yr) and/or IAAI (~$200/yr, photo ID). Check your state on IAAI's buyer-eligibility page — CA/CT/VA/MI/IL-class states need a broker ($200–600 flat) for salvage titles.
 2. **Search & calibrate:** live inventory on both; **bid.cars** shows historical hammer prices — spend an evening there before bidding anything.
 3. **Selection filter — bid only when ALL true:**
-   - [ ] Damage = **front or rear collision** (crush zones did their job; pack sits between them)
+   - [ ] Damage geometry acceptable: **hail is the top-tier donor** (cosmetic write-off, pack/drivetrain/thermal all intact), **rear** preserves the front thermal gear, **front** is fine for pack-only harvest. **Side and undercarriage hits are inspect-first, not auto-reject** — extensive-looking damage can be shallow; go look (or buy contingent on the Phase-3 BMS gate) before striking them
+   - [ ] **Year preference for the flagship: 2023–2025** — newer LFP chemistry (Gen2 CATL), 16V lithium low-voltage architecture (2022+), mature heat pump, better safety systems. Older donors are budget-tier, not wrong. (2024+ packs need the "Digital HVIL" setting in Battery-Emulator — Guide #2)
    - [ ] **"Run and Drive"** flag if available (weak promise, but it's the best cheap signal the pack was alive post-crash)
    - [ ] VIN digit 11 = **F** (Fremont); trim confirms 2170 LR or CATL LFP
    - [ ] Title = salvage certificate (keeps hulk resale open) — parts-only/non-repairable is acceptable *and cheaper* if your state lets you buy it and you'll scrap the shell
 4. **Hard NOs — walk away:**
    - ✕ **Flood/water damage, any hint** (damage code, water lines, silt, fogged lenses, coastal hurricane yards). Flood packs corrode internally and can go into *delayed* thermal runaway. Not negotiable.
    - ✕ Fire damage, melted underbody plastics
-   - ✕ **Hard side impact or underbody strike** (enclosure/cooling damage photos won't show)
+   - ✕ ~~Hard side impact or underbody strike~~ → moved to inspect-first (above): photos can't clear them, but eyes-on + the Phase-3 BMS gate can. The pack enclosure inspection in Phase 3 is the real gate
    - ✕ Dash photos showing **BMS_u029 / BMS_u018** ("maximum charge level reduced" / brick imbalance) — that car is at auction *because* the pack is dying
    - ✕ Austin 4680 structural pack
 5. **Airbags deployed is FINE.** Deployment fires the pyrotechnic HV disconnect — that's a ~$100–300 replaceable part, and it's why the listing says the HV is dead. The modules behind it are usually untouched. This is the single biggest mispricing in the market and it works in your favor.
@@ -88,6 +89,7 @@ Tesla's service manual procedures (free, service.tesla.com: "HV Battery — Remo
 - [ ] **Charge port + charge-port ECU + port-to-pack HV harness** (required for PCS charging; Gen4 ECU enables CCS)
 - [ ] Drive-unit harness (spliceable; labeled aftermarket versions exist)
 - [ ] Coolant pumps + lines feeding the pack (pack thermal in the trailer)
+- [ ] **THE COMPLETE THERMAL SYSTEM (Lane-2 harvest, costs nothing extra):** Octovalve/SUPERMANifold, HV AC compressor, radiators + chiller, cabin HVAC assembly, every thermal harness. No CAN on the manifold — it needs the (WIP) open-source heat pump controller to run outside the car, but harvested now it's a free future upgrade that unifies cabin climate + pack thermal + DU cooling off the HV pack. **Donor nuance: this gear lives in the FRONT of the car — rear-hit donors preserve both the pack and the thermal system; front-hit donors may have crushed it.**
 - [ ] LV harness sections, mounting hardware, and every orange cable run
 
 **Sell (typical part-out yields):** MCU/screen $1,200–2,500 · wheels/tires ~$2K · doors, glass, lights, seats, door handles ($200–300 each!) · unused drive unit $3–6K. Parting out yields 30–40% over selling whole; budget 2–3 hours per item to pull/test/list. Salvage-cert shell → rolling shell to rebuilders; parts-only shell → scrap.

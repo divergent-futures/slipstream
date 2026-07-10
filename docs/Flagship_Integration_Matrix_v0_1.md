@@ -42,6 +42,10 @@ Legend: ✅ part(s) in BOM · 🔧 fabrication/design scope (not a purchasable p
 | 27 | HV safety | isolation monitor, disconnect, fusing, in-pack pyro | ✅ |
 | 28 | Weight/tongue governance | — | 🔧 CAD-carried; tongue ~350 lb at the Y's cap = design war #2 (Flagship Plan §3) |
 
+## Lane 2 (deferred upgrade): donor Octovalve thermal system
+
+TJ direction 2026-07-08: harvest the donor's complete heat-pump/Octovalve system at teardown (free) as the future replacement for rows 6 + 23 — it would unify cabin cool + cabin HEAT (3-season upgrade) + pack thermal + DU cooling in one HV-powered system, exactly the House BUS thermal thesis at trailer scale. Blocked on the openinverter "Tesla Heatpump Controller" (WIP, no CAN on the SUPERMANifold — every actuator must be driven directly; compressor control unfinished). Lane 1 (Midea AC + simple thermal loop) builds now; thermal bay gets mounting/plumbing provisions for the swap (SS04/SS05 note). Donor selection: rear-hit preserves the front-mounted thermal gear.
+
 ## Verdict
 
 **No missing purchasable parts remain.** The pass found and fixed: the missing **propulsion thermal loop** (the one true hardware gap — pack and DU inverter both need coolant on sustained assist), a **config bug** double-counting the 48V inverter in the flagship BOM, stale **48V wording** on actuators/backbone/lighting for the 12V-spine build, and an unstated **solar-at-12V ceiling** (now a warn rule).

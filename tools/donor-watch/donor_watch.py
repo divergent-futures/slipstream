@@ -45,7 +45,7 @@ def score_lot(lot, cfg):
     vin = (lot.get("vin") or "").upper()
     title = (lot.get("title_type") or "").lower()
 
-    # hard rejects
+    # hard rejects (flood is non-negotiable; everything else is human-checkable)
     for bad in ("flood", "water", "burn", "fire"):
         if bad in dmg or bad in dmg2:
             return "reject", [f"damage includes '{bad}'"]
@@ -53,11 +53,17 @@ def score_lot(lot, cfg):
         return "reject", ["Austin-built (VIN pos 11 = A): 4680 structural pack"]
     for bad in ("undercarriage", "side"):
         if bad in dmg:
-            reasons.append(f"risky damage geometry: {dmg}")
+            reasons.append(f"inspect-first geometry ({dmg}) - human review, not auto-reject")
 
     # positives
+    if "hail" in dmg or "hail" in dmg2:
+        reasons.append("HAIL total - cosmetic write-off, pack/drivetrain/thermal all likely intact (top-tier donor)")
     if any(g in dmg for g in ("front", "rear")):
         reasons.append(f"good geometry: {dmg}")
+    if "rear" in dmg:
+        reasons.append("rear hit preserves front thermal gear (Octovalve Lane-2 harvest)")
+    if (lot.get("year") or 0) >= 2023:
+        reasons.append("2023+ donor: newer chemistry, 16V lithium LV, mature heat pump (flagship preference)")
     if lot.get("run_drive"):
         reasons.append("Run and Drive")
     if len(vin) >= 11 and vin[10] == "F":
@@ -69,8 +75,8 @@ def score_lot(lot, cfg):
     if "parts only" in title or "non-repairable" in title:
         reasons.append("parts-only title (cheaper; check your state's buyer rules)")
 
-    risky = any(r.startswith("risky") for r in reasons)
-    good = any(r.startswith(("good", "Run", "Fremont", "likely")) for r in reasons)
+    risky = any(r.startswith("inspect-first") for r in reasons)
+    good = any(r.startswith(("good", "HAIL", "Run", "Fremont", "likely", "2023+")) for r in reasons)
     if risky and not good:
         return "review", reasons
     return ("match" if good else "review"), reasons
@@ -160,10 +166,22 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--config", default=str(HERE / "config.json"))
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--approve", action="append", default=[], metavar="SOURCE:LOTID", help="mark a lot human-approved (tracked + urgent reminders)")
+    ap.add_argument("--reject", action="append", default=[], metavar="SOURCE:LOTID", help="strike a lot from the list")
     args = ap.parse_args()
     cfg = json.loads(Path(args.config).read_text())
     state_path = HERE / "watchlist.json"
     state = json.loads(state_path.read_text()) if state_path.exists() else {"lots": {}}
+    # human verdicts first (these work offline, no fetching)
+    for key in args.approve:
+        state["lots"].setdefault(key, {})["human"] = "approved"
+    for key in args.reject:
+        state["lots"].setdefault(key, {})["human"] = "rejected"
+    if args.approve or args.reject:
+        state_path.write_text(json.dumps(state, indent=2))
+        print("verdicts recorded:", ", ".join(args.approve + ["-" + r for r in args.reject]))
+        if not (len(sys.argv) > 1 and "--dry-run" in sys.argv):
+            return
 
     lots, failures = [], []
     for name in cfg.get("sources", ["copart", "iaai"]):
@@ -178,19 +196,23 @@ def main():
     for lot in lots:
         verdict, reasons = score_lot(lot, cfg)
         key = f"{lot['source']}:{lot['lot_id']}"
-        known = key in state["lots"]
-        state["lots"][key] = {"seen": datetime.now(timezone.utc).isoformat(), "verdict": verdict, **lot}
-        if verdict != "match":
+        prev = state["lots"].get(key, {})
+        known = bool(prev)
+        human = prev.get("human", "pending")
+        state["lots"][key] = {"seen": datetime.now(timezone.utc).isoformat(), "verdict": verdict, "human": human, **lot}
+        if verdict == "reject" or human == "rejected":
             continue
         h = hours_until(lot.get("auction_utc"))
         desc = (f"{lot.get('year','?')} {lot.get('model','?')} | {lot.get('damage','?')}"
                 f" | {lot.get('yard','?')} | bid ${lot.get('current_bid','?')}"
                 f" | {'auctions in %.0f h' % h if h and h > 0 else 'auction time unknown'}"
                 f" | {', '.join(reasons)} | {lot['url']}")
+        tag = {"approved": "[APPROVED] ", "pending": "[NEEDS REVIEW] "}.get(human, "")
         if not known:
-            new_matches.append(desc)
+            new_matches.append(tag + desc)
+        # urgent countdown reminders: approved always; pending flagged so the human decides in time
         if h is not None and 0 < h <= cfg.get("urgent_hours", 48):
-            urgent.append(desc)
+            urgent.append(tag + desc)
 
     if urgent:
         lines.append("🚨 AUCTIONS WITHIN %d H:\n" % cfg.get("urgent_hours", 48) + "\n".join(urgent))

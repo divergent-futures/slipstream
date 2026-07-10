@@ -23,6 +23,17 @@ python3 donor_watch.py --dry-run       # first run, no state written
 
 The workflow at `.github/workflows/donor-watch.yml` runs every 6 hours on a fork of this repo, commits the updated `watchlist.json` (so your watch history is versioned), and notifies via your ntfy topic (set repo secret `NTFY_TOPIC`). Fork → add secret → enable Actions.
 
+## Human-in-the-loop verdicts
+
+Every surfaced lot is **[NEEDS REVIEW]** until you decide — open the listing, eyeball the damage, then:
+
+```bash
+python3 donor_watch.py --approve copart:12345678   # keep tracking + urgent countdown reminders
+python3 donor_watch.py --reject copart:12345678    # strike it from the list for good
+```
+
+Approved lots carry **[APPROVED]** in every subsequent report and countdown alert; rejected lots never appear again. Nothing is silently dismissed by the filter except flood/fire and Austin-4680 — side/undercarriage hits surface with an "inspect-first" flag because photos can't clear them but a human can.
+
 ## Ground rules
 
 - **Watch, don't bot.** This tool never logs in, never bypasses CAPTCHAs, and defaults to a polite schedule. Bidding happens with your own Copart/IAAI account, by you.
