@@ -51,7 +51,7 @@ The 400V→48V conversion wall (no affordable >3 kW converter exists) means the 
 - Friction brakes + breakaway (15-min hold, 49 CFR 393.43) are non-negotiable; regen never substitutes
 - Home-built powered trailer at a state VIN inspection = untested; expect inspector discretion. Document everything; CA (SPCNS) and WA (homemade-RV guide) are the best-documented paths
 - Insurance for a powered homebuilt is unwritten — carry as a standing configurator warning
-- **Patent clearance before publishing the controller repo:** US 11,642,970, US 12,162,363/12,416,536, US 12,187,133 cover coupling-force-controlled powered trailers. Design-around review is a gate for the public repo.
+- **Patent clearance: RESOLVED at engineering level (2026-07-09, `docs/Patent_DesignAround_Memo_v0_1.md`).** The suspected blockers turned out to be Range Energy (semi-trailer rail-bogie/kingpin architecture — misses ours entirely) and narrow K-Ryole/Hymer claims (per-wheel motors + 3-axis sensing + observer model — we have one motor, single-axis load cell, PID). Our core approach is the lapsed Felt US 8,261,859 (2010): freely practicable and invalidating prior art against generic claims. Design rules for Guide #4: one motor, directly-measured single-axis drawbar force, tension-band control law (never frame as "incline-proportional preload"), ball hitch, fixed axle/battery. Remaining gate for repo PUBLICATION only: one counsel session (bless the memo, pull full '536 claims, pending-app search). Controller design/firmware work proceeds now.
 
 ## 6. Open questions
 
