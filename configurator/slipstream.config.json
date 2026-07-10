@@ -67,7 +67,7 @@
       },
       {
         "id": "wiring-backbone",
-        "name": "48V wiring harness backbone + protection",
+        "name": "LV wiring harness backbone + protection (voltage per house-spine choice)",
         "qty": 1,
         "estUsd": 800
       }
@@ -618,18 +618,18 @@
           "parts": [
             {
               "id": "48v-linear-actuator",
-              "name": "PA-17 24\" stroke 2,000 lb actuator (24V)",
+              "name": "PA-17 24\" stroke 2,000 lb actuator (12V or 24V coil to match house spine)",
               "qty": 4,
               "estUsd": 380
             },
             {
               "id": "actuator-sync-controller",
-              "name": "4-channel sync controller + encoders + 48-to-24V DC-DC",
+              "name": "4-channel sync controller + encoders (+ DC-DC stage only if spine voltage differs)",
               "qty": 1,
               "estUsd": 450
             }
           ],
-          "note": "12/24V product line - runs on a 24V rail fed from the 48V bus."
+          "note": "12/24V product line - order the coil voltage matching your house spine (12V on the flagship pcs12v spine; 24V rail off a 48V spine)."
         },
         {
           "id": "linak48",
@@ -1070,6 +1070,12 @@
               "name": "Scan My Tesla harness + dongle + tablet dash (Model3CAN DBC)",
               "qty": 1,
               "estUsd": 150
+            },
+            {
+              "id": "propulsion-thermal-loop",
+              "name": "Propulsion thermal loop: coolant pump + radiator/fan + reservoir + G48 (pack cold plates + DU inverter)",
+              "qty": 1,
+              "estUsd": 450
             }
           ]
         }
@@ -2405,7 +2411,7 @@
           "parts": [
             {
               "id": "led-pucks",
-              "name": "12V dimmable LED puck set (6) via 48-to-12V rail",
+              "name": "12V dimmable LED puck set (6)",
               "qty": 1,
               "estUsd": 56
             }
@@ -3577,10 +3583,11 @@
         "battery": "pcs12v",
         "inverter": [
           "va2000",
+          "va3000",
           "va5000"
         ]
       },
-      "message": "With the 12V spine, the 48V inverter fork is replaced by the MultiPlus 12/3000 in the option parts - inverter selection is moot."
+      "message": "With the 12V spine, the 48V inverter fork is replaced by the MultiPlus 12/3000 (in the option parts) - the inverter fork is ignored, including in the BOM."
     },
     {
       "id": "pcs12v-load-mgmt",
@@ -3593,6 +3600,15 @@
         ]
       },
       "message": "2.5 kW PCS ceiling: bigger AC + water heater + induction need Cerbo load management (never simultaneous)."
+    },
+    {
+      "id": "pcs12v-solar-cap",
+      "type": "warn",
+      "when": {
+        "battery": "pcs12v",
+        "solar": "sol1300"
+      },
+      "message": "On the 12V spine the MPPT output current caps usable solar near ~900W - the 1,300W array wastes panels. Flagship plan targets ~800W."
     }
   ],
   "profiles": [
@@ -3746,13 +3762,15 @@
       "AHJ written determination on seasonal-dock classification - get one, publish it (SS08 Q5)",
       "ITC dual-use tax claim verification (SS08 Q6)",
       "Maguire M3-DU V3.2 field reports vs EV Controls T2-C decision (SS07/SS08)",
-      "Flagship-first: PCS 2kW+ 1-hr bench validation is the D-F2 gate (Flagship_First_Build_Plan v0.1)"
+      "Flagship-first: PCS 2kW+ 1-hr bench validation is the D-F2 gate (Flagship_First_Build_Plan v0.1)",
+      "Propulsion thermal loop detail design: flow rates, radiator sizing for 20 kW assist duty (SS07; new part propulsion-thermal-loop)"
     ],
     "sourcing": "Slipstream_Component_Sourcing_v0_1.md - street prices 2026-07; parts[] estUsd values trace there",
     "research": "docs/Slipstream_Tier_Spectrum_Research_v0_1.md - tier numbers trace there",
     "lowMidSourcing": "docs/Slipstream_LowMid_Sourcing_v0_1.md - low/mid tier prices trace there",
     "salvageResearch": "docs/Slipstream_Salvage_V2H_Research_v0_1.md",
-    "flagshipPlan": "docs/Flagship_First_Build_Plan_v0_1.md - TJ Build #1 = Range-Neutral flagship, <=3,500 lb loaded behind Model Y, no 48V pack"
+    "flagshipPlan": "docs/Flagship_First_Build_Plan_v0_1.md - TJ Build #1 = Range-Neutral flagship, <=3,500 lb loaded behind Model Y, no 48V pack",
+    "integrationMatrix": "docs/Flagship_Integration_Matrix_v0_1.md"
   },
   "ui": {
     "title": "Slipstream — Trailer Configurator",
@@ -3798,6 +3816,16 @@
         "base": 30000,
         "addKey": "addCostUsd",
         "money": true
+      }
+    ],
+    "suppressForkParts": [
+      {
+        "when": {
+          "battery": "pcs12v"
+        },
+        "forks": [
+          "inverter"
+        ]
       }
     ]
   }
