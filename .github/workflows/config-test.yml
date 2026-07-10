@@ -1,0 +1,18 @@
+name: config-test
+on:
+  push:
+    paths: ["configurator/**", "tools/config-test/**"]
+  pull_request:
+    paths: ["configurator/**", "tools/config-test/**"]
+  workflow_dispatch: {}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Stress-test configurator (structure, sweep, 50k fuzz, coverage, HTML integrity)
+        run: node tools/config-test/test.mjs
