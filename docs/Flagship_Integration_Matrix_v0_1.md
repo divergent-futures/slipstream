@@ -1,6 +1,6 @@
 # Flagship Integration Matrix — v0.1
 
-**Date:** 2026-07-08 | **Purpose:** every flagship *function* traced to the *parts* that deliver it, with gaps named. Ran against the configurator's flagship BOM (LFP pack + range-neutral + 12V spine + seasonal dock + donor-PCS charging): **46 parts, ~$32.7K researched.** This is the pre-spend integration check.
+**Date:** 2026-07-08, refreshed 2026-07-09 (v0.2: SS05a subframe-as-axle, patent resolution) | **Purpose:** every flagship *function* traced to the *parts* that deliver it, with gaps named. Ran against the configurator's flagship BOM (LFP pack + range-neutral + 12V spine + seasonal dock + donor-PCS charging): **45 parts, ~$31.3K researched (v0.2 after SS05a deletions).** This is the pre-spend integration check.
 
 Legend: ✅ part(s) in BOM · 🔧 fabrication/design scope (not a purchasable part — tracked in an SS doc) · ⚠️ open item with owner
 
@@ -11,14 +11,14 @@ Legend: ✅ part(s) in BOM · 🔧 fabrication/design scope (not a purchasable p
 | 2 | Pack CAN control | Battery-Emulator (LilyGo) | ✅ |
 | 3 | Drive torque | Rear DU + Maguire V3.2 board | ✅ (board = tester-grade; bench gate) |
 | 4 | System supervision | ZombieVerter VCU (contactors, precharge, modes) | ✅ |
-| 5 | Thrust command | Hitch load cell + IMU + drive controller | ✅ part; 🔧 controller firmware = Guide #4 scope, ⚠️ patent review first (SS07) |
+| 5 | Thrust command | Hitch load cell + IMU + drive controller | ✅ part; 🔧 firmware per Guide #4 (design-complete); patent review ✅ RESOLVED (memo) — counsel gates publication only |
 | 6 | **Thermal (pack cold plates + DU inverter + ATF heat-exchanger)** | Propulsion thermal loop kit (pump/radiator/fan/reservoir/G48) | ✅ **added this pass — was the biggest missing part** ; 🔧 sizing for 20 kW duty = SS07 todo |
 | 7 | DU mounting | — | 🔧 SS05 frame-around-pack CAD scope (subframe adaptation) |
 | 8 | Hitch force-sensing coupler integration | load cell part | 🔧 coupler machining = SS05/SS07 scope |
 | **Braking / running** ||||
-| 9 | Service brakes + breakaway | Dexter drums + breakaway kit (SS05 buy list) + Curt Echo | ✅ |
+| 9 | Service brakes + breakaway | **E/H actuator on donor Tesla calipers** (SS05a) + breakaway + Curt Echo; donor EPB = parking brake | ✅ (drums remain the unpowered-tier plan) |
 | 10 | Regen overlay | DU via controller, cut on brake signal | ✅ (firmware scope in #5) |
-| 11 | Suspension/wheels/hitch/jack | Timbren pair, 15" wheels, Rapid Hitch, powered jack | ✅ ⚠️ Timbren rating vs flagship GVWR — re-confirm at ~3,500 lb loaded (SS05 Q1) |
+| 11 | Suspension/wheels/hitch/jack | **Donor subframe = suspension + wheels** (SS05a; Timbren deleted from flagship BOM), Rapid Hitch, powered jack | ✅ ⚠️ GAWR check at ~3,200 lb static = CAD task #1 |
 | **House power (12V spine)** ||||
 | 12 | 12V generation from pack | Donor PCS + Maguire PCS controller | ✅ ⚠️ Phase-A gate: 2 kW for 1 hr on the bench |
 | 13 | 12V buffering + winter hibernation | 100Ah 12V LFP buffer | ✅ |

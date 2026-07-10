@@ -1032,12 +1032,12 @@
           "sets": {
             "rangeNeutral": true
           },
-          "note": "Hitch always in tension - trailer never pushes the tug. Assist ~15-55 mph, regen via 7-pin brake signal, free-wheels dead. Open-source stack: salvage Tesla SDU + openinverter. Patent-clearance review before publishing the controller repo.",
+          "note": "Hitch always in tension - trailer never pushes the tug. Assist ~15-55 mph, regen via 7-pin brake signal, free-wheels dead. Open-source stack: salvage Tesla SDU + openinverter. Patent-clearance review before publishing the controller repo. SS05a: the donor subframe IS the trailer axle - Timbren + separate wheels drop from this BOM.",
           "todo": "open-source motor controller + tongue-force controller repo",
           "parts": [
             {
               "id": "tesla-rear-du",
-              "name": "Salvage Model 3/Y rear drive unit (front SDU $500-1,150 budget alt)",
+              "name": "Salvage Model 3/Y rear DU + SUBFRAME assembly (suspension/hubs/brakes/halfshafts - becomes the trailer drive axle, SS05a)",
               "qty": 1,
               "estUsd": 1500
             },
@@ -1076,6 +1076,12 @@
               "name": "Propulsion thermal loop: coolant pump + radiator/fan + reservoir + G48 (pack cold plates + DU inverter)",
               "qty": 1,
               "estUsd": 450
+            },
+            {
+              "id": "eh-brake-actuator",
+              "name": "Electric-over-hydraulic brake actuator (drives donor calipers; Curt Echo + breakaway compatible)",
+              "qty": 1,
+              "estUsd": 400
             }
           ]
         }
@@ -3763,7 +3769,8 @@
       "ITC dual-use tax claim verification (SS08 Q6)",
       "Maguire M3-DU V3.2 field reports vs EV Controls T2-C decision (SS07/SS08)",
       "Flagship-first: PCS 2kW+ 1-hr bench validation is the D-F2 gate (Flagship_First_Build_Plan v0.1)",
-      "Propulsion thermal loop detail design: flow rates, radiator sizing for 20 kW assist duty (SS07; new part propulsion-thermal-loop)"
+      "Propulsion thermal loop detail design: flow rates, radiator sizing for 20 kW assist duty (SS07; new part propulsion-thermal-loop)",
+      "SS05a GAWR check: donor subframe springs/bearings at ~3,200 lb static (CAD task #1)"
     ],
     "sourcing": "Slipstream_Component_Sourcing_v0_1.md - street prices 2026-07; parts[] estUsd values trace there",
     "research": "docs/Slipstream_Tier_Spectrum_Research_v0_1.md - tier numbers trace there",
@@ -3825,6 +3832,17 @@
         },
         "forks": [
           "inverter"
+        ]
+      }
+    ],
+    "suppressBasePartIds": [
+      {
+        "when": {
+          "drivetrain": "range_neutral"
+        },
+        "ids": [
+          "timbren-axle",
+          "wheels-tires"
         ]
       }
     ]
