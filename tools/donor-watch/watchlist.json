@@ -1,7 +1,7 @@
 {
   "lots": {
     "copart:17694723": {
-      "seen": "2026-07-23T13:25:12.078831+00:00",
+      "seen": "2026-07-23T18:59:47.125442+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "copart",
@@ -20,7 +20,7 @@
       "url": "https://www.copart.com/lot/17694723"
     },
     "copart:25875430": {
-      "seen": "2026-07-23T13:25:12.078902+00:00",
+      "seen": "2026-07-23T18:59:47.125514+00:00",
       "verdict": "match",
       "human": "pending",
       "source": "copart",
@@ -39,7 +39,7 @@
       "url": "https://www.copart.com/lot/25875430"
     },
     "copart:26503690": {
-      "seen": "2026-07-23T13:25:12.078922+00:00",
+      "seen": "2026-07-23T18:59:47.125537+00:00",
       "verdict": "match",
       "human": "pending",
       "source": "copart",
@@ -58,7 +58,7 @@
       "url": "https://www.copart.com/lot/26503690"
     },
     "copart:26691389": {
-      "seen": "2026-07-23T13:25:12.078936+00:00",
+      "seen": "2026-07-23T18:59:47.125553+00:00",
       "verdict": "match",
       "human": "pending",
       "source": "copart",
@@ -77,7 +77,7 @@
       "url": "https://www.copart.com/lot/26691389"
     },
     "copart:28170579": {
-      "seen": "2026-07-23T13:25:12.078948+00:00",
+      "seen": "2026-07-23T18:59:47.125567+00:00",
       "verdict": "match",
       "human": "pending",
       "source": "copart",
@@ -96,7 +96,7 @@
       "url": "https://www.copart.com/lot/28170579"
     },
     "copart:28923079": {
-      "seen": "2026-07-23T13:25:12.078958+00:00",
+      "seen": "2026-07-23T18:59:47.125580+00:00",
       "verdict": "match",
       "human": "pending",
       "source": "copart",
@@ -115,7 +115,7 @@
       "url": "https://www.copart.com/lot/28923079"
     },
     "copart:29700370": {
-      "seen": "2026-07-23T13:25:12.078969+00:00",
+      "seen": "2026-07-23T18:59:47.125594+00:00",
       "verdict": "match",
       "human": "pending",
       "source": "copart",
@@ -134,7 +134,7 @@
       "url": "https://www.copart.com/lot/29700370"
     },
     "copart:30172200": {
-      "seen": "2026-07-23T13:25:12.078978+00:00",
+      "seen": "2026-07-23T18:59:47.125606+00:00",
       "verdict": "match",
       "human": "pending",
       "source": "copart",
@@ -153,7 +153,7 @@
       "url": "https://www.copart.com/lot/30172200"
     },
     "copart:30356560": {
-      "seen": "2026-07-23T13:25:12.078987+00:00",
+      "seen": "2026-07-23T18:59:47.125617+00:00",
       "verdict": "match",
       "human": "pending",
       "source": "copart",
@@ -172,7 +172,7 @@
       "url": "https://www.copart.com/lot/30356560"
     },
     "copart:31491332": {
-      "seen": "2026-07-23T13:25:12.078996+00:00",
+      "seen": "2026-07-23T18:59:47.125628+00:00",
       "verdict": "match",
       "human": "pending",
       "source": "copart",
@@ -191,7 +191,7 @@
       "url": "https://www.copart.com/lot/31491332"
     },
     "copart:31696251": {
-      "seen": "2026-07-23T13:25:12.079004+00:00",
+      "seen": "2026-07-23T18:59:47.125638+00:00",
       "verdict": "match",
       "human": "pending",
       "source": "copart",
@@ -210,7 +210,7 @@
       "url": "https://www.copart.com/lot/31696251"
     },
     "copart:31952712": {
-      "seen": "2026-07-23T13:25:12.079014+00:00",
+      "seen": "2026-07-23T18:59:47.125650+00:00",
       "verdict": "match",
       "human": "pending",
       "source": "copart",
@@ -267,7 +267,7 @@
       "url": "https://www.copart.com/lot/32774042"
     },
     "copart:32938980": {
-      "seen": "2026-07-23T13:25:12.079030+00:00",
+      "seen": "2026-07-23T18:59:47.125664+00:00",
       "verdict": "match",
       "human": "pending",
       "source": "copart",
@@ -286,7 +286,7 @@
       "url": "https://www.copart.com/lot/32938980"
     },
     "copart:33136450": {
-      "seen": "2026-07-23T13:25:12.079042+00:00",
+      "seen": "2026-07-23T18:59:47.125679+00:00",
       "verdict": "match",
       "human": "pending",
       "source": "copart",
@@ -305,7 +305,7 @@
       "url": "https://www.copart.com/lot/33136450"
     },
     "copart:33816009": {
-      "seen": "2026-07-23T13:25:12.079049+00:00",
+      "seen": "2026-07-23T18:59:47.125687+00:00",
       "verdict": "reject",
       "human": "pending",
       "source": "copart",
@@ -324,7 +324,7 @@
       "url": "https://www.copart.com/lot/33816009"
     },
     "copart:34074772": {
-      "seen": "2026-07-23T13:25:12.079087+00:00",
+      "seen": "2026-07-23T18:59:47.125729+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "copart",
@@ -414,7 +414,7 @@
       "needs_manual_review": true
     },
     "iaai:46032216": {
-      "seen": "2026-07-20T13:48:52.453618+00:00",
+      "seen": "2026-07-23T18:59:47.126049+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -425,7 +425,7 @@
       "needs_manual_review": true
     },
     "iaai:46029144": {
-      "seen": "2026-07-20T13:48:52.453631+00:00",
+      "seen": "2026-07-23T18:59:47.126069+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -469,7 +469,7 @@
       "needs_manual_review": true
     },
     "iaai:45914458": {
-      "seen": "2026-07-20T13:48:52.453684+00:00",
+      "seen": "2026-07-23T18:59:47.126153+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -645,7 +645,7 @@
       "needs_manual_review": true
     },
     "iaai:45479907": {
-      "seen": "2026-07-21T13:17:54.216618+00:00",
+      "seen": "2026-07-23T18:59:47.126582+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -722,7 +722,7 @@
       "needs_manual_review": true
     },
     "iaai:45576625": {
-      "seen": "2026-07-14T13:09:34.769393+00:00",
+      "seen": "2026-07-23T18:59:47.126689+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -920,7 +920,7 @@
       "needs_manual_review": true
     },
     "iaai:45996985": {
-      "seen": "2026-07-22T13:22:17.076697+00:00",
+      "seen": "2026-07-23T18:59:47.126831+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -1162,7 +1162,7 @@
       "needs_manual_review": true
     },
     "iaai:46029623": {
-      "seen": "2026-07-22T13:22:17.076803+00:00",
+      "seen": "2026-07-23T18:59:47.126974+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -1184,7 +1184,7 @@
       "needs_manual_review": true
     },
     "iaai:45932320": {
-      "seen": "2026-07-22T13:22:17.076856+00:00",
+      "seen": "2026-07-23T18:59:47.127021+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -1272,7 +1272,7 @@
       "needs_manual_review": true
     },
     "iaai:45408770": {
-      "seen": "2026-07-22T13:22:17.076878+00:00",
+      "seen": "2026-07-23T18:59:47.127093+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -1514,7 +1514,7 @@
       "needs_manual_review": true
     },
     "copart:34942429": {
-      "seen": "2026-07-23T13:25:12.079119+00:00",
+      "seen": "2026-07-23T18:59:47.125751+00:00",
       "verdict": "match",
       "human": "pending",
       "source": "copart",
@@ -1610,7 +1610,7 @@
       "needs_manual_review": true
     },
     "iaai:45984452": {
-      "seen": "2026-07-22T13:22:17.076824+00:00",
+      "seen": "2026-07-23T18:59:47.126989+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -2589,7 +2589,7 @@
       "needs_manual_review": true
     },
     "copart:35132240": {
-      "seen": "2026-07-20T13:48:52.453523+00:00",
+      "seen": "2026-07-23T18:59:47.125766+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "copart",
@@ -2608,7 +2608,7 @@
       "url": "https://www.copart.com/lot/35132240"
     },
     "copart:36413833": {
-      "seen": "2026-07-17T01:49:11.983612+00:00",
+      "seen": "2026-07-23T18:59:47.125775+00:00",
       "verdict": "reject",
       "human": "pending",
       "source": "copart",
@@ -2660,7 +2660,7 @@
       "needs_manual_review": true
     },
     "iaai:45716191": {
-      "seen": "2026-07-17T13:05:43.242927+00:00",
+      "seen": "2026-07-23T18:59:47.125837+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -2671,7 +2671,7 @@
       "needs_manual_review": true
     },
     "iaai:45359605": {
-      "seen": "2026-07-17T13:05:43.242939+00:00",
+      "seen": "2026-07-23T18:59:47.125857+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -2704,7 +2704,7 @@
       "needs_manual_review": true
     },
     "iaai:45940817": {
-      "seen": "2026-07-17T13:05:43.242979+00:00",
+      "seen": "2026-07-23T18:59:47.125892+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -2715,7 +2715,7 @@
       "needs_manual_review": true
     },
     "iaai:45960890": {
-      "seen": "2026-07-17T13:05:43.242992+00:00",
+      "seen": "2026-07-23T18:59:47.125940+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -2814,7 +2814,7 @@
       "needs_manual_review": true
     },
     "iaai:45504149": {
-      "seen": "2026-07-20T08:41:32.188409+00:00",
+      "seen": "2026-07-23T18:59:47.126028+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -2847,7 +2847,7 @@
       "needs_manual_review": true
     },
     "iaai:46029041": {
-      "seen": "2026-07-20T13:48:52.453644+00:00",
+      "seen": "2026-07-23T18:59:47.126088+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -2858,7 +2858,7 @@
       "needs_manual_review": true
     },
     "iaai:45948940": {
-      "seen": "2026-07-20T13:48:52.453658+00:00",
+      "seen": "2026-07-23T18:59:47.126120+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -2869,7 +2869,7 @@
       "needs_manual_review": true
     },
     "iaai:45880190": {
-      "seen": "2026-07-20T13:48:52.453697+00:00",
+      "seen": "2026-07-23T18:59:47.126198+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -2880,7 +2880,7 @@
       "needs_manual_review": true
     },
     "iaai:45860606": {
-      "seen": "2026-07-20T13:48:52.453710+00:00",
+      "seen": "2026-07-23T18:59:47.126230+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -2891,7 +2891,7 @@
       "needs_manual_review": true
     },
     "iaai:45833031": {
-      "seen": "2026-07-20T13:48:52.453724+00:00",
+      "seen": "2026-07-23T18:59:47.126279+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -2902,7 +2902,7 @@
       "needs_manual_review": true
     },
     "iaai:45727930": {
-      "seen": "2026-07-20T13:48:52.453737+00:00",
+      "seen": "2026-07-23T18:59:47.126365+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -2913,7 +2913,7 @@
       "needs_manual_review": true
     },
     "iaai:45708107": {
-      "seen": "2026-07-20T13:48:52.453750+00:00",
+      "seen": "2026-07-23T18:59:47.126386+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -2924,7 +2924,7 @@
       "needs_manual_review": true
     },
     "iaai:45618661": {
-      "seen": "2026-07-20T13:48:52.453776+00:00",
+      "seen": "2026-07-23T18:59:47.126405+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -3001,7 +3001,7 @@
       "needs_manual_review": true
     },
     "iaai:45639806": {
-      "seen": "2026-07-21T13:17:54.216596+00:00",
+      "seen": "2026-07-23T18:59:47.126544+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -3023,7 +3023,7 @@
       "needs_manual_review": true
     },
     "iaai:45866748": {
-      "seen": "2026-07-21T13:17:54.216638+00:00",
+      "seen": "2026-07-23T18:59:47.126631+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -3089,7 +3089,7 @@
       "needs_manual_review": true
     },
     "iaai:45816406": {
-      "seen": "2026-07-21T13:17:54.216734+00:00",
+      "seen": "2026-07-23T18:59:47.126726+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -3144,7 +3144,7 @@
       "needs_manual_review": true
     },
     "iaai:45905211": {
-      "seen": "2026-07-22T13:22:17.076709+00:00",
+      "seen": "2026-07-23T18:59:47.126847+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -3221,7 +3221,7 @@
       "needs_manual_review": true
     },
     "iaai:45966959": {
-      "seen": "2026-07-22T13:22:17.076835+00:00",
+      "seen": "2026-07-23T18:59:47.127005+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -3232,7 +3232,7 @@
       "needs_manual_review": true
     },
     "iaai:45621064": {
-      "seen": "2026-07-22T13:22:17.076867+00:00",
+      "seen": "2026-07-23T18:59:47.127067+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -3287,7 +3287,7 @@
       "needs_manual_review": true
     },
     "iaai:45763101": {
-      "seen": "2026-07-23T13:25:12.079256+00:00",
+      "seen": "2026-07-23T18:59:47.127208+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -3386,7 +3386,7 @@
       "needs_manual_review": true
     },
     "iaai:46052557": {
-      "seen": "2026-07-22T13:22:17.076792+00:00",
+      "seen": "2026-07-23T18:59:47.126947+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -3606,7 +3606,7 @@
       "needs_manual_review": true
     },
     "iaai:46033680": {
-      "seen": "2026-07-22T13:22:17.076684+00:00",
+      "seen": "2026-07-23T18:59:47.126805+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -3617,7 +3617,7 @@
       "needs_manual_review": true
     },
     "iaai:45407556": {
-      "seen": "2026-07-22T13:22:17.076888+00:00",
+      "seen": "2026-07-23T18:59:47.127109+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -3749,7 +3749,7 @@
       "needs_manual_review": true
     },
     "copart:34061502": {
-      "seen": "2026-07-23T13:25:12.079058+00:00",
+      "seen": "2026-07-23T18:59:47.125699+00:00",
       "verdict": "match",
       "human": "pending",
       "source": "copart",
@@ -3763,7 +3763,7 @@
       "run_drive": true,
       "title_type": "RED SALVAGE NON-REBUILDABLE",
       "yard": "CA - RANCHO CUCAMONGA",
-      "current_bid": 150.0,
+      "current_bid": 450.0,
       "auction_utc": 1784833200000,
       "url": "https://www.copart.com/lot/34061502"
     },
@@ -3867,7 +3867,7 @@
       "needs_manual_review": true
     },
     "iaai:45384491": {
-      "seen": "2026-07-23T13:25:12.079233+00:00",
+      "seen": "2026-07-23T18:59:47.127181+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -4087,7 +4087,7 @@
       "needs_manual_review": true
     },
     "iaai:45905301": {
-      "seen": "2026-07-23T13:25:12.079177+00:00",
+      "seen": "2026-07-23T18:59:47.127135+00:00",
       "verdict": "review",
       "human": "pending",
       "source": "iaai",
@@ -4236,6 +4236,721 @@
       "source": "iaai",
       "lot_id": "45573765",
       "url": "https://www.iaai.com/VehicleDetail/45573765~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:46192899": {
+      "seen": "2026-07-23T18:59:47.125796+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "46192899",
+      "url": "https://www.iaai.com/VehicleDetail/46192899~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45816963": {
+      "seen": "2026-07-23T18:59:47.125813+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45816963",
+      "url": "https://www.iaai.com/VehicleDetail/45816963~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:44053567": {
+      "seen": "2026-07-23T18:59:47.125871+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "44053567",
+      "url": "https://www.iaai.com/VehicleDetail/44053567~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:46065848": {
+      "seen": "2026-07-23T18:59:47.125906+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "46065848",
+      "url": "https://www.iaai.com/VehicleDetail/46065848~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45972045": {
+      "seen": "2026-07-23T18:59:47.125920+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45972045",
+      "url": "https://www.iaai.com/VehicleDetail/45972045~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45809630": {
+      "seen": "2026-07-23T18:59:47.125953+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45809630",
+      "url": "https://www.iaai.com/VehicleDetail/45809630~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45798237": {
+      "seen": "2026-07-23T18:59:47.125967+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45798237",
+      "url": "https://www.iaai.com/VehicleDetail/45798237~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45674224": {
+      "seen": "2026-07-23T18:59:47.125980+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45674224",
+      "url": "https://www.iaai.com/VehicleDetail/45674224~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:46179392": {
+      "seen": "2026-07-23T18:59:47.125993+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "46179392",
+      "url": "https://www.iaai.com/VehicleDetail/46179392~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45815063": {
+      "seen": "2026-07-23T18:59:47.126007+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45815063",
+      "url": "https://www.iaai.com/VehicleDetail/45815063~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45988314": {
+      "seen": "2026-07-23T18:59:47.126101+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45988314",
+      "url": "https://www.iaai.com/VehicleDetail/45988314~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45935862": {
+      "seen": "2026-07-23T18:59:47.126133+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45935862",
+      "url": "https://www.iaai.com/VehicleDetail/45935862~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45914194": {
+      "seen": "2026-07-23T18:59:47.126165+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45914194",
+      "url": "https://www.iaai.com/VehicleDetail/45914194~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45900437": {
+      "seen": "2026-07-23T18:59:47.126178+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45900437",
+      "url": "https://www.iaai.com/VehicleDetail/45900437~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45866017": {
+      "seen": "2026-07-23T18:59:47.126211+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45866017",
+      "url": "https://www.iaai.com/VehicleDetail/45866017~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45859255": {
+      "seen": "2026-07-23T18:59:47.126243+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45859255",
+      "url": "https://www.iaai.com/VehicleDetail/45859255~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45834061": {
+      "seen": "2026-07-23T18:59:47.126259+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45834061",
+      "url": "https://www.iaai.com/VehicleDetail/45834061~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45820917": {
+      "seen": "2026-07-23T18:59:47.126292+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45820917",
+      "url": "https://www.iaai.com/VehicleDetail/45820917~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45798880": {
+      "seen": "2026-07-23T18:59:47.126305+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45798880",
+      "url": "https://www.iaai.com/VehicleDetail/45798880~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45564899": {
+      "seen": "2026-07-23T18:59:47.126419+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45564899",
+      "url": "https://www.iaai.com/VehicleDetail/45564899~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45344424": {
+      "seen": "2026-07-23T18:59:47.126433+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45344424",
+      "url": "https://www.iaai.com/VehicleDetail/45344424~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45989367": {
+      "seen": "2026-07-23T18:59:47.126446+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45989367",
+      "url": "https://www.iaai.com/VehicleDetail/45989367~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45970682": {
+      "seen": "2026-07-23T18:59:47.126460+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45970682",
+      "url": "https://www.iaai.com/VehicleDetail/45970682~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45939462": {
+      "seen": "2026-07-23T18:59:47.126473+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45939462",
+      "url": "https://www.iaai.com/VehicleDetail/45939462~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45936277": {
+      "seen": "2026-07-23T18:59:47.126485+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45936277",
+      "url": "https://www.iaai.com/VehicleDetail/45936277~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45934263": {
+      "seen": "2026-07-23T18:59:47.126496+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45934263",
+      "url": "https://www.iaai.com/VehicleDetail/45934263~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45920104": {
+      "seen": "2026-07-23T18:59:47.126506+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45920104",
+      "url": "https://www.iaai.com/VehicleDetail/45920104~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45887949": {
+      "seen": "2026-07-23T18:59:47.126517+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45887949",
+      "url": "https://www.iaai.com/VehicleDetail/45887949~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45797621": {
+      "seen": "2026-07-23T18:59:47.126528+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45797621",
+      "url": "https://www.iaai.com/VehicleDetail/45797621~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45567255": {
+      "seen": "2026-07-23T18:59:47.126555+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45567255",
+      "url": "https://www.iaai.com/VehicleDetail/45567255~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45488796": {
+      "seen": "2026-07-23T18:59:47.126566+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45488796",
+      "url": "https://www.iaai.com/VehicleDetail/45488796~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:44744994": {
+      "seen": "2026-07-23T18:59:47.126593+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "44744994",
+      "url": "https://www.iaai.com/VehicleDetail/44744994~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45928448": {
+      "seen": "2026-07-23T18:59:47.126604+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45928448",
+      "url": "https://www.iaai.com/VehicleDetail/45928448~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45890857": {
+      "seen": "2026-07-23T18:59:47.126615+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45890857",
+      "url": "https://www.iaai.com/VehicleDetail/45890857~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45818822": {
+      "seen": "2026-07-23T18:59:47.126642+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45818822",
+      "url": "https://www.iaai.com/VehicleDetail/45818822~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45805016": {
+      "seen": "2026-07-23T18:59:47.126653+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45805016",
+      "url": "https://www.iaai.com/VehicleDetail/45805016~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45698530": {
+      "seen": "2026-07-23T18:59:47.126663+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45698530",
+      "url": "https://www.iaai.com/VehicleDetail/45698530~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45642215": {
+      "seen": "2026-07-23T18:59:47.126673+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45642215",
+      "url": "https://www.iaai.com/VehicleDetail/45642215~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45954074": {
+      "seen": "2026-07-23T18:59:47.126699+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45954074",
+      "url": "https://www.iaai.com/VehicleDetail/45954074~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45922485": {
+      "seen": "2026-07-23T18:59:47.126709+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45922485",
+      "url": "https://www.iaai.com/VehicleDetail/45922485~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45694416": {
+      "seen": "2026-07-23T18:59:47.126736+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45694416",
+      "url": "https://www.iaai.com/VehicleDetail/45694416~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45634646": {
+      "seen": "2026-07-23T18:59:47.126747+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45634646",
+      "url": "https://www.iaai.com/VehicleDetail/45634646~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45587151": {
+      "seen": "2026-07-23T18:59:47.126758+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45587151",
+      "url": "https://www.iaai.com/VehicleDetail/45587151~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45510654": {
+      "seen": "2026-07-23T18:59:47.126768+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45510654",
+      "url": "https://www.iaai.com/VehicleDetail/45510654~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45366236": {
+      "seen": "2026-07-23T18:59:47.126779+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45366236",
+      "url": "https://www.iaai.com/VehicleDetail/45366236~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45183271": {
+      "seen": "2026-07-23T18:59:47.126789+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45183271",
+      "url": "https://www.iaai.com/VehicleDetail/45183271~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:46025779": {
+      "seen": "2026-07-23T18:59:47.126815+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "46025779",
+      "url": "https://www.iaai.com/VehicleDetail/46025779~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45891938": {
+      "seen": "2026-07-23T18:59:47.126857+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45891938",
+      "url": "https://www.iaai.com/VehicleDetail/45891938~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45812894": {
+      "seen": "2026-07-23T18:59:47.126867+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45812894",
+      "url": "https://www.iaai.com/VehicleDetail/45812894~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45660852": {
+      "seen": "2026-07-23T18:59:47.126877+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45660852",
+      "url": "https://www.iaai.com/VehicleDetail/45660852~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45620784": {
+      "seen": "2026-07-23T18:59:47.126888+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45620784",
+      "url": "https://www.iaai.com/VehicleDetail/45620784~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:46078320": {
+      "seen": "2026-07-23T18:59:47.126898+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "46078320",
+      "url": "https://www.iaai.com/VehicleDetail/46078320~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:46165921": {
+      "seen": "2026-07-23T18:59:47.126909+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "46165921",
+      "url": "https://www.iaai.com/VehicleDetail/46165921~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:46164099": {
+      "seen": "2026-07-23T18:59:47.126920+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "46164099",
+      "url": "https://www.iaai.com/VehicleDetail/46164099~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:46090970": {
+      "seen": "2026-07-23T18:59:47.126931+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "46090970",
+      "url": "https://www.iaai.com/VehicleDetail/46090970~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:46030609": {
+      "seen": "2026-07-23T18:59:47.126957+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "46030609",
+      "url": "https://www.iaai.com/VehicleDetail/46030609~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45889056": {
+      "seen": "2026-07-23T18:59:47.127032+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45889056",
+      "url": "https://www.iaai.com/VehicleDetail/45889056~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45845593": {
+      "seen": "2026-07-23T18:59:47.127042+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45845593",
+      "url": "https://www.iaai.com/VehicleDetail/45845593~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45760227": {
+      "seen": "2026-07-23T18:59:47.127052+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45760227",
+      "url": "https://www.iaai.com/VehicleDetail/45760227~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45506374": {
+      "seen": "2026-07-23T18:59:47.127078+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45506374",
+      "url": "https://www.iaai.com/VehicleDetail/45506374~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:46002695": {
+      "seen": "2026-07-23T18:59:47.127119+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "46002695",
+      "url": "https://www.iaai.com/VehicleDetail/46002695~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45895855": {
+      "seen": "2026-07-23T18:59:47.127145+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45895855",
+      "url": "https://www.iaai.com/VehicleDetail/45895855~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45828934": {
+      "seen": "2026-07-23T18:59:47.127155+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45828934",
+      "url": "https://www.iaai.com/VehicleDetail/45828934~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45176191": {
+      "seen": "2026-07-23T18:59:47.127165+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45176191",
+      "url": "https://www.iaai.com/VehicleDetail/45176191~US",
+      "model": "tesla model 3",
+      "damage": "",
+      "needs_manual_review": true
+    },
+    "iaai:45847608": {
+      "seen": "2026-07-23T18:59:47.127192+00:00",
+      "verdict": "review",
+      "human": "pending",
+      "source": "iaai",
+      "lot_id": "45847608",
+      "url": "https://www.iaai.com/VehicleDetail/45847608~US",
       "model": "tesla model 3",
       "damage": "",
       "needs_manual_review": true
